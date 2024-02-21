@@ -23,4 +23,4 @@ TBD
 
 ## Ссылка на backend
 
-TBD
+https://github.com/go-park-mail-ru/2024_1_commandName
