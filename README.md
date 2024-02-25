@@ -26,3 +26,7 @@
 ## Ссылка на backend
 
 [Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
+
+## Ссылка на Figma
+
+[Figma](https://www.figma.com/file/Y00sCupXRjoGZyQOBNwuLJ/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%BE%D0%B9-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD?type=design&node-id=0%3A1&mode=design&t=HrOU7Y2YBQYnNbAo-1)
