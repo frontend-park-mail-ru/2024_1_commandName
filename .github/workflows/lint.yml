@@ -19,11 +19,11 @@ jobs:
 
             - name: Install dependencies
               run: |
-              if [ -e package-lock.json ]; then
-              npm ci
-              else
-              npm i
-              fi
+                  if [ -e package-lock.json ]; then
+                  npm ci
+                  else
+                  npm i
+                  fi
 
             - name: Run lint
               run: npm run style:all
