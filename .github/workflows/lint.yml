@@ -15,12 +15,12 @@ jobs:
                   node-version: 21
 
             - name: Install dependencies
-              run: |
-                  if [ -e package-lock.json ]; then
-                  npm ci
-                  else
-                  npm i
-                  fi
+              run: npm ci
+                #   if [ -e package-lock.json ]; then
+                #   npm ci
+                #   else
+                #   npm i
+                #   fi
 
             - name: Run lint
               run: npm run style:all
