@@ -2,11 +2,11 @@
 
 Фронтенд-репозиторий проекта Messenger команды commandName
 
-## Деплой
+## Деплой и API
 
-[Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
+Деплой и API находятся в репозитории [Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
 
-## API
+## 
 
 [Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
 
@@ -21,7 +21,7 @@
 
 - [Лукьянов Кирилл](https://github.com/Antihoman) - _Бекенд_
 - [Александр Салтыков](https://github.com/johnSamilin) - _Фронтенд_
-- TDB - _UX_
+- [Галина Мартынова](https://t.me/g_martynovaa) - _UX_
 
 ## Ссылка на backend
 
