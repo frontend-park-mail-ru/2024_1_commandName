@@ -1,11 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мессенджер</title>
+
+    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/chat.css">
 </head>
+
 <body>
-    
+
+    <div id="app">
+        <aside>
+            <div class="chat_list_header">
+                <h2> Чаты </h2>
+            </div>
+            <div class="chat_list">
+                <div class="chat_list_item">Чат 1</div>
+                <div class="chat_list_item">Чат 2</div>
+                <div class="chat_list_item">Чат 3</div>
+            </div>
+            <div class="chat_menu">
+                <div class="chat_menu_item">*контакты*</div>
+                <div class="chat_menu_item">*чаты*</div>
+                <div class="chat_menu_item">*настройки*</div>
+            </div>
+        </aside>
+
+        <main>
+            <div class="chat_header">
+                <h2>Пользователь</h2>
+            </div>
+            <div class="chat">
+                <div class="message_list">
+                    <div class="message my_message">Сообщение 1</div>
+                    <div class="message">Сообщение 2</div>
+                    <div class="message">Сообщение 3</div>
+                    <div class="message my_message">Сообщение 4</div>
+                    <div class="message my_message">Сообщение 5</div>
+                    <div class="message">Сообщение 5</div>
+
+                </div>
+                <div class="input_block"> <!-- мб form -->
+                    <input type="button" value="*скрепка*">
+                    <input type="text" placeholder="Сообщение...">
+                    <input type="button" value="->">
+                </div>
+            </div>
+        </main>
+    </div>
+
 </body>
+
 </html>
