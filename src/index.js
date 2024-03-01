@@ -105,10 +105,38 @@ document.getElementById('signin-form').addEventListener('submit', function(event
     // Валидация данных
     if (!validateEmail(email) || !validatePassword(password)) {
         document.getElementById('error-message').textContent = 'Invalid email or password';
+        return;
     }
 
-    // Тут отправка данных на сервер и обработка ответа
-
+    // Отправка данных на сервер
+    fetch('/signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: email,
+            password: password
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 200) {
+                // Обработка успешной авторизации
+                console.log('Successfully logged in');
+            } else {
+                // Обработка ошибки авторизации
+                console.error('Error:', data.body.error);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 });
 
 document.getElementById('signup-form').addEventListener('submit', function(event) {
@@ -123,7 +151,36 @@ document.getElementById('signup-form').addEventListener('submit', function(event
         return;
     }
 
-    // Тут отправка данных на сервер и обработка ответа
+    // Отправка данных на сервер
+    fetch('/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: email,
+            password: password,
+            email: email
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 200) {
+                // Обработка успешной регистрации
+                console.log('Successfully registered');
+            } else {
+                // Обработка ошибки регистрации
+                console.error('Error:', data.body.error);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 });
 
 function validateEmail(email) {
