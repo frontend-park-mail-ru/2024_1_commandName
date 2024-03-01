@@ -5,7 +5,7 @@
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
-function validateEmail(email) {
+export function validateEmail(email) {
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@”]+(\.[^<>()[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegex.test(email)) {
@@ -22,7 +22,7 @@ function validateEmail(email) {
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
-function validatePassword(password) {
+export function validatePassword(password) {
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
@@ -62,7 +62,7 @@ function validatePassword(password) {
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
-function validateUsername(username) {
+export function validateUsername(username) {
     const minLength = 4;
     const allowedCharsRegex = /^[a-zA-Z0-9_]+$/;
 
