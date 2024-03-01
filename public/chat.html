@@ -21,6 +21,18 @@
                 <div class="chat_list_item">Чат 1</div>
                 <div class="chat_list_item">Чат 2</div>
                 <div class="chat_list_item">Чат 3</div>
+                <div class="chat_list_item">Чат 1</div>
+                <div class="chat_list_item">Чат 2</div>
+                <div class="chat_list_item">Чат 3</div>
+                <div class="chat_list_item">Чат 1</div>
+                <div class="chat_list_item">Чат 2</div>
+                <div class="chat_list_item">Чат 3</div>
+                <div class="chat_list_item">Чат 1</div>
+                <div class="chat_list_item">Чат 2</div>
+                <div class="chat_list_item">Чат 3</div>
+                <div class="chat_list_item">Чат 1</div>
+                <div class="chat_list_item">Чат 2</div>
+                <div class="chat_list_item">Чат 3</div>
             </div>
             <div class="chat_menu">
                 <div class="chat_menu_item">*контакты*</div>
@@ -33,24 +45,47 @@
             <div class="chat_header">
                 <h2>Пользователь</h2>
             </div>
-            <div class="chat">
-                <div class="message_list">
-                    <div class="message my_message">Сообщение 1</div>
-                    <div class="message">Сообщение 2</div>
-                    <div class="message">Сообщение 3</div>
-                    <div class="message my_message">Сообщение 4</div>
-                    <div class="message my_message">Сообщение 5</div>
-                    <div class="message">Сообщение 5</div>
+            <div class="chat_width message_list">
+                <div class="message my_message">Сообщение 1</div>
+                <div class="message">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus deleniti
+                    consequuntur iste suscipit quis enim maiores possimus facere facilis. Doloremque amet fuga vel
+                    voluptas sed iure asperiores saepe ut perferendis!</div>
+                <div class="message">Сообщение 3</div>
+                <div class="message my_message">Сообщение 4</div>
+                <div class="message my_message">Сообщение 5</div>
+                <div class="message">Сообщение 5</div>
 
-                </div>
-                <div class="input_block"> <!-- мб form -->
-                    <input type="button" value="*скрепка*">
-                    <input type="text" placeholder="Сообщение...">
-                    <input type="button" value="->">
-                </div>
+                <div class="message my_message">Сообщение 1</div>
+                <div class="message">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus deleniti
+                    consequuntur iste suscipit quis enim maiores possimus facere facilis. Doloremque amet fuga vel
+                    voluptas sed iure asperiores saepe ut perferendis!</div>
+                <div class="message">Сообщение 3</div>
+                <div class="message my_message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe sint
+                    doloremque laboriosam provident nesciunt doloribus vel fugiat, blanditiis dolores inventore.
+                    Soluta nostrum error animi exercitationem rem vitae officia odio voluptates?</div>
+
+                <div class="message my_message">Сообщение 1</div>
+                <div class="message">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloribus deleniti
+                    consequuntur iste suscipit quis enim maiores possimus facere facilis. Doloremque amet fuga vel
+                    voluptas sed iure asperiores saepe ut perferendis!</div>
+                <div class="message">Сообщение 3</div>
+                <div class="message my_message">Сообщение 4</div>
+
             </div>
+            <div class="chat_width input_block"> <!-- мб form -->
+                <button class="input_attach">*скрепка*</button>
+                <input class="input_text" type="text" placeholder="Сообщение...">
+                <button class="input_send">-></button>
+            </div>
+
         </main>
     </div>
+
+    <script>
+        // Скролл вниз при рендере для отображения последних сообщений
+        var block = document.getElementsByClassName("message_list")[0];
+        block.scrollTop = block.scrollHeight;
+    </script>
 
 </body>
 
