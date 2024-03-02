@@ -1,5 +1,6 @@
-import { validateEmail, validatePassword } from '../utils/valid.js';
-
+import { validatePassword, validateUsername } from '../utils/valid.js';
+import SuccessPage from '../Pages/SuccessPage.js';
+import { goToPage } from '../utils/goToPage.js';
 /**
  *
  */
@@ -10,8 +11,6 @@ export default class LoginPage {
     }
 
     render() {
-        this.#parent.innerHTML = 'Login';
-
         // Создаем элемент div с классом signin-container
         const signinContainer = document.createElement('div');
         signinContainer.className = 'signin-container';
@@ -21,11 +20,11 @@ export default class LoginPage {
         signinForm.id = 'signin-form';
 
         // Создаем элементы input, button и p
-        const emailInput = document.createElement('input');
-        emailInput.type = 'email';
-        emailInput.id = 'email';
-        emailInput.placeholder = 'Email';
-        emailInput.required = true;
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'text';
+        usernameInput.id = 'username';
+        usernameInput.placeholder = 'Username';
+        usernameInput.required = true;
 
         const passwordInput = document.createElement('input');
         passwordInput.type = 'password';
@@ -41,7 +40,7 @@ export default class LoginPage {
         errorMessage.id = 'error-message';
 
         // Добавляем элементы input и button в форму
-        signinForm.appendChild(emailInput);
+        signinForm.appendChild(usernameInput);
         signinForm.appendChild(passwordInput);
         signinForm.appendChild(signinButton);
         signinForm.appendChild(errorMessage);
@@ -54,32 +53,32 @@ export default class LoginPage {
         this.#parent.appendChild(signinContainer);
 
         signinForm.addEventListener('submit', function (event) {
+            console.log('test');
             event.preventDefault();
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const error = document.getElementById('error-message');
+            error.textContent = '';
 
             // Валидация данных
-            let valid = validateEmail(email);
+            let valid = validateUsername(username);
             if (!valid.success) {
-                document.getElementById('error-message').textContent =
-                    valid.message;
+                error.textContent = valid.message;
                 return;
             }
             valid = validatePassword(password);
             if (!valid.success) {
-                document.getElementById('error-message').textContent =
-                    valid.message;
+                error.textContent = valid.message;
                 return;
             }
 
             // Отправка данных на сервер
-            fetch('/signin', {
+            fetch('http://localhost:8080/login', {
+                mode: 'cors', // TODO
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: new Headers({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify({
-                    username: email,
+                    username: username,
                     password: password,
                 }),
             })
@@ -93,6 +92,7 @@ export default class LoginPage {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged in');
+                        goToPage(SuccessPage);
                     } else {
                         // Обработка ошибки авторизации
                         console.error('Error:', data.body.error);

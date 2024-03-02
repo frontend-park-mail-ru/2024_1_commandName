@@ -1,3 +1,5 @@
+import { validateEmail, validatePassword } from '../utils/valid.js';
+
 /**
  *
  */
