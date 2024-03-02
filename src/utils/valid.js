@@ -27,7 +27,7 @@ export function validatePassword(password) {
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
     const digitRegex = /[0-9]/;
-    const specialCharsRegex = /[~!@#$%^&*_+()[]{}><\/\\|"'.,:;-]/;
+    const specialCharsRegex = /[~!@#$%^&*_+()[\]{}></\\|"'.,:;-]/;
 
     const result = { success: false, message: '' };
 
