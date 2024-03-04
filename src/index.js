@@ -2,9 +2,9 @@
 
 // RouteInit();
 import SuccessPage from '../Pages/SuccessPage.js';
+import LoginPage from './Pages/LoginPage.js';
 import { goToPage } from './utils/goToPage.js';
 import { AuthAPI } from './utils/API/AuthAPI.js';
-import LoginPage from './Pages/LoginPage.js';
 
 const api = new AuthAPI();
 api.checkAuth()

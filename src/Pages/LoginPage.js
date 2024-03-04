@@ -2,6 +2,7 @@ import { validatePassword, validateUsername } from '../utils/valid.js';
 import SuccessPage from '../Pages/SuccessPage.js';
 import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
+import RegisterPage from './RegisterPage.js';
 
 /**
  * Рендерит страницу авторизации
@@ -32,13 +33,13 @@ export default class LoginPage {
         const usernameInput = document.createElement('input');
         usernameInput.type = 'text';
         usernameInput.id = 'username';
-        usernameInput.placeholder = 'Username';
+        usernameInput.placeholder = 'Имя пользователя';
         usernameInput.required = true;
 
         const passwordInput = document.createElement('input');
         passwordInput.type = 'password';
         passwordInput.id = 'password';
-        passwordInput.placeholder = 'Password';
+        passwordInput.placeholder = 'Пароль';
         passwordInput.required = true;
 
         const signinButton = document.createElement('button');
@@ -48,11 +49,19 @@ export default class LoginPage {
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
 
+        const notExistsAccauntButton = document.createElement('button');
+        notExistsAccauntButton.textContent = 'Еще нет аккаунта?';
+        notExistsAccauntButton.onclick = () => {
+            goToPage(RegisterPage);
+        };
+        notExistsAccauntButton.style = 'margin-top: 5px;';
+
         // Добавляем элементы input и button в форму
         signinForm.appendChild(header);
         signinForm.appendChild(usernameInput);
         signinForm.appendChild(passwordInput);
         signinForm.appendChild(signinButton);
+        signinForm.appendChild(notExistsAccauntButton);
         signinForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер

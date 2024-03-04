@@ -1,10 +1,16 @@
-import { validateEmail, validatePassword } from '../utils/valid.js';
+import { validatePassword, validateUsername } from '../utils/valid.js';
+import { goToPage } from '../utils/goToPage.js';
+import { AuthAPI } from '../utils/API/AuthAPI.js';
+import SuccessPage from '../Pages/SuccessPage.js';
+import LoginPage from './LoginPage.js';
 
 /**
  *
  */
 export default class RegisterPage {
     #parent;
+    #errorMessage;
+
     constructor(parent) {
         this.#parent = parent;
     }
@@ -18,38 +24,50 @@ export default class RegisterPage {
         const signupForm = document.createElement('form');
         signupForm.id = 'signup-form';
 
+        const header = document.createElement('h3');
+        header.textContent = 'Регистрация';
+
         // Создаем элементы input, button и p
-        const emailInput = document.createElement('input');
-        emailInput.type = 'email';
-        emailInput.id = 'email';
-        emailInput.placeholder = 'Email';
-        emailInput.required = true;
+        const usernameInput = document.createElement('input');
+        usernameInput.type = 'text';
+        usernameInput.id = 'username';
+        usernameInput.placeholder = 'Имя пользователя';
+        usernameInput.required = true;
 
         const passwordInput = document.createElement('input');
         passwordInput.type = 'password';
         passwordInput.id = 'password';
-        passwordInput.placeholder = 'Password';
+        passwordInput.placeholder = 'Пароль';
         passwordInput.required = true;
 
         const confirmPasswordInput = document.createElement('input');
         confirmPasswordInput.type = 'password';
         confirmPasswordInput.id = 'confirm-password';
-        confirmPasswordInput.placeholder = 'Confirm Password';
+        confirmPasswordInput.placeholder = 'Повторите пароль';
         confirmPasswordInput.required = true;
 
         const signupButton = document.createElement('button');
         signupButton.type = 'submit';
-        signupButton.textContent = 'Sign Up';
+        signupButton.textContent = 'Зарегистрироваться';
 
-        const errorMessage = document.createElement('p');
-        errorMessage.id = 'error-message';
+        this.#errorMessage = document.createElement('p');
+        this.#errorMessage.id = 'error-message';
+
+        const existsAccauntButton = document.createElement('button');
+        existsAccauntButton.textContent = 'Уже есть аккаунт?';
+        existsAccauntButton.onclick = () => {
+            goToPage(LoginPage);
+        };
+        existsAccauntButton.style = 'margin-top: 5px;';
 
         // Добавляем элементы input и button в форму
-        signupForm.appendChild(emailInput);
+        signupForm.appendChild(header);
+        signupForm.appendChild(usernameInput);
         signupForm.appendChild(passwordInput);
         signupForm.appendChild(confirmPasswordInput);
         signupForm.appendChild(signupButton);
-        signupForm.appendChild(errorMessage);
+        signupForm.appendChild(existsAccauntButton);
+        signupForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
         signupContainer.appendChild(signupForm);
@@ -59,62 +77,44 @@ export default class RegisterPage {
 
         signupForm.addEventListener('submit', function (event) {
             event.preventDefault();
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const confirmPassword =
                 document.getElementById('confirm-password').value;
+            const error = document.getElementById('error-message');
+            error.textContent = '';
 
             // Валидация данных
             if (password != confirmPassword) {
-                document.getElementById('error-message').textContent =
-                    'Пароли не совпадают';
+                error.textContent = 'Пароли не совпадают';
                 return;
             }
-            let valid = validateEmail(email);
+            let valid = validateUsername(username);
             if (!valid.success) {
-                document.getElementById('error-message').textContent =
-                    valid.message;
+                error.textContent = valid.message;
                 return;
             }
             valid = validatePassword(password);
             if (!valid.success) {
-                document.getElementById('error-message').textContent =
-                    valid.message;
+                error.textContent = valid.message;
                 return;
             }
 
             // Отправка данных на сервер
-            fetch('/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: email,
-                    password: password,
-                    email: email,
-                }),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+            const api = new AuthAPI();
+            api.register(username, password)
                 .then((data) => {
+                    console.log(data);
                     if (data.status === 200) {
-                        // Обработка успешной регистрации
-                        console.log('Successfully registered');
+                        // Обработка успешной авторизации
+                        console.log('Successfully logged in');
+                        goToPage(SuccessPage);
                     } else {
-                        // Обработка ошибки регистрации
-                        console.error('Error:', data.body.error);
+                        error.textContent = data.body.message;
                     }
                 })
                 .catch((error) => {
-                    console.error(
-                        'There was a problem with the fetch operation:',
-                        error,
-                    );
+                    console.error('Login failed:', error);
                 });
         });
     }

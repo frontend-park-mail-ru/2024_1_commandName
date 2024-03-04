@@ -59,7 +59,7 @@ export class AuthAPI {
     async logout() {
         try {
             const response = await fetch('http://localhost:8080/logout', {
-                method: 'POST',
+                method: 'GET',
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 credentials: 'include',
             });
@@ -79,5 +79,30 @@ export class AuthAPI {
         }
     }
 
-    register() {}
+    async register(username, password) {
+        try {
+            const response = await fetch('http://localhost:8080/register', {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                credentials: 'include',
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+            });
+
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+
+            const json = await response.json();
+            return json;
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
