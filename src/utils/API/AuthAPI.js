@@ -19,7 +19,6 @@ export class AuthAPI {
             // }
 
             const json = await response.json();
-            console.log('json: ', json);
             return json;
         } catch (error) {
             console.error(
@@ -47,7 +46,6 @@ export class AuthAPI {
             // }
 
             const json = await response.json();
-            console.log('json: ', json);
             return json;
         } catch (error) {
             console.error(
@@ -58,7 +56,28 @@ export class AuthAPI {
         }
     }
 
-    logout() {}
+    async logout() {
+        try {
+            const response = await fetch('http://localhost:8080/logout', {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                credentials: 'include',
+            });
+
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+
+            const json = await response.json();
+            return json;
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 
     register() {}
 }

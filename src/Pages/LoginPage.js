@@ -14,7 +14,7 @@ export default class LoginPage {
         this.#parent = parent;
     }
 
-    setError;
+    setError; // TODO
 
     render() {
         // Создаем элемент div с классом signin-container
@@ -24,6 +24,9 @@ export default class LoginPage {
         // Создаем элемент form с id signin-form
         const signinForm = document.createElement('form');
         signinForm.id = 'signin-form';
+
+        const header = document.createElement('h3');
+        header.textContent = 'Авторизация';
 
         // Создаем элементы input, button и p
         const usernameInput = document.createElement('input');
@@ -40,12 +43,13 @@ export default class LoginPage {
 
         const signinButton = document.createElement('button');
         signinButton.type = 'submit';
-        signinButton.textContent = 'Sign In';
+        signinButton.textContent = 'Войти';
 
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
 
         // Добавляем элементы input и button в форму
+        signinForm.appendChild(header);
         signinForm.appendChild(usernameInput);
         signinForm.appendChild(passwordInput);
         signinForm.appendChild(signinButton);
@@ -88,7 +92,7 @@ export default class LoginPage {
                         console.log('Successfully logged in');
                         goToPage(SuccessPage);
                     } else {
-                        error.textContent = data.message;
+                        error.textContent = data.body.message;
                     }
                 })
                 .catch((error) => {
