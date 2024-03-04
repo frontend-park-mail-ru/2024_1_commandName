@@ -1,7 +1,7 @@
 // import { RouteInit } from './utils/Routes/Routes.js';
 
 // RouteInit();
-import SuccessPage from '../Pages/SuccessPage.js';
+import SuccessPage from './Pages/SuccessPage.js';
 import LoginPage from './Pages/LoginPage.js';
 import { goToPage } from './utils/goToPage.js';
 import { AuthAPI } from './utils/API/AuthAPI.js';
