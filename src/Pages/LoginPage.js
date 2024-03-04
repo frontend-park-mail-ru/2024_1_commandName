@@ -1,14 +1,20 @@
 import { validatePassword, validateUsername } from '../utils/valid.js';
 import SuccessPage from '../Pages/SuccessPage.js';
 import { goToPage } from '../utils/goToPage.js';
+import { AuthAPI } from '../utils/API/AuthAPI.js';
+
 /**
- *
+ * Рендерит страницу авторизации
+ * @class Класс страницы авторизации
  */
 export default class LoginPage {
     #parent;
+    #errorMessage;
     constructor(parent) {
         this.#parent = parent;
     }
+
+    setError;
 
     render() {
         // Создаем элемент div с классом signin-container
@@ -36,14 +42,14 @@ export default class LoginPage {
         signinButton.type = 'submit';
         signinButton.textContent = 'Sign In';
 
-        const errorMessage = document.createElement('p');
-        errorMessage.id = 'error-message';
+        this.#errorMessage = document.createElement('p');
+        this.#errorMessage.id = 'error-message';
 
         // Добавляем элементы input и button в форму
         signinForm.appendChild(usernameInput);
         signinForm.appendChild(passwordInput);
         signinForm.appendChild(signinButton);
-        signinForm.appendChild(errorMessage);
+        signinForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
         signinContainer.appendChild(signinForm);
@@ -73,36 +79,20 @@ export default class LoginPage {
             }
 
             // Отправка данных на сервер
-            fetch('http://localhost:8080/login', {
-                mode: 'cors', // TODO
-                method: 'POST',
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                }),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+            const api = new AuthAPI();
+            api.login(username, password)
                 .then((data) => {
+                    console.log(data);
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged in');
                         goToPage(SuccessPage);
                     } else {
-                        // Обработка ошибки авторизации
-                        console.error('Error:', data.body.error);
+                        error.textContent = data.message;
                     }
                 })
                 .catch((error) => {
-                    console.error(
-                        'There was a problem with the fetch operation:',
-                        error,
-                    );
+                    console.error('Login failed:', error);
                 });
         });
     }
