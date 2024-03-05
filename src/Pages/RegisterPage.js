@@ -102,7 +102,6 @@ export default class RegisterPage {
             const api = new AuthAPI();
             api.register(username, password)
                 .then((data) => {
-                    console.log(data);
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged in');

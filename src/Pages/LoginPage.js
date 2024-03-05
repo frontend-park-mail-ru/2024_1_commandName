@@ -92,7 +92,6 @@ export default class LoginPage {
             const api = new AuthAPI();
             api.login(username, password)
                 .then((data) => {
-                    console.log(data);
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged in');

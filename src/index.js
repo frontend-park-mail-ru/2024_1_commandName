@@ -9,7 +9,6 @@ import { AuthAPI } from './utils/API/AuthAPI.js';
 const api = new AuthAPI();
 api.checkAuth()
     .then((data) => {
-        console.log(data);
         if (data.status === 200) {
             console.log('Is auth');
             goToPage(SuccessPage);

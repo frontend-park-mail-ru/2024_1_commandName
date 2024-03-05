@@ -28,7 +28,6 @@ export default class SuccessPage {
             const api = new AuthAPI();
             api.logout()
                 .then((data) => {
-                    console.log(data);
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged out');
