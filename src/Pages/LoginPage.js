@@ -72,7 +72,6 @@ export default class LoginPage {
         this.#parent.appendChild(signinContainer);
 
         signinForm.addEventListener('submit', function (event) {
-            console.log('test');
             event.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
