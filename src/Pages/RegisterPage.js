@@ -10,9 +10,57 @@ import ChatPage from './ChatPage.js';
 export default class RegisterPage {
     #parent;
     #errorMessage;
+    #signupForm;
 
     constructor(parent) {
         this.#parent = parent;
+    }
+
+    formCallback(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword =
+            document.getElementById('confirm-password').value;
+        const error = document.getElementById('error-message');
+        error.textContent = '';
+
+        // Валидация данных
+        if (password != confirmPassword) {
+            error.textContent = 'Пароли не совпадают';
+            return;
+        }
+        let valid = validateUsername(username);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+        valid = validatePassword(password);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+
+        // Отправка данных на сервер
+        const api = new AuthAPI();
+        api.register(username, password)
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    console.log('Successfully logged in');
+                    goToPage(SuccessPage);
+                } else {
+                    error.textContent = data.body.error;
+                }
+            })
+            .catch((error) => {
+                alert('Что-то пошло не так');
+                console.error('Login failed:', error);
+            });
+    }
+
+    addEventListeners() {
+        this.#signupForm.addEventListener('submit', this.formCallback);
     }
 
     render() {
@@ -21,8 +69,8 @@ export default class RegisterPage {
         signupContainer.className = 'signup-container';
 
         // Создаем элемент form с id signup-form
-        const signupForm = document.createElement('form');
-        signupForm.id = 'signup-form';
+        this.#signupForm = document.createElement('form');
+        this.#signupForm.id = 'signup-form';
 
         const header = document.createElement('h3');
         header.textContent = 'Регистрация';
@@ -52,70 +100,28 @@ export default class RegisterPage {
 
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
+        this.#errorMessage.className = 'error-message';
 
-        const existsAccauntButton = document.createElement('button');
-        existsAccauntButton.textContent = 'Уже есть аккаунт?';
-        existsAccauntButton.onclick = () => {
+        const existsAccountButton = document.createElement('button');
+        existsAccountButton.textContent = 'Уже есть аккаунт?';
+        existsAccountButton.onclick = () => {
             goToPage(LoginPage);
         };
-        existsAccauntButton.style = 'margin-top: 5px;';
 
         // Добавляем элементы input и button в форму
-        signupForm.appendChild(header);
-        signupForm.appendChild(usernameInput);
-        signupForm.appendChild(passwordInput);
-        signupForm.appendChild(confirmPasswordInput);
-        signupForm.appendChild(signupButton);
-        signupForm.appendChild(existsAccauntButton);
-        signupForm.appendChild(this.#errorMessage);
+        this.#signupForm.appendChild(header);
+        this.#signupForm.appendChild(usernameInput);
+        this.#signupForm.appendChild(passwordInput);
+        this.#signupForm.appendChild(confirmPasswordInput);
+        this.#signupForm.appendChild(signupButton);
+        this.#signupForm.appendChild(existsAccountButton);
+        this.#signupForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
-        signupContainer.appendChild(signupForm);
+        signupContainer.appendChild(this.#signupForm);
 
-        this.#parent.innerHTML = '';
         this.#parent.appendChild(signupContainer);
 
-        signupForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword =
-                document.getElementById('confirm-password').value;
-            const error = document.getElementById('error-message');
-            error.textContent = '';
-
-            // Валидация данных
-            if (password != confirmPassword) {
-                error.textContent = 'Пароли не совпадают';
-                return;
-            }
-            let valid = validateUsername(username);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-            valid = validatePassword(password);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-
-            // Отправка данных на сервер
-            const api = new AuthAPI();
-            api.register(username, password)
-                .then((data) => {
-                    console.log(data);
-                    if (data.status === 200) {
-                        // Обработка успешной авторизации
-                        console.log('Successfully logged in');
-                        goToPage(ChatPage);
-                    } else {
-                        error.textContent = data.body.error;
-                    }
-                })
-                .catch((error) => {
-                    console.error('Login failed:', error);
-                });
-        });
+        this.addEventListeners();
     }
 }
