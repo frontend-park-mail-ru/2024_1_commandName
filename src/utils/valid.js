@@ -1,7 +1,7 @@
 /**
  * Функция для валидации email.
  * @param {string} email - email
- * @returns {Object} - Объект с результатом валидации.
+ * @returns {{success: bool, message: String}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
@@ -18,7 +18,7 @@ export function validateEmail(email) {
 /**
  * Функция для валидации пароля.
  * @param {string} email - Пароль
- * @returns {Object} - Объект с результатом валидации.
+ * @returns {{success: bool, message: String}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
@@ -58,7 +58,7 @@ export function validatePassword(password) {
 /**
  * Функция для валидации никнейма.
  * @param {string} username - Никнейм для валидации.
- * @returns {Object} - Объект с результатом валидации.
+ * @returns {{success: bool, message: String}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
