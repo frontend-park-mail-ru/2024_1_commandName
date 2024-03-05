@@ -1,6 +1,6 @@
-import { goToPage } from '../utils/goToPage.js';
-import LoginPage from './LoginPage.js';
-import { AuthAPI } from '../utils/API/AuthAPI.js';
+// import { goToPage } from '../utils/goToPage.js';
+// import LoginPage from './LoginPage.js';
+// import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 
 /**
@@ -9,43 +9,64 @@ import { ChatAPI } from '../utils/API/ChatAPI.js';
  */
 export default class ChatPage {
     #parent;
-    #errorMessage;
     #activeChatContainer;
 
     constructor(parent) {
         this.#parent = parent;
     }
 
-    setError(message) {
-        this.#errorMessage.textContent = message;
-    }
-
     render() {
         this.#parent.innerHTML = '';
 
-        // Создаем контейнер для чата справа
-        this.#activeChatContainer = document.createElement('div');
-        this.#activeChatContainer.className = 'active-chat-container';
-        this.#activeChatContainer.textContent =
-            'Выберите чат для начала общения';
+        // Создаем основной контейнер
+        const app = document.createElement('div');
+        app.id = 'app';
 
-        // Создаем контейнер для списка чатов слева
-        const chatListContainer = document.createElement('div');
-        chatListContainer.className = 'chat-list-container';
+        // Создаем боковую панель
+        const aside = document.createElement('aside');
+        aside.innerHTML = `
+            <div class="chat_list_header">
+                <h2> Чаты </h2>
+            </div>
+            <div class="chat_list" id="chat-list-container"></div>
+            <div class="chat_menu">
+                <div class="chat_menu_item">*контакты*</div>
+                <div class="chat_menu_item">*чаты*</div>
+                <div class="chat_menu_item">*настройки*</div>
+            </div>
+        `;
+        app.appendChild(aside);
 
-        const chatsHeader = document.createElement('h2');
-        chatsHeader.id = 'chats-header';
-        chatsHeader.textContent = 'Список чатов:';
-        chatListContainer.appendChild(chatsHeader);
+        // Создаем главный контент
+        const main = document.createElement('main');
+        main.innerHTML = `
+            <div class="chat_header">
+                <h2>Пользователь</h2>
+            </div>
+            <div class="chat_width message_list" id="active-chat-container">
+                <div class="message my_message">Выберите чат для начала общения</div>
+            </div>
+            <div class="chat_width input_block">
+                <button class="input_attach">*скрепка*</button>
+                <input class="input_text" type="text" placeholder="Сообщение...">
+                <button class="input_send">-></button>
+            </div>
+        `;
+        app.appendChild(main);
 
-        // Получаем чаты с сервера
+        this.#parent.appendChild(app);
+
+        // Получаем чаты с сервера и рендерим список чатов
+        const chatListContainer = document.getElementById(
+            'chat-list-container',
+        );
         const chatAPI = new ChatAPI();
         chatAPI
             .getChats()
             .then((chats) => {
                 chats.body.chats.forEach((chat) => {
                     const chatItem = document.createElement('div');
-                    chatItem.className = 'chat-item';
+                    chatItem.className = 'chat_list_item';
                     chatItem.textContent = chat.name;
 
                     // Обработчик клика на чат
@@ -65,37 +86,30 @@ export default class ChatPage {
                     this.handleLogout.bind(this),
                 );
 
-                // Добавляем кнопку выхода в конец списка чатов
-                chatListContainer.appendChild(logoutButton);
+                // Добавляем кнопку выхода в конец боковой панели
+                aside.appendChild(logoutButton);
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
             });
-
-        // Создаем контейнер для чата и кнопки выхода
-        const chatContainer = document.createElement('div');
-        chatContainer.className = 'chat-container';
-        chatContainer.appendChild(chatListContainer);
-        chatContainer.appendChild(this.#activeChatContainer);
-
-        // Добавляем контейнер чата в родительский элемент
-        this.#parent.appendChild(chatContainer);
     }
 
     displayActiveChat(chat) {
         // Очищаем контейнер активного чата
-        this.#activeChatContainer.innerHTML = '';
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
+        activeChatContainer.innerHTML = '';
 
         // Отображаем содержимое выбранного чата
         const chatName = document.createElement('h2');
-        chatName.id = 'chat-name';
         chatName.textContent = chat.name;
-        this.#activeChatContainer.appendChild(chatName);
+        activeChatContainer.appendChild(chatName);
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
             const messageElement = document.createElement('div');
-            messageElement.className = 'message-item';
+            messageElement.className = 'message';
             messageElement.textContent = message.message_text;
 
             // Обработчик клика на сообщение
@@ -103,32 +117,15 @@ export default class ChatPage {
                 this.displayMessage(message);
             });
 
-            this.#activeChatContainer.appendChild(messageElement);
+            activeChatContainer.appendChild(messageElement);
         });
     }
 
     displayMessage(message) {
         // Отображаем содержимое выбранного сообщения
-        this.#activeChatContainer.textContent = `Сообщение: ${message.message_text}`;
-    }
-
-    handleLogout(event) {
-        event.preventDefault();
-        // Отправка данных на сервер
-        const api = new AuthAPI();
-        api.logout()
-            .then((data) => {
-                console.log(data);
-                if (data.status === 200) {
-                    // Обработка успешной авторизации
-                    console.log('Successfully logged out');
-                    goToPage(LoginPage);
-                } else {
-                    console.log('Error logged out');
-                }
-            })
-            .catch((error) => {
-                console.error('Login failed:', error);
-            });
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
+        activeChatContainer.innerHTML = `Сообщение: ${message.message_text}`;
     }
 }

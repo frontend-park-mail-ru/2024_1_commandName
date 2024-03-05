@@ -76,3 +76,123 @@ button:hover,
 .chat-name {
     margin-bottom: 70%;
 }
+
+#app {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+}
+
+aside {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    height: 100%;
+    flex: 0 0 25%;
+    background-color: #e8e8e8;
+
+}
+
+main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat_list_header {
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    flex: 0 0 10%;
+    border-bottom: 1px solid silver;
+}
+
+.chat_list {
+    overflow: scroll;
+    height: 100%;
+}
+
+.chat_list_item {
+    padding: 15px;
+    border: 1px solid silver;
+    margin: 2px;
+}
+
+.chat_menu {
+    flex: 0 0 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.chat_header {
+    display: flex;
+    flex: 0 0 10%;
+    align-items: center;
+    padding-left: 25px;
+    border-bottom: 1px solid silver;
+}
+
+.chat_width {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.message_list {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    border-radius: 10px 10px 10px 1px;
+    background-color: #c2c2c2;
+    padding: 10px;
+    max-width: 75%;
+    margin-left: 0;
+    margin-right: auto;
+    margin-bottom: 5px;
+}
+
+.my_message {
+    border-radius: 10px 10px 1px 10px;
+    background-color: #58ca17;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.input_block {
+    flex: 0 0 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input_attach,
+.input_send {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    flex: 0 0 10%;
+    padding: auto;
+}
+
+.input_text {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    padding: auto;
+    padding-left: 15px;
+    border-radius: 10px;
+    margin: 10px 10px;
+}
