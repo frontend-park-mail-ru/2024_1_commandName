@@ -26,7 +26,8 @@ export default class ChatPage {
         // Создаем контейнер для чата справа
         this.#activeChatContainer = document.createElement('div');
         this.#activeChatContainer.className = 'active-chat-container';
-        this.#activeChatContainer.textContent = 'Выберите чат для начала общения';
+        this.#activeChatContainer.textContent =
+            'Выберите чат для начала общения';
 
         // Создаем контейнер для списка чатов слева
         const chatListContainer = document.createElement('div');
@@ -34,9 +35,10 @@ export default class ChatPage {
 
         // Получаем чаты с сервера
         const chatAPI = new ChatAPI();
-        chatAPI.getChats()
-            .then(chats => {
-                chats.forEach(chat => {
+        chatAPI
+            .getChats()
+            .then((chats) => {
+                chats.forEach((chat) => {
                     const chatItem = document.createElement('div');
                     chatItem.className = 'chat-item';
                     chatItem.textContent = chat.name;
@@ -49,7 +51,7 @@ export default class ChatPage {
                     chatListContainer.appendChild(chatItem);
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
             });
 
@@ -82,7 +84,7 @@ export default class ChatPage {
         this.#activeChatContainer.appendChild(chatName);
 
         // Отображаем сообщения в чате
-        chat.messages.forEach(message => {
+        chat.messages.forEach((message) => {
             const messageElement = document.createElement('div');
             messageElement.className = 'message-item';
             messageElement.textContent = message.message_text;
