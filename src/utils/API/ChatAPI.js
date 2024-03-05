@@ -11,7 +11,7 @@ export class ChatAPI {
      */
     async getChats() {
         try {
-            const response = await fetch('http://localhost:8080/GetChats', {
+            const response = await fetch('http://localhost:8080/getChats', {
                 method: 'GET',
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 credentials: 'include',

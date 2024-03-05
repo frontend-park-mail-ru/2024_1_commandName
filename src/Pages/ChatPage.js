@@ -38,7 +38,7 @@ export default class ChatPage {
         chatAPI
             .getChats()
             .then((chats) => {
-                chats.forEach((chat) => {
+                chats.body.chats.forEach((chat) => {
                     const chatItem = document.createElement('div');
                     chatItem.className = 'chat-item';
                     chatItem.textContent = chat.name;
