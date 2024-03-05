@@ -45,7 +45,7 @@ export default class LoginPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged in');
-                    goToPage(SuccessPage);
+                    goToPage(ChatPage);
                 } else {
                     error.textContent = data.body.error;
                 }

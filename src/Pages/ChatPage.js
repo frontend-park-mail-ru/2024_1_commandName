@@ -2,6 +2,9 @@
 // import LoginPage from './LoginPage.js';
 // import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
+import { AuthAPI } from '../utils/API/AuthAPI.js';
+import { goToPage } from '../utils/goToPage.js';
+import LoginPage from './LoginPage.js';
 
 /**
  * Рендерит страницу чатов
@@ -16,8 +19,6 @@ export default class ChatPage {
     }
 
     render() {
-        this.#parent.innerHTML = '';
-
         // Создаем основной контейнер
         const app = document.createElement('div');
         app.id = 'app';
@@ -28,11 +29,13 @@ export default class ChatPage {
             <div class="chat_list_header">
                 <h2> Чаты </h2>
             </div>
-            <div class="chat_list" id="chat-list-container"></div>
+            <div class="chat_list" id="chat-list-container">
+            <div className="seach_container">
+                <input class="search_input" placeholder="Поиск...">
+            </div>
+            </div>
             <div class="chat_menu">
-                <div class="chat_menu_item">*контакты*</div>
-                <div class="chat_menu_item">*чаты*</div>
-                <div class="chat_menu_item">*настройки*</div>
+                <div class="chat_menu_item">Пользователь</div>
             </div>
         `;
         app.appendChild(aside);
@@ -41,18 +44,27 @@ export default class ChatPage {
         const main = document.createElement('main');
         main.innerHTML = `
             <div class="chat_header">
-                <h2>Пользователь</h2>
+                <h2 id="chat_header">Выберите чат</h2>
             </div>
-            <div class="chat_width message_list" id="active-chat-container">
-                <div class="message my_message">Выберите чат для начала общения</div>
-            </div>
-            <div class="chat_width input_block">
-                <button class="input_attach">*скрепка*</button>
-                <input class="input_text" type="text" placeholder="Сообщение...">
-                <button class="input_send">-></button>
+            <div className="chat">
+                <div class="chat_width message_list" id="active-chat-container"></div>
+                <div class="chat_width input_block">
+                    <button class="input_attach">*скрепка*</button>
+                    <input class="input_text" type="text" placeholder="Сообщение...">
+                    <button class="input_send">-></button>
+                </div>
             </div>
         `;
         app.appendChild(main);
+
+        // Создаем кнопку для выхода
+        const logoutButton = document.createElement('button');
+        logoutButton.id = 'logout_btn';
+        logoutButton.textContent = 'Выйти';
+        logoutButton.addEventListener('click', this.handleLogout);
+
+        // Добавляем кнопку выхода в конец боковой панели
+        aside.appendChild(logoutButton);
 
         this.#parent.appendChild(app);
 
@@ -76,18 +88,6 @@ export default class ChatPage {
 
                     chatListContainer.appendChild(chatItem);
                 });
-
-                // Создаем кнопку для выхода
-                const logoutButton = document.createElement('button');
-                logoutButton.id = 'logout_btn';
-                logoutButton.textContent = 'Выйти';
-                logoutButton.addEventListener(
-                    'click',
-                    this.handleLogout.bind(this),
-                );
-
-                // Добавляем кнопку выхода в конец боковой панели
-                aside.appendChild(logoutButton);
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
@@ -102,30 +102,33 @@ export default class ChatPage {
         activeChatContainer.innerHTML = '';
 
         // Отображаем содержимое выбранного чата
-        const chatName = document.createElement('h2');
-        chatName.textContent = chat.name;
-        activeChatContainer.appendChild(chatName);
+        document.getElementById('chat_header').textContent = chat.name;
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
             const messageElement = document.createElement('div');
             messageElement.className = 'message';
             messageElement.textContent = message.message_text;
-
-            // Обработчик клика на сообщение
-            messageElement.addEventListener('click', () => {
-                this.displayMessage(message);
-            });
-
             activeChatContainer.appendChild(messageElement);
         });
     }
 
-    displayMessage(message) {
-        // Отображаем содержимое выбранного сообщения
-        const activeChatContainer = document.getElementById(
-            'active-chat-container',
-        );
-        activeChatContainer.innerHTML = `Сообщение: ${message.message_text}`;
+    handleLogout(event) {
+        event.preventDefault();
+        // Отправка данных на сервер
+        const api = new AuthAPI();
+        api.logout()
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    console.log('Successfully logged out');
+                    goToPage(LoginPage);
+                } else {
+                    console.log('Error logged out');
+                }
+            })
+            .catch((error) => {
+                console.error('Login failed:', error);
+            });
     }
 }
