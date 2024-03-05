@@ -1,9 +1,17 @@
+import 'dotenv/config';
+
 /**
  * API для работы с чатами
  * @class ChatAPI
  */
 export class ChatAPI {
-    constructor() {}
+    constructor() {
+        // Устанавливаем базовый URL в зависимости от режима
+        this.baseUrl =
+            process.env.NODE_ENV === 'production'
+                ? 'http://109.120.180.60/api/v1'
+                : 'http://localhost:8080';
+    }
 
     /**
      * Получает предварительный просмотр чатов для пользователя
@@ -11,7 +19,7 @@ export class ChatAPI {
      */
     async getChats() {
         try {
-            const response = await fetch('http://localhost:8080/getChats', {
+            const response = await fetch(`${this.baseUrl}/getChats`, {
                 method: 'GET',
                 headers: new Headers({ 'Content-Type': 'application/json' }),
                 credentials: 'include',
