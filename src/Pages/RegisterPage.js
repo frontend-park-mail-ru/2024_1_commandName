@@ -100,6 +100,7 @@ export default class RegisterPage {
 
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
+        this.#errorMessage.className = 'error-message';
 
         const existsAccountButton = document.createElement('button');
         existsAccountButton.textContent = 'Уже есть аккаунт?';

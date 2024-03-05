@@ -91,6 +91,7 @@ export default class LoginPage {
 
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
+        this.#errorMessage.className = 'error-message';
 
         const notExistsAccountButton = document.createElement('button');
         notExistsAccountButton.textContent = 'Еще нет аккаунта?';

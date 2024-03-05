@@ -7,7 +7,8 @@ body {
     background-color: #f0f0f0;
 }
 
-.signin-container, .signup-container {
+.signin-container,
+.signup-container {
     background-color: #A5B6CF;
     padding: 20px;
     border-radius: 8px;
@@ -40,7 +41,7 @@ button:hover {
     background-color: white;
 }
 
-#error-message {
+.error_message {
     color: red;
     margin-top: 10px;
 }
