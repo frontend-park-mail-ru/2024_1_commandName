@@ -6,7 +6,7 @@ import { makeBaseRequest } from './common.js';
 export class AuthAPI {
     async checkAuth() {
         try {
-            return makeBaseRequest('checkAuth', 'GET');
+            return makeBaseRequest(`${this.baseUrl}/checkAuth`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -18,7 +18,7 @@ export class AuthAPI {
 
     async login(username, password) {
         try {
-            return makeBaseRequest('login', 'POST', {
+            return makeBaseRequest(`${this.baseUrl}/login`, 'POST', {
                 username: username,
                 password: password,
             });
@@ -33,7 +33,7 @@ export class AuthAPI {
 
     async logout() {
         try {
-            return makeBaseRequest('logout', 'GET');
+            return makeBaseRequest(`${this.baseUrl}/loguot`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -45,7 +45,7 @@ export class AuthAPI {
 
     async register(username, password) {
         try {
-            return makeBaseRequest('register', 'POST', {
+            return makeBaseRequest(`${this.baseUrl}/register`, 'POST', {
                 username: username,
                 password: password,
             });

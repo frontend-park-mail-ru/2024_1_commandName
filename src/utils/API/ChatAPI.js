@@ -5,7 +5,13 @@ import { makeBaseRequest } from './common.js';
  * @class ChatAPI
  */
 export class ChatAPI {
-    constructor() {}
+    constructor() {
+        // Устанавливаем базовый URL в зависимости от режима
+        this.baseUrl =
+            process.env.NODE_ENV === 'production'
+                ? 'http://109.120.180.60/api/v1'
+                : 'http://localhost:8080';
+    }
 
     /**
      * Получает предварительный просмотр чатов для пользователя
@@ -13,7 +19,7 @@ export class ChatAPI {
      */
     async getChats() {
         try {
-            return makeBaseRequest('getChats', 'GET');
+            return makeBaseRequest(`${this.baseUrl}/getChats`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
