@@ -55,8 +55,8 @@ export default class LoginPage {
             });
     }
 
-    addEventListeners(signinForm) {
-        signinForm.addEventListener('submit', this.formCallback);
+    addEventListeners() {
+        this.#signinForm.addEventListener('submit', this.formCallback);
     }
 
     render() {
@@ -65,8 +65,8 @@ export default class LoginPage {
         signinContainer.className = 'signin-container';
 
         // Создаем элемент form с id signin-form
-        const signinForm = document.createElement('form');
-        signinForm.id = 'signin-form';
+        this.#signinForm = document.createElement('form');
+        this.#signinForm.id = 'signin-form';
 
         const header = document.createElement('h3');
         header.textContent = 'Авторизация';
@@ -98,19 +98,19 @@ export default class LoginPage {
         };
 
         // Добавляем элементы input и button в форму
-        signinForm.appendChild(header);
-        signinForm.appendChild(usernameInput);
-        signinForm.appendChild(passwordInput);
-        signinForm.appendChild(signinButton);
-        signinForm.appendChild(notExistsAccountButton);
-        signinForm.appendChild(this.#errorMessage);
+        this.#signinForm.appendChild(header);
+        this.#signinForm.appendChild(usernameInput);
+        this.#signinForm.appendChild(passwordInput);
+        this.#signinForm.appendChild(signinButton);
+        this.#signinForm.appendChild(notExistsAccountButton);
+        this.#signinForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
-        signinContainer.appendChild(signinForm);
+        signinContainer.appendChild(this.#signinForm);
 
         // Добавляем контейнер в body
         this.#parent.appendChild(signinContainer);
 
-        this.addEventListeners(signinForm);
+        this.addEventListeners();
     }
 }

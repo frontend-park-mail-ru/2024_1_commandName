@@ -10,6 +10,7 @@ import LoginPage from './LoginPage.js';
 export default class RegisterPage {
     #parent;
     #errorMessage;
+    #signupForm;
 
     constructor(parent) {
         this.#parent = parent;
@@ -57,8 +58,8 @@ export default class RegisterPage {
             });
     }
 
-    addEventListeners(signupForm) {
-        signupForm.addEventListener('submit', this.formCallback);
+    addEventListeners() {
+        this.#signupForm.addEventListener('submit', this.formCallback);
     }
 
     render() {
@@ -67,8 +68,8 @@ export default class RegisterPage {
         signupContainer.className = 'signup-container';
 
         // Создаем элемент form с id signup-form
-        const signupForm = document.createElement('form');
-        signupForm.id = 'signup-form';
+        this.#signupForm = document.createElement('form');
+        this.#signupForm.id = 'signup-form';
 
         const header = document.createElement('h3');
         header.textContent = 'Регистрация';
@@ -106,19 +107,19 @@ export default class RegisterPage {
         };
 
         // Добавляем элементы input и button в форму
-        signupForm.appendChild(header);
-        signupForm.appendChild(usernameInput);
-        signupForm.appendChild(passwordInput);
-        signupForm.appendChild(confirmPasswordInput);
-        signupForm.appendChild(signupButton);
-        signupForm.appendChild(existsAccountButton);
-        signupForm.appendChild(this.#errorMessage);
+        this.#signupForm.appendChild(header);
+        this.#signupForm.appendChild(usernameInput);
+        this.#signupForm.appendChild(passwordInput);
+        this.#signupForm.appendChild(confirmPasswordInput);
+        this.#signupForm.appendChild(signupButton);
+        this.#signupForm.appendChild(existsAccountButton);
+        this.#signupForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
-        signupContainer.appendChild(signupForm);
+        signupContainer.appendChild(this.#signupForm);
 
         this.#parent.appendChild(signupContainer);
 
-        this.addEventListeners(signupForm);
+        this.addEventListeners();
     }
 }
