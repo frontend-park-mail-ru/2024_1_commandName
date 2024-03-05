@@ -33,6 +33,11 @@ export default class ChatPage {
         const chatListContainer = document.createElement('div');
         chatListContainer.className = 'chat-list-container';
 
+        const chatsHeader = document.createElement('h2');
+        chatsHeader.id = 'chats-header';
+        chatsHeader.textContent = 'Список чатов:';
+        chatListContainer.appendChild(chatsHeader);
+
         // Получаем чаты с сервера
         const chatAPI = new ChatAPI();
         chatAPI
@@ -50,19 +55,22 @@ export default class ChatPage {
 
                     chatListContainer.appendChild(chatItem);
                 });
+
+                // Создаем кнопку для выхода
+                const logoutButton = document.createElement('button');
+                logoutButton.id = 'logout_btn';
+                logoutButton.textContent = 'Выйти';
+                logoutButton.addEventListener(
+                    'click',
+                    this.handleLogout.bind(this),
+                );
+
+                // Добавляем кнопку выхода в конец списка чатов
+                chatListContainer.appendChild(logoutButton);
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
             });
-
-        // Создаем кнопку для выхода
-        const logoutButton = document.createElement('button');
-        logoutButton.id = 'logout_btn';
-        logoutButton.textContent = 'Выйти';
-        logoutButton.addEventListener('click', this.handleLogout.bind(this));
-
-        // Добавляем кнопку выхода
-        chatListContainer.appendChild(logoutButton);
 
         // Создаем контейнер для чата и кнопки выхода
         const chatContainer = document.createElement('div');
@@ -80,6 +88,7 @@ export default class ChatPage {
 
         // Отображаем содержимое выбранного чата
         const chatName = document.createElement('h2');
+        chatName.id = 'chat-name';
         chatName.textContent = chat.name;
         this.#activeChatContainer.appendChild(chatName);
 

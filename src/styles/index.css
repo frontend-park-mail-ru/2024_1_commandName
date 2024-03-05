@@ -26,6 +26,8 @@ form {
 
 input,
 button,
+.chat-item,
+.message-item,
 #logout_btn {
     margin-bottom: 10px;
     padding: 10px;
@@ -69,4 +71,8 @@ button:hover,
 
 .chat-item {
     cursor: pointer;
+}
+
+.chat-name {
+    margin-bottom: 70%;
 }
