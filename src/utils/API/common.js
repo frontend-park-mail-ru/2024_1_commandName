@@ -12,7 +12,7 @@ export async function makeBaseRequest(url, method, body) {
         options.body = JSON.stringify(body);
     }
 
-    const response = await fetch(`http://localhost:8080/${url}`, options);
+    const response = await fetch(url, options);
     const json = await response.json();
     return json;
 }
