@@ -51,6 +51,7 @@ export default class LoginPage {
                 }
             })
             .catch((error) => {
+                alert("Что-то пошло не так");
                 console.error('Login failed:', error);
             });
     }

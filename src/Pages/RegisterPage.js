@@ -54,6 +54,7 @@ export default class RegisterPage {
                 }
             })
             .catch((error) => {
+                alert('Что-то пошло не так');
                 console.error('Login failed:', error);
             });
     }
