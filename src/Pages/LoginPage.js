@@ -1,8 +1,8 @@
 import { validatePassword, validateUsername } from '../utils/valid.js';
-import SuccessPage from '../Pages/SuccessPage.js';
 import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import RegisterPage from './RegisterPage.js';
+import ChatPage from './ChatPage.js';
 
 /**
  * Рендерит страницу авторизации
@@ -99,7 +99,7 @@ export default class LoginPage {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
                         console.log('Successfully logged in');
-                        goToPage(SuccessPage);
+                        goToPage(ChatPage);
                     } else {
                         error.textContent = data.body.message;
                     }

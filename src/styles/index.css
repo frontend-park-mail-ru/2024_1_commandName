@@ -1,17 +1,22 @@
-body {
+body,
+.signin-container,
+.signup-container,
+.chat-list-container,
+.active-chat-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
-
-.signin-container, .signup-container {
     background-color: #A5B6CF;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
 
 form {
@@ -19,28 +24,49 @@ form {
     flex-direction: column;
 }
 
-input {
+input,
+button,
+#logout_btn {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
     background-color: #C9D8ED;
-}
-
-button {
-    padding: 10px;
-    border-radius: 4px;
-    border: none;
-    background-color: #C9D8ED;
     color: black;
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+#logout_btn:hover,
+.chat-item:hover {
     background-color: white;
 }
 
 #error-message {
     color: red;
     margin-top: 10px;
+}
+
+.chat-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.chat-list-container,
+.active-chat-container {
+    height: 700px;
+    overflow-y: auto;
+}
+
+.chat-list-container {
+    width: 300px;
+}
+
+.active-chat-container {
+    width: 700px;
+}
+
+.chat-item {
+    cursor: pointer;
 }
