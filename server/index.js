@@ -9,7 +9,6 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '..', 'src')));
-app.use(express.static(path.join(__dirname, '..', 'node_modules')));
 app.use(cookie());
 
 const port = process.env.PORT || 3000;

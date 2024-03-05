@@ -15,7 +15,7 @@ export default class LoginPage {
         this.#parent = parent;
     }
 
-    setError; // TODO
+    // TODO: create setError method
 
     render() {
         // Создаем элемент div с классом signin-container
@@ -49,26 +49,24 @@ export default class LoginPage {
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
 
-        const notExistsAccauntButton = document.createElement('button');
-        notExistsAccauntButton.textContent = 'Еще нет аккаунта?';
-        notExistsAccauntButton.onclick = () => {
+        const notExistsAccountButton = document.createElement('button');
+        notExistsAccountButton.textContent = 'Еще нет аккаунта?';
+        notExistsAccountButton.onclick = () => {
             goToPage(RegisterPage);
         };
-        notExistsAccauntButton.style = 'margin-top: 5px;';
 
         // Добавляем элементы input и button в форму
         signinForm.appendChild(header);
         signinForm.appendChild(usernameInput);
         signinForm.appendChild(passwordInput);
         signinForm.appendChild(signinButton);
-        signinForm.appendChild(notExistsAccauntButton);
+        signinForm.appendChild(notExistsAccountButton);
         signinForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
         signinContainer.appendChild(signinForm);
 
         // Добавляем контейнер в body
-        this.#parent.innerHTML = '';
         this.#parent.appendChild(signinContainer);
 
         signinForm.addEventListener('submit', function (event) {

@@ -53,12 +53,11 @@ export default class RegisterPage {
         this.#errorMessage = document.createElement('p');
         this.#errorMessage.id = 'error-message';
 
-        const existsAccauntButton = document.createElement('button');
-        existsAccauntButton.textContent = 'Уже есть аккаунт?';
-        existsAccauntButton.onclick = () => {
+        const existsAccountButton = document.createElement('button');
+        existsAccountButton.textContent = 'Уже есть аккаунт?';
+        existsAccountButton.onclick = () => {
             goToPage(LoginPage);
         };
-        existsAccauntButton.style = 'margin-top: 5px;';
 
         // Добавляем элементы input и button в форму
         signupForm.appendChild(header);
@@ -66,13 +65,12 @@ export default class RegisterPage {
         signupForm.appendChild(passwordInput);
         signupForm.appendChild(confirmPasswordInput);
         signupForm.appendChild(signupButton);
-        signupForm.appendChild(existsAccauntButton);
+        signupForm.appendChild(existsAccountButton);
         signupForm.appendChild(this.#errorMessage);
 
         // Добавляем форму в контейнер
         signupContainer.appendChild(signupForm);
 
-        this.#parent.innerHTML = '';
         this.#parent.appendChild(signupContainer);
 
         signupForm.addEventListener('submit', function (event) {

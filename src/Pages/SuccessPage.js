@@ -12,8 +12,6 @@ export default class SuccessPage {
     }
 
     render() {
-        this.#parent.innerHTML = '';
-
         const title = document.createElement('h3');
         title.textContent = 'Success Auth';
 
