@@ -15,6 +15,52 @@ export default class RegisterPage {
         this.#parent = parent;
     }
 
+    formCallback(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword =
+            document.getElementById('confirm-password').value;
+        const error = document.getElementById('error-message');
+        error.textContent = '';
+
+        // Валидация данных
+        if (password != confirmPassword) {
+            error.textContent = 'Пароли не совпадают';
+            return;
+        }
+        let valid = validateUsername(username);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+        valid = validatePassword(password);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+
+        // Отправка данных на сервер
+        const api = new AuthAPI();
+        api.register(username, password)
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    console.log('Successfully logged in');
+                    goToPage(SuccessPage);
+                } else {
+                    error.textContent = data.body.error;
+                }
+            })
+            .catch((error) => {
+                console.error('Login failed:', error);
+            });
+    }
+
+    addEventListeners(signupForm) {
+        signupForm.addEventListener('submit', this.formCallback);
+    }
+
     render() {
         // Создаем элемент div с классом signup-container
         const signupContainer = document.createElement('div');
@@ -73,46 +119,6 @@ export default class RegisterPage {
 
         this.#parent.appendChild(signupContainer);
 
-        signupForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword =
-                document.getElementById('confirm-password').value;
-            const error = document.getElementById('error-message');
-            error.textContent = '';
-
-            // Валидация данных
-            if (password != confirmPassword) {
-                error.textContent = 'Пароли не совпадают';
-                return;
-            }
-            let valid = validateUsername(username);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-            valid = validatePassword(password);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-
-            // Отправка данных на сервер
-            const api = new AuthAPI();
-            api.register(username, password)
-                .then((data) => {
-                    if (data.status === 200) {
-                        // Обработка успешной авторизации
-                        console.log('Successfully logged in');
-                        goToPage(SuccessPage);
-                    } else {
-                        error.textContent = data.body.error;
-                    }
-                })
-                .catch((error) => {
-                    console.error('Login failed:', error);
-                });
-        });
+        this.addEventListeners(signupForm);
     }
 }

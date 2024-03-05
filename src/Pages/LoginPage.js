@@ -11,11 +11,53 @@ import RegisterPage from './RegisterPage.js';
 export default class LoginPage {
     #parent;
     #errorMessage;
+    #signinForm;
+
     constructor(parent) {
         this.#parent = parent;
     }
 
     // TODO: create setError method
+
+    formCallback(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const error = document.getElementById('error-message');
+        error.textContent = '';
+
+        // Валидация данных
+        let valid = validateUsername(username);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+        valid = validatePassword(password);
+        if (!valid.success) {
+            error.textContent = valid.message;
+            return;
+        }
+
+        // Отправка данных на сервер
+        const api = new AuthAPI();
+        api.login(username, password)
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    console.log('Successfully logged in');
+                    goToPage(SuccessPage);
+                } else {
+                    error.textContent = data.body.error;
+                }
+            })
+            .catch((error) => {
+                console.error('Login failed:', error);
+            });
+    }
+
+    addEventListeners(signinForm) {
+        signinForm.addEventListener('submit', this.formCallback);
+    }
 
     render() {
         // Создаем элемент div с классом signin-container
@@ -69,40 +111,6 @@ export default class LoginPage {
         // Добавляем контейнер в body
         this.#parent.appendChild(signinContainer);
 
-        signinForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const error = document.getElementById('error-message');
-            error.textContent = '';
-
-            // Валидация данных
-            let valid = validateUsername(username);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-            valid = validatePassword(password);
-            if (!valid.success) {
-                error.textContent = valid.message;
-                return;
-            }
-
-            // Отправка данных на сервер
-            const api = new AuthAPI();
-            api.login(username, password)
-                .then((data) => {
-                    if (data.status === 200) {
-                        // Обработка успешной авторизации
-                        console.log('Successfully logged in');
-                        goToPage(SuccessPage);
-                    } else {
-                        error.textContent = data.body.error;
-                    }
-                })
-                .catch((error) => {
-                    console.error('Login failed:', error);
-                });
-        });
+        this.addEventListeners(signinForm);
     }
 }
