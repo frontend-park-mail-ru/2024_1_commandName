@@ -110,7 +110,7 @@ export default class RegisterPage {
                         console.log('Successfully logged in');
                         goToPage(ChatPage);
                     } else {
-                        error.textContent = data.body.message;
+                        error.textContent = data.body.error;
                     }
                 })
                 .catch((error) => {
