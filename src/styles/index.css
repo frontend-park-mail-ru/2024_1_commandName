@@ -75,7 +75,7 @@ button:hover,
 
 .search_input {
     margin: 0px 10px 0 10px;
-    width: 100%;
+    width: 95%;
 }
 
 .chat-list-container,
@@ -136,7 +136,7 @@ main {
 
 .chat_list {
     background-color: #A5B6CF;
-    overflow: scroll;
+    overflow: auto;
     height: 100%;
 }
 
@@ -179,7 +179,7 @@ main {
 }
 
 .message_list {
-    overflow: scroll;
+    overflow: auto;
     display: flex;
     flex-direction: column;
 }
@@ -196,7 +196,7 @@ main {
 
 .my_message {
     border-radius: 10px 10px 1px 10px;
-    background-color: #58ca17;
+    background-color: #A5B6CF;
     margin-left: auto;
     margin-right: 0;
 }
