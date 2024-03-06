@@ -34,7 +34,7 @@ export class AuthAPI {
 
     async logout() {
         try {
-            return makeBaseRequest(`${baseUrl}/loguot`, 'GET');
+            return makeBaseRequest(`${baseUrl}/logout`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
