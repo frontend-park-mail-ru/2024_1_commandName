@@ -1,4 +1,3 @@
-import { validatePassword, validateUsername } from '../utils/valid.js';
 import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import RegisterPage from './RegisterPage.js';
@@ -25,18 +24,6 @@ export default class LoginPage {
         const password = document.getElementById('password').value;
         const error = document.getElementById('error-message');
         error.textContent = '';
-
-        // Валидация данных
-        let valid = validateUsername(username);
-        if (!valid.success) {
-            error.textContent = valid.message;
-            return;
-        }
-        valid = validatePassword(password);
-        if (!valid.success) {
-            error.textContent = valid.message;
-            return;
-        }
 
         // Отправка данных на сервер
         const api = new AuthAPI();
