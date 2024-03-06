@@ -1,4 +1,5 @@
 import { makeBaseRequest } from './common.js';
+import { baseUrl } from './config.js';
 /**
  * Рендерит страницу ошибки 404
  * @class Класс страницы 404 ошибки
@@ -6,7 +7,7 @@ import { makeBaseRequest } from './common.js';
 export class AuthAPI {
     async checkAuth() {
         try {
-            return makeBaseRequest('checkAuth', 'GET');
+            return makeBaseRequest(`${baseUrl}/checkAuth`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -18,7 +19,7 @@ export class AuthAPI {
 
     async login(username, password) {
         try {
-            return makeBaseRequest('login', 'POST', {
+            return makeBaseRequest(`${baseUrl}/login`, 'POST', {
                 username: username,
                 password: password,
             });
@@ -33,7 +34,7 @@ export class AuthAPI {
 
     async logout() {
         try {
-            return makeBaseRequest('logout', 'GET');
+            return makeBaseRequest(`${baseUrl}/logout`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -45,7 +46,7 @@ export class AuthAPI {
 
     async register(username, password) {
         try {
-            return makeBaseRequest('register', 'POST', {
+            return makeBaseRequest(`${baseUrl}/register`, 'POST', {
                 username: username,
                 password: password,
             });
