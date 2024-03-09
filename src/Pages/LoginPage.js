@@ -71,7 +71,8 @@ export default class LoginPage {
             submitButtonText: 'Войти',
             additionButtonText: 'Еще нет аккаунта?',
         });
-        this.#signinForm = form.render();
+        form.render();
+        this.#signinForm = form.getForm();
         this.addEventListeners();
     }
 }
