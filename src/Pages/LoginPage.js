@@ -22,7 +22,6 @@ export default class LoginPage {
         const username = event.target.querySelector('#username').value;
         const password = event.target.querySelector('#password').value;
         const error = event.target.querySelector('#error-message');
-        console.log(error);
         error.textContent = '';
 
         // Отправка данных на сервер

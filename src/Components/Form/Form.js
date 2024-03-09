@@ -10,7 +10,7 @@ export default class Form {
         this.#config = config;
     }
     render() {
-        // eslint-disable-next-line prettier/prettier
+        // eslint-disable-next-line no-undef
         const template = Handlebars.templates['Form.hbs'];
 
         this.#container = document.createElement('div');
