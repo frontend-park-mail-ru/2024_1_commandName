@@ -52,10 +52,6 @@ export default class LoginPage {
     }
 
     render() {
-        // Создаем элемент div с классом signin-container
-        const signinContainer = document.createElement('div');
-        signinContainer.className = 'container';
-
         const form = new Form(this.#parent, {
             header: 'Авторизация',
             inputs: [
