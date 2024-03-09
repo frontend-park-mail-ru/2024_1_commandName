@@ -42,18 +42,13 @@ export default class LoginPage {
             });
     }
 
-    addEventListeners() {
-        this.#signinForm.addEventListener('submit', this.formCallback);
-        this.#signinForm
-            .querySelector('#additionButton')
-            .addEventListener('click', () => {
-                goToPage(RegisterPage);
-            });
-    }
-
     render() {
         const form = new Form(this.#parent, {
             header: 'Авторизация',
+            onSubmit: this.formCallback,
+            onAdditionButtonClick: () => {
+                goToPage(RegisterPage);
+            },
             inputs: [
                 {
                     id: 'username',
@@ -73,6 +68,5 @@ export default class LoginPage {
         });
         form.render();
         this.#signinForm = form.getForm();
-        this.addEventListeners();
     }
 }

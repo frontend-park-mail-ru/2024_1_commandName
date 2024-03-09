@@ -18,4 +18,7 @@ export class BaseComponent {
     getParent() {
         return this.#parent;
     }
+    getConfig() {
+        return this.#config;
+    }
 }

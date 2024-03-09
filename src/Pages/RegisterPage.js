@@ -60,18 +60,13 @@ export default class RegisterPage {
             });
     }
 
-    addEventListeners() {
-        this.#signupForm.addEventListener('submit', this.formCallback);
-        this.#signupForm
-            .querySelector('#additionButton')
-            .addEventListener('click', () => {
-                goToPage(LoginPage);
-            });
-    }
-
     render() {
         const form = new Form(this.#parent, {
             header: 'Регистрация',
+            onSubmit: this.formCallback,
+            onAdditionButtonClick: () => {
+                goToPage(LoginPage);
+            },
             inputs: [
                 {
                     id: 'username',
