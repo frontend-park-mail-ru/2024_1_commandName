@@ -95,7 +95,8 @@ export default class RegisterPage {
             submitButtonText: 'Зарегистрироваться',
             additionButtonText: 'Уже есть аккаунт?',
         });
-        this.#signupForm = form.render();
+        form.render();
+        this.#signupForm = form.getForm();
         this.addEventListeners();
     }
 }
