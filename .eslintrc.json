@@ -1,5 +1,4 @@
 {
-    "ignorePatterns": ["src/Components/**/*.precompiled.js"],
     "env": {
         "browser": true,
         "node": true,
