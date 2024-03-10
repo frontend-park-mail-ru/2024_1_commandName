@@ -5,10 +5,12 @@
     "main": "index.js",
     "scripts": {
         "start": "node server/index.js",
+        "prestart": "npm run compile:templates",
         "style:all": "npm run style:lint && npm run style:prettier",
         "style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
         "style:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
-        "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'"
+        "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
+        "compile:templates": "bash ./scripts/handlebars.sh"
     },
     "repository": {
         "type": "git",
@@ -29,5 +31,8 @@
         "express": "^4.18.3",
         "morgan": "^1.10.0",
         "prettier": "^3.2.5"
+    },
+    "dependencies": {
+        "handlebars": "^4.7.8"
     }
 }

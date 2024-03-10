@@ -2,6 +2,7 @@ import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import RegisterPage from './RegisterPage.js';
 import ChatPage from './ChatPage.js';
+import Form from '../Components/Form/Form.js';
 
 /**
  * Рендерит страницу авторизации
@@ -16,13 +17,11 @@ export default class LoginPage {
         this.#parent = parent;
     }
 
-    // TODO: create setError method
-
     formCallback(event) {
         event.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const error = document.getElementById('error-message');
+        const username = event.target.querySelector('#username').value;
+        const password = event.target.querySelector('#password').value;
+        const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
         // Отправка данных на сервер
@@ -43,63 +42,31 @@ export default class LoginPage {
             });
     }
 
-    addEventListeners() {
-        this.#signinForm.addEventListener('submit', this.formCallback);
-    }
-
     render() {
-        // Создаем элемент div с классом signin-container
-        const signinContainer = document.createElement('div');
-        signinContainer.className = 'signin-container';
-
-        // Создаем элемент form с id signin-form
-        this.#signinForm = document.createElement('form');
-        this.#signinForm.id = 'signin-form';
-
-        const header = document.createElement('h3');
-        header.textContent = 'Авторизация';
-
-        // Создаем элементы input, button и p
-        const usernameInput = document.createElement('input');
-        usernameInput.type = 'text';
-        usernameInput.id = 'username';
-        usernameInput.placeholder = 'Имя пользователя';
-        usernameInput.required = true;
-
-        const passwordInput = document.createElement('input');
-        passwordInput.type = 'password';
-        passwordInput.id = 'password';
-        passwordInput.placeholder = 'Пароль';
-        passwordInput.required = true;
-
-        const signinButton = document.createElement('button');
-        signinButton.type = 'submit';
-        signinButton.textContent = 'Войти';
-
-        this.#errorMessage = document.createElement('p');
-        this.#errorMessage.id = 'error-message';
-        this.#errorMessage.className = 'error-message';
-
-        const notExistsAccountButton = document.createElement('button');
-        notExistsAccountButton.textContent = 'Еще нет аккаунта?';
-        notExistsAccountButton.onclick = () => {
-            goToPage(RegisterPage);
-        };
-
-        // Добавляем элементы input и button в форму
-        this.#signinForm.appendChild(header);
-        this.#signinForm.appendChild(usernameInput);
-        this.#signinForm.appendChild(passwordInput);
-        this.#signinForm.appendChild(signinButton);
-        this.#signinForm.appendChild(notExistsAccountButton);
-        this.#signinForm.appendChild(this.#errorMessage);
-
-        // Добавляем форму в контейнер
-        signinContainer.appendChild(this.#signinForm);
-
-        // Добавляем контейнер в body
-        this.#parent.appendChild(signinContainer);
-
-        this.addEventListeners();
+        const form = new Form(this.#parent, {
+            header: 'Авторизация',
+            onSubmit: this.formCallback,
+            onAdditionButtonClick: () => {
+                goToPage(RegisterPage);
+            },
+            inputs: [
+                {
+                    id: 'username',
+                    type: 'text',
+                    placeholder: 'Имя пользователя',
+                    required: true,
+                },
+                {
+                    id: 'password',
+                    type: 'password',
+                    placeholder: 'Пароль',
+                    required: true,
+                },
+            ],
+            submitButtonText: 'Войти',
+            additionButtonText: 'Еще нет аккаунта?',
+        });
+        form.render();
+        this.#signinForm = form.getForm();
     }
 }

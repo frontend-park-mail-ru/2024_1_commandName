@@ -2,6 +2,7 @@ import { validatePassword, validateUsername } from '../utils/valid.js';
 import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import LoginPage from './LoginPage.js';
+import Form from '../Components/Form/Form.js';
 import ChatPage from './ChatPage.js';
 
 /**
@@ -18,11 +19,11 @@ export default class RegisterPage {
 
     formCallback(event) {
         event.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = event.target.querySelector('#username').value;
+        const password = event.target.querySelector('#password').value;
         const confirmPassword =
-            document.getElementById('confirm-password').value;
-        const error = document.getElementById('error-message');
+            event.target.querySelector('#confirm-password').value;
+        const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
         // Валидация данных
@@ -59,69 +60,38 @@ export default class RegisterPage {
             });
     }
 
-    addEventListeners() {
-        this.#signupForm.addEventListener('submit', this.formCallback);
-    }
-
     render() {
-        // Создаем элемент div с классом signup-container
-        const signupContainer = document.createElement('div');
-        signupContainer.className = 'signup-container';
-
-        // Создаем элемент form с id signup-form
-        this.#signupForm = document.createElement('form');
-        this.#signupForm.id = 'signup-form';
-
-        const header = document.createElement('h3');
-        header.textContent = 'Регистрация';
-
-        // Создаем элементы input, button и p
-        const usernameInput = document.createElement('input');
-        usernameInput.type = 'text';
-        usernameInput.id = 'username';
-        usernameInput.placeholder = 'Имя пользователя';
-        usernameInput.required = true;
-
-        const passwordInput = document.createElement('input');
-        passwordInput.type = 'password';
-        passwordInput.id = 'password';
-        passwordInput.placeholder = 'Пароль';
-        passwordInput.required = true;
-
-        const confirmPasswordInput = document.createElement('input');
-        confirmPasswordInput.type = 'password';
-        confirmPasswordInput.id = 'confirm-password';
-        confirmPasswordInput.placeholder = 'Повторите пароль';
-        confirmPasswordInput.required = true;
-
-        const signupButton = document.createElement('button');
-        signupButton.type = 'submit';
-        signupButton.textContent = 'Зарегистрироваться';
-
-        this.#errorMessage = document.createElement('p');
-        this.#errorMessage.id = 'error-message';
-        this.#errorMessage.className = 'error-message';
-
-        const existsAccountButton = document.createElement('button');
-        existsAccountButton.textContent = 'Уже есть аккаунт?';
-        existsAccountButton.onclick = () => {
-            goToPage(LoginPage);
-        };
-
-        // Добавляем элементы input и button в форму
-        this.#signupForm.appendChild(header);
-        this.#signupForm.appendChild(usernameInput);
-        this.#signupForm.appendChild(passwordInput);
-        this.#signupForm.appendChild(confirmPasswordInput);
-        this.#signupForm.appendChild(signupButton);
-        this.#signupForm.appendChild(existsAccountButton);
-        this.#signupForm.appendChild(this.#errorMessage);
-
-        // Добавляем форму в контейнер
-        signupContainer.appendChild(this.#signupForm);
-
-        this.#parent.appendChild(signupContainer);
-
+        const form = new Form(this.#parent, {
+            header: 'Регистрация',
+            onSubmit: this.formCallback,
+            onAdditionButtonClick: () => {
+                goToPage(LoginPage);
+            },
+            inputs: [
+                {
+                    id: 'username',
+                    type: 'text',
+                    placeholder: 'Имя пользователя',
+                    required: true,
+                },
+                {
+                    id: 'password',
+                    type: 'password',
+                    placeholder: 'Пароль',
+                    required: true,
+                },
+                {
+                    id: 'confirm-password',
+                    type: 'password',
+                    placeholder: 'Повторите пароль',
+                    required: true,
+                },
+            ],
+            submitButtonText: 'Зарегистрироваться',
+            additionButtonText: 'Уже есть аккаунт?',
+        });
+        form.render();
+        this.#signupForm = form.getForm();
         this.addEventListeners();
     }
 }
