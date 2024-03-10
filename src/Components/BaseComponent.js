@@ -13,7 +13,7 @@ export class BaseComponent {
 
         const container = template(this.#config);
 
-        this.#parent.innerHTML += container;
+        this.#parent.insertAdjacentHTML('beforeend', container);
     }
     getParent() {
         return this.#parent;
