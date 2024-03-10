@@ -1,17 +1,13 @@
-<aside>
+<aside class='chat'>
     <div class='chat_list_header'>
         <h2> Чаты </h2>
     </div>
-    <div class='chat_list' id='chat-list-container'>
-        <div className='seach_container'>
-            <input class='search_input' placeholder='Поиск...' />
-        </div>
-        {{#each chats}}
-            {{this.username}}
-        {{/each}}
+    <div className='seach_container'>
+        <input class='search_input' placeholder='Поиск...' />
     </div>
-    <div class='chat_menu'>
-        <div class='chat_menu_item'>Пользователь</div>
+    <div class='chat_list' id='chat-list-container'> </div>
+    <div class='chat_list_menu'>
+        <div class='chat_list_menu_item'>Пользователь</div>
     </div>
     <button id='logout_btn'>Выйти</button>
 </aside>

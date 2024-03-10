@@ -20,13 +20,8 @@ export default class ChatPage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        // TODO: очистить список чатов, получать их потом
         const chatList = new ChatList(wrapper, {
-            chats: [
-                { username: 'test' },
-                { username: 'test2' },
-                { username: 'test3' },
-            ],
+            logoutHandler: this.handleLogout,
         });
         chatList.render();
 
@@ -34,44 +29,25 @@ export default class ChatPage {
         chat.render();
 
         this.#parent.appendChild(wrapper);
-        // Создаем кнопку для выхода
-        // const logoutButton = document.createElement('button');
-        // logoutButton.id = 'logout_btn';
-        // logoutButton.textContent = 'Выйти';
-        // logoutButton.addEventListener('click', this.handleLogout);
 
-        // // Добавляем кнопку выхода в конец боковой панели
-        // aside.appendChild(logoutButton);
-
-        // this.#parent.appendChild(app);
-
-        // Получаем чаты с сервера и рендерим список чатов
-        // const chatListContainer = document.getElementById(
-        //     'chat-list-container',
-        // );
-        // const chatAPI = new ChatAPI();
-        // chatAPI
-        //     .getChats()
-        //     .then((chats) => {
-        //         chats.body.chats.forEach((chat) => {
-        //             const chatItem = document.createElement('div');
-        //             chatItem.className = 'chat_list_item';
-        //             chatItem.textContent = chat.name;
-
-        //             // Обработчик клика на чат
-        //             chatItem.addEventListener('click', () => {
-        //                 this.displayActiveChat(chat);
-        //             });
-
-        //             chatListContainer.appendChild(chatItem);
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.error('Ошибка при получении чатов:', error);
-        //     });
+        const chatAPI = new ChatAPI();
+        chatAPI
+            .getChats()
+            .then((chats) => {
+                chats.body.chats.forEach((chatConfig) => {
+                    //
+                    chatList.addChat(chatConfig, () => {
+                        this.displayActiveChat(chatConfig);
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error('Ошибка при получении чатов:', error);
+            });
     }
 
     displayActiveChat(chat) {
+        console.log(chat);
         // Очищаем контейнер активного чата
         const activeChatContainer = document.getElementById(
             'active-chat-container',
