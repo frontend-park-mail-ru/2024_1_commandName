@@ -6,7 +6,8 @@ import Form from '../Components/Form/Form.js';
 import ChatPage from './ChatPage.js';
 
 /**
- *
+ * Рендерит страницу регистрации
+ * @class Класс страницы регистрации
  */
 export default class RegisterPage {
     #parent;

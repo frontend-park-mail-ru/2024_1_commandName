@@ -1,3 +1,8 @@
+/**
+ * Базовый класс для всех компонентов, использующих шаблонизатор
+ * Рендерит шаблон
+ * @class Класс базового компонента
+ */
 export class BaseComponent {
     templateName;
     #parent;
@@ -7,6 +12,10 @@ export class BaseComponent {
         this.#parent = parent;
         this.#config = config;
     }
+
+    /*
+     * Рендерит шаблон
+     */
     render() {
         // eslint-disable-next-line no-undef
         const template = Handlebars.templates[this.templateName + '.hbs'];
@@ -15,9 +24,17 @@ export class BaseComponent {
 
         this.#parent.insertAdjacentHTML('beforeend', container);
     }
+
+    /*
+     * Возвращает родителя
+     */
     getParent() {
         return this.#parent;
     }
+    
+    /*
+     * Возвращает конфиг
+     */
     getConfig() {
         return this.#config;
     }
