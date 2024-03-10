@@ -8,6 +8,11 @@ export class BaseComponent {
     #parent;
     #config;
 
+    /*
+     * Конструктор компонента
+     * @param {HTMLElement} parent - родительский элемент
+     * @param {Object} config - конфигурация компонента
+     */
     constructor(parent, config) {
         this.#parent = parent;
         this.#config = config;
@@ -31,7 +36,7 @@ export class BaseComponent {
     getParent() {
         return this.#parent;
     }
-    
+
     /*
      * Возвращает конфиг
      */
