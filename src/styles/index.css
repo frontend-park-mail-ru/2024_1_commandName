@@ -11,7 +11,12 @@ body {
     background-color: #f0f0f0;
 }
 
-
+.full-screen {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+}
 
 
 .chat-list-container,
@@ -90,13 +95,6 @@ input {
 
 .chat-name {
     margin-bottom: 70%;
-}
-
-#app {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    overflow: hidden;
 }
 
 aside {
