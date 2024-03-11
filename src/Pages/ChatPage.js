@@ -4,6 +4,7 @@ import { goToPage } from '../utils/goToPage.js';
 import LoginPage from './LoginPage.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
+import Message from '../Components/Message/Message.js';
 
 /**
  * Рендерит страницу чатов
@@ -59,10 +60,10 @@ export default class ChatPage {
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
-            const messageElement = document.createElement('div');
-            messageElement.className = 'message';
-            messageElement.textContent = message.message_text;
-            activeChatContainer.appendChild(messageElement);
+            const messageElement = new Message(activeChatContainer, {
+                message_text: message.message_text,
+            });
+            messageElement.render();
         });
     }
 
