@@ -1,13 +1,13 @@
 .chat_list_item {
     cursor: pointer;
     padding: 15px;
-    border: 1px solid #adbfd8;
+    /* border: 1px solid #adbfd8; */
     border-radius: 10px;
     margin: 4px 0px;
 }
 
 .chat_list_item:hover {
-    transition: 0.5s;
-    background-color: #b6c9e4;
-    border-color: #b6c9e4;
+    transition: 0.9s;
+    background-color: #b0c1da;
+    border-color: #b0c1da;
 }
