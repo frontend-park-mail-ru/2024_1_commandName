@@ -40,7 +40,7 @@ export function validatePassword(password) {
 
     // Проверка длины пароля
     if (password.length < minLength) {
-        result.message = `Пароля должен содержать не менее ${minLength} символов`;
+        result.message = `Пароль должен содержать не менее ${minLength} символов`;
         return result;
     }
 
@@ -80,17 +80,17 @@ export function validateUsername(username) {
 
     // Проверка длины никнейма
     if (username.length < minLength) {
-        result.message = `Никнейм должен содержать не менее ${minLength} символов`;
+        result.message = `Имя пользователя должно содержать не менее ${minLength} символов`;
         return result;
     }
 
     // Проверка допустимых символов
     if (!allowedCharsRegex.test(username)) {
         result.message =
-            'Никнейм может содержать только латинские буквы ' +
+            'Имя пользователя может содержать только латинские буквы ' +
             'в верхнем или нижнем регистре, цифры и символ подчеркивания';
         return result;
     }
 
-    return { success: true, message: 'Никнейм валидный' };
+    return { success: true, message: 'Имя пользователя валидно' };
 }
