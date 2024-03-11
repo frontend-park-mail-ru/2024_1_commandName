@@ -93,6 +93,5 @@ export default class RegisterPage {
         });
         form.render();
         this.#signupForm = form.getForm();
-        this.addEventListeners();
     }
 }
