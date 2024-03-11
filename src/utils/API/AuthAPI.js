@@ -1,10 +1,16 @@
 import { makeBaseRequest } from './common.js';
 import { baseUrl } from './config.js';
+
 /**
- * Рендерит страницу ошибки 404
- * @class Класс страницы 404 ошибки
+ * Предоставляет методы для взаимодействия с API авторизацией
+ * @class AuthAPI
  */
 export class AuthAPI {
+    /**
+     * Выполняет запрос на сервер для для проверки авторизованности пользователя.
+     * @returns {{status: Number, body: Object}} - Json ответа.
+     * @throws Если произошла ошибка при выполнении запроса.
+     */
     async checkAuth() {
         try {
             return makeBaseRequest(`${baseUrl}/checkAuth`, 'GET');
@@ -17,6 +23,13 @@ export class AuthAPI {
         }
     }
 
+    /**
+     * Выполняет запрос на сервер для аутентификации пользователя.
+     * @param username - Имя пользователя для аутентификации.
+     * @param password - Пароль пользователя для аутентификации.
+     * @returns {{status: Number, body: Object}} - Json ответа.
+     * @throws Если произошла ошибка при выполнении запроса.
+     */
     async login(username, password) {
         try {
             return makeBaseRequest(`${baseUrl}/login`, 'POST', {
@@ -32,6 +45,11 @@ export class AuthAPI {
         }
     }
 
+    /**
+     * Выполняет запрос на сервер для разлогин пользователя.
+     * @returns {{status: Number, body: Object}} - Json ответа.
+     * @throws Если произошла ошибка при выполнении запроса.
+     */
     async logout() {
         try {
             return makeBaseRequest(`${baseUrl}/logout`, 'GET');
@@ -44,6 +62,13 @@ export class AuthAPI {
         }
     }
 
+    /**
+     * Выполняет запрос на сервер для регистрации пользователя.
+     * @param username - Имя пользователя для регистрации.
+     * @param password - Пароль пользователя для регистрации.
+     * @returns {{status: Number, body: Object}} - Json ответа.
+     * @throws Если произошла ошибка при выполнении запроса.
+     */
     async register(username, password) {
         try {
             return makeBaseRequest(`${baseUrl}/register`, 'POST', {
