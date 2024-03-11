@@ -48,7 +48,6 @@ export default class ChatPage {
     }
 
     displayActiveChat(chat) {
-        console.log(chat);
         // Очищаем контейнер активного чата
         const activeChatContainer = document.getElementById(
             'active-chat-container',
