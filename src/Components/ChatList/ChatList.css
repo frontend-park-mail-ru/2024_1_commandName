@@ -5,9 +5,12 @@ aside.chat {
     flex-direction: column;
     height: 100%;
     flex: 0 0 25%;
+    padding: 5px;
 }
 
 .chat-list-container {
+    height: 700px;
+    overflow-y: auto;
     width: 350px;
     display: flex;
     flex-direction: column;
@@ -33,12 +36,6 @@ aside.chat {
     height: 100%;
 }
 
-.chat_list_item {
-    padding: 15px;
-    border: 1px solid silver;
-    margin: 2px;
-}
-
 .chat_list_menu {
     background-color: #C9D8ED;
     flex: 0 0 10%;
@@ -47,4 +44,8 @@ aside.chat {
     justify-content: space-between;
     padding-left: 25px;
     padding-right: 25px;
+}
+
+.search_input {
+    width: 100%;
 }

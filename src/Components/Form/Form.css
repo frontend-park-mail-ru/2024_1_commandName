@@ -17,21 +17,11 @@
 }
 
 .form-button {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    background-color: #C9D8ED;
-    color: black;
-    cursor: pointer;
+    /* TODO выделить кнопку входа и регистрации */
 }
 
 .form-button:hover {
-    transition: .5s;
-    border: 1px solid #d9e1ec;
-    background-color: #d9e1ec;
+    /* TODO */
 }
 
 .form-error-message {
