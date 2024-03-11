@@ -8,20 +8,6 @@ aside.chat {
     padding: 5px;
 }
 
-.chat-list-container {
-    height: 700px;
-    overflow-y: auto;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #A5B6CF;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 .chat_list_header {
     background-color: #A5B6CF;
     display: flex;
@@ -47,5 +33,7 @@ aside.chat {
 }
 
 .search_input {
+    margin-top: 0;
+    margin-bottom: 4px;
     width: 100%;
 }
