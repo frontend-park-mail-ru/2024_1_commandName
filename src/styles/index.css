@@ -11,10 +11,13 @@ body {
     background-color: #f0f0f0;
 }
 
+.full-screen {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+}
 
-
-
-.chat-list-container,
 .active-chat-container {
     width: 350px;
     display: flex;
@@ -92,13 +95,6 @@ input {
     margin-bottom: 70%;
 }
 
-#app {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    overflow: hidden;
-}
-
 aside {
     display: flex;
     justify-content: space-between;
@@ -118,35 +114,6 @@ main {
     justify-content: space-between;
 }
 
-.chat_list_header {
-    background-color: #A5B6CF;
-    display: flex;
-    align-items: center;
-    padding-left: 25px;
-    flex: 0 0 10%;
-}
-
-.chat_list {
-    background-color: #A5B6CF;
-    overflow: auto;
-    height: 100%;
-}
-
-.chat_list_item {
-    padding: 15px;
-    border: 1px solid silver;
-    margin: 2px;
-}
-
-.chat_menu {
-    background-color: #C9D8ED;
-    flex: 0 0 10%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 25px;
-    padding-right: 25px;
-}
 
 .chat_header {
     width: 75%;

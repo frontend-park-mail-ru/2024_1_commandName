@@ -1,5 +1,7 @@
 /**
  * Базовый запрос для API
+ * @return {Promise<Response>} - Json ответа
+ * @throws Если произошла ошибка при выполнении запроса.
  */
 export async function makeBaseRequest(url, method, body) {
     const options = {

@@ -17,5 +17,5 @@ api.checkAuth()
         }
     })
     .catch((error) => {
-        console.error('Login failed:', error);
+        console.error('Failed:', error);
     });

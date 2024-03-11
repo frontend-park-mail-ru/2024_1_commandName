@@ -8,7 +8,8 @@ import { baseUrl } from './config.js';
 export class ChatAPI {
     /**
      * Получает предварительный просмотр чатов для пользователя
-     * @returns {Promise<Response>} Ответ от сервера
+     * @returns {{status: Number, body: Object}} - Json ответа.
+     * @throws Если произошла ошибка при выполнении запроса.
      */
     async getChats() {
         try {
