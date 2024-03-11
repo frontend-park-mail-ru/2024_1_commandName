@@ -54,8 +54,25 @@ export default class ChatPage {
         );
         activeChatContainer.innerHTML = '';
 
+        const chatInput = this.#parent.querySelector('#chat_input');
+
+        let chatName = `${chat.name} `;
+        switch (chat.type) {
+            case 'person':
+                chatName += '(Личное)';
+                chatInput.style.display = 'flex';
+                break;
+            case 'channel':
+                chatName += '(Канал)';
+                chatInput.style.display = 'none';
+                break;
+            case 'group':
+                chatName += '(Группа)';
+                chatInput.style.display = 'flex';
+                break;
+        }
         // Отображаем содержимое выбранного чата
-        document.getElementById('chat_header').textContent = chat.name;
+        document.getElementById('chat_header').textContent = chatName;
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
