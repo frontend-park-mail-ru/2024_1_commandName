@@ -2,12 +2,18 @@
     <div class='chat_header'>
         <h2 id='chat_header'>Выберите чат</h2>
     </div>
-    <div className='chat'>
+    <div class='chat'>
         <div class='chat_width message_list' id='active-chat-container'></div>
         <div id='chat_input' class='chat_width input_block'>
             {{! TODO: добавить иконки }}
             <button class='input_attach' disabled>*скрепка*</button>
-            <input class='input_text' type='text' placeholder='Сообщение...' />
+            <input
+                id='input_message'
+                class='input_text'
+                type='text'
+                placeholder='Сообщение...'
+                value='{{inputMessageValue}}'
+            />
             <button class='input_send' disabled>-></button>
         </div>
     </div>
