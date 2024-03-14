@@ -1,12 +1,26 @@
-<div class="form-container">
-    <form id='form' class="form" novalidate>
+<div class='form-container'>
+    <form id='form' class='form' novalidate>
         <h3>{{header}}</h3>
         {{#each inputs}}
-            <input class="form-input" type="{{this.type}}" id="{{this.id}}" placeholder="{{this.placeholder}}" {{#if required}}required{{/if}} />
+            <input
+                class='form-input'
+                type='{{this.type}}'
+                id='{{this.id}}'
+                placeholder='{{this.placeholder}}'
+                autocomplete='{{autocomplete}}'
+                {{#if required}} required {{/if}}
+            />
         {{/each}}
 
-        <button class="form-button" type='submit' id="submitButton">{{submitButtonText}}</button>
-        <button class="form-button" id="additionButton">{{additionButtonText}}</button>
-        <p class="form-error-message" id="error-message"></p>
+        <button
+            class='form-button'
+            type='submit'
+            id='submitButton'
+        >{{submitButtonText}}</button>
+        <button
+            class='form-button'
+            id='additionButton'
+        >{{additionButtonText}}</button>
+        <p class='form-error-message' id='error-message'></p>
     </form>
 </div>
