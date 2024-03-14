@@ -11,9 +11,9 @@ main {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
 
-    background-color: #C9D8ED;
+    background-color: var(--blue-light);
     display: flex;
     flex: 0 0 10%;
     align-items: center;
@@ -42,23 +42,6 @@ main {
     flex-direction: column;
 }
 
-.message {
-    border-radius: 10px 10px 10px 1px;
-    background-color: #c2c2c2;
-    padding: 10px;
-    max-width: 75%;
-    margin-left: 0;
-    margin-right: auto;
-    margin-bottom: 5px;
-}
-
-.my_message {
-    border-radius: 10px 10px 1px 10px;
-    background-color: #A5B6CF;
-    margin-left: auto;
-    margin-right: 0;
-}
-
 .input_block {
     flex: 0 0 10%;
     display: flex;
@@ -81,6 +64,6 @@ main {
     width: 100%;
     padding: auto;
     padding-left: 15px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     margin: 10px 10px;
 }

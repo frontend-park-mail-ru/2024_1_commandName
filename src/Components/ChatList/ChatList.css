@@ -1,5 +1,5 @@
 aside.chat {
-    background-color: #A5B6CF;
+    background-color: var(--blue);
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -9,7 +9,7 @@ aside.chat {
 }
 
 .chat_list_header {
-    background-color: #A5B6CF;
+    background-color: var(--blue);
     display: flex;
     align-items: center;
     padding-left: 25px;
@@ -17,13 +17,13 @@ aside.chat {
 }
 
 .chat_list {
-    background-color: #A5B6CF;
+    background-color: var(--blue);
     overflow: auto;
     height: 100%;
 }
 
 .chat_list_menu {
-    background-color: #C9D8ED;
+    background-color: var(--blue-light);
     flex: 0 0 10%;
     display: flex;
     align-items: center;

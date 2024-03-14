@@ -1,9 +1,16 @@
 .message {
-    border-radius: 10px 10px 10px 1px;
-    background-color: #c2c2c2;
+    border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 1px;
+    background-color: var(--gray);
     padding: 10px;
     max-width: 75%;
     margin-left: 0;
     margin-right: auto;
     margin-bottom: 5px;
+}
+
+.my_message {
+    border-radius: var(--border-radius) var(--border-radius) 1px var(--border-radius);
+    background-color: var(--green-light);
+    margin-left: auto;
+    margin-right: 0;
 }
