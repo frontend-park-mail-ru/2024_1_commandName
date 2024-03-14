@@ -12,6 +12,10 @@ import Message from '../Components/Message/Message.js';
  */
 export default class ChatPage {
     #parent;
+    #chat;
+    #chatList;
+    #messageDrafts = {};
+    #currentChatId;
 
     constructor(parent) {
         this.#parent = parent;
@@ -21,13 +25,15 @@ export default class ChatPage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        const chatList = new ChatList(wrapper, {
+        this.#chatList = new ChatList(wrapper, {
             logoutHandler: this.handleLogout,
         });
-        chatList.render();
+        this.#chatList.render();
 
-        const chat = new Chat(wrapper, {});
-        chat.render();
+        this.#chat = new Chat(wrapper, {
+            inputMessaegHandler: this.messageDraftHandler,
+        });
+        this.#chat.render();
 
         this.#parent.appendChild(wrapper);
 
@@ -37,7 +43,11 @@ export default class ChatPage {
             .then((chats) => {
                 chats.body.chats.forEach((chatConfig) => {
                     //
-                    chatList.addChat(chatConfig, () => {
+                    this.#chatList.addChat(chatConfig, () => {
+                        this.#currentChatId = chatConfig.id;
+                        this.#chat.setInputMessageValue(
+                            this.#messageDrafts[chatConfig.id] || '',
+                        );
                         this.displayActiveChat(chatConfig);
                     });
                 });
@@ -46,6 +56,10 @@ export default class ChatPage {
                 console.error('Ошибка при получении чатов:', error);
             });
     }
+
+    messageDraftHandler = (event) => {
+        this.#messageDrafts[this.#currentChatId] = event.target.value;
+    };
 
     displayActiveChat(chat) {
         // Очищаем контейнер активного чата

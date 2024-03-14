@@ -73,18 +73,21 @@ export default class RegisterPage {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    autocomplete: 'username',
                     required: true,
                 },
                 {
                     id: 'password',
                     type: 'password',
                     placeholder: 'Пароль',
+                    autocomplete: 'new-password',
                     required: true,
                 },
                 {
                     id: 'confirm-password',
                     type: 'password',
                     placeholder: 'Повторите пароль',
+                    autocomplete: 'new-password',
                     required: true,
                 },
             ],
@@ -93,6 +96,5 @@ export default class RegisterPage {
         });
         form.render();
         this.#signupForm = form.getForm();
-        this.addEventListeners();
     }
 }

@@ -2,13 +2,13 @@
 
 Фронтенд-репозиторий проекта Messenger команды commandName
 
-## Деплой и API
+## Деплой
 
-Деплой и API находятся в репозитории [Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
+[**chatme.site**](https://chatme.site)
 
-##
+## API
 
-[Backend](https://github.com/go-park-mail-ru/2024_1_commandName)
+[**API**](hthttps://github.com/go-park-mail-ru/2024_1_commandName/blob/main/docs/swagger.yaml)
 
 ## Авторы
 
@@ -33,5 +33,5 @@
 
 ## Правила репозитория
 
-- Коментарии к коммитам пишутся на русском языке
-- На pull requests установлены проверки линтером
+-   Коментарии к коммитам пишутся на русском языке
+-   На pull requests установлены проверки линтером

@@ -6,6 +6,9 @@
  * @property {string} message - Сообщение о результате валидации.
  */
 export function validateEmail(email) {
+    if (email.length == 0) {
+        return { success: false, message: 'Заполните поле Email' };
+    }
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@”]+(\.[^<>()[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegex.test(email)) {
@@ -23,6 +26,10 @@ export function validateEmail(email) {
  * @property {string} message - Сообщение о результате валидации.
  */
 export function validatePassword(password) {
+    if (password.length == 0) {
+        return { success: false, message: 'Заполните поле Пароль' };
+    }
+
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
@@ -33,7 +40,7 @@ export function validatePassword(password) {
 
     // Проверка длины пароля
     if (password.length < minLength) {
-        result.message = `Пароля должен содержать не менее ${minLength} символов`;
+        result.message = `Пароль должен содержать не менее ${minLength} символов`;
         return result;
     }
 
@@ -63,6 +70,9 @@ export function validatePassword(password) {
  * @property {string} message - Сообщение о результате валидации.
  */
 export function validateUsername(username) {
+    if (username.length == 0) {
+        return { success: false, message: 'Заполните поле Имя пользователя' };
+    }
     const minLength = 4;
     const allowedCharsRegex = /^[a-zA-Z0-9_]+$/;
 
@@ -70,17 +80,17 @@ export function validateUsername(username) {
 
     // Проверка длины никнейма
     if (username.length < minLength) {
-        result.message = `Никнейм должен содержать не менее ${minLength} символов`;
+        result.message = `Имя пользователя должно содержать не менее ${minLength} символов`;
         return result;
     }
 
     // Проверка допустимых символов
     if (!allowedCharsRegex.test(username)) {
         result.message =
-            'Никнейм может содержать только латинские буквы ' +
+            'Имя пользователя может содержать только латинские буквы ' +
             'в верхнем или нижнем регистре, цифры и символ подчеркивания';
         return result;
     }
 
-    return { success: true, message: 'Никнейм валидный' };
+    return { success: true, message: 'Имя пользователя валидно' };
 }

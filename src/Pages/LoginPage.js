@@ -24,13 +24,21 @@ export default class LoginPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
+        if (username.length == 0) {
+            error.textContent = 'Заполните поле Имя пользователя';
+            return;
+        }
+        if (password.length == 0) {
+            error.textContent = 'Заполните поле Пароль';
+            return;
+        }
+
         // Отправка данных на сервер
         const api = new AuthAPI();
         api.login(username, password)
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    console.log('Successfully logged in');
                     goToPage(ChatPage);
                 } else {
                     error.textContent = data.body.error;
@@ -54,12 +62,14 @@ export default class LoginPage {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    autocomplete: 'username',
                     required: true,
                 },
                 {
                     id: 'password',
                     type: 'password',
                     placeholder: 'Пароль',
+                    autocomplete: 'current-password',
                     required: true,
                 },
             ],
