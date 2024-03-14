@@ -6,6 +6,10 @@
 
 [**chatme.site**](https://chatme.site)
 
+## API
+
+[**API**](hthttps://github.com/go-park-mail-ru/2024_1_commandName/blob/main/docs/swagger.yaml)
+
 ## Авторы
 
 -   [**Наумов Иван**](https://github.com/IvanNaum) _frontend + team-lead_
