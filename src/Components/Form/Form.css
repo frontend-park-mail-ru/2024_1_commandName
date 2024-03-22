@@ -22,15 +22,8 @@
 }
 
 .form-input {
+    margin-top: 3px;
     background-color: var(--form-input-color);
-}
-
-.form-button {
-    /* TODO выделить кнопку входа и регистрации */
-}
-
-.form-button:hover {
-    /* TODO */
 }
 
 .form-error-message {

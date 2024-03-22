@@ -53,6 +53,11 @@ export default class LoginPage {
             },
             inputs: [
                 {
+                    id: 'avatar',
+                    type: 'file',
+                    placeholder: 'Фотография',
+                }, // TODO: не работает
+                {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
