@@ -22,4 +22,28 @@ export class ProfileAPI {
             throw error;
         }
     }
+
+    async editProfile(newProfile) {
+        try {
+            let editedFieldCount = 0;
+            Object.values(newProfile).reduce((count, value) => {
+                if (value !== '') {
+                    editedFieldCount++;
+                }
+            }, 0);
+
+            console.log(editedFieldCount);
+
+            return makeBaseRequest(`${baseUrl}/updateProfileInfo`, 'POST', {
+                numOfUpdatedFields: editedFieldCount,
+                user: newProfile,
+            });
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

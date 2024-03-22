@@ -21,9 +21,7 @@ export default class ProfilePage {
                     throw new Error('Пришел не 200 статус');
                 }
 
-                let profileConfig = responce.body.user;
-                // profileConfig.avatar = 
-
+                const profileConfig = responce.body.user;
                 const profile = new Profile(this.#parent, profileConfig);
                 console.log(profileConfig);
                 profile.render();
