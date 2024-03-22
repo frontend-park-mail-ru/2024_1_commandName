@@ -1,5 +1,5 @@
 aside.chat {
-    background-color: var(--blue);
+    background-color: var(--aside-color);
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -9,7 +9,7 @@ aside.chat {
 }
 
 .chat_list_header {
-    background-color: var(--blue);
+    background-color: var(--aside-color);
     display: flex;
     align-items: center;
     padding-left: 25px;
@@ -17,7 +17,7 @@ aside.chat {
 }
 
 .chat_list {
-    background-color: var(--blue);
+    background-color: var(--aside-color);
     overflow: auto;
     height: 100%;
 }
@@ -30,6 +30,7 @@ aside.chat {
     justify-content: space-between;
     padding-left: 25px;
     padding-right: 25px;
+    border-radius: var(--border-radius);
 }
 
 .search_input {

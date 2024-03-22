@@ -1,9 +1,16 @@
+:root {
+    --chat-bg-color: var(--blue);
+    --chat-input-color: var(--blue-light);
+    --chat-input-color-hover: var(--blue-light-hover);
+}
+
 main {
     height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: var(--chat-bg-color);
 }
 
 
@@ -49,6 +56,10 @@ main {
     justify-content: space-between;
 }
 
+.chat-input {
+    background-color: var(--chat-input-color);
+}
+
 .input_attach,
 .input_send {
     box-sizing: border-box;
@@ -56,6 +67,12 @@ main {
     width: 100%;
     flex: 0 0 10%;
     padding: auto;
+}
+
+.input_attach:hover,
+.input_send:hover {
+    background-color: var(--chat-input-color-hover);
+    transition: var(--hover-transition);
 }
 
 .input_text {

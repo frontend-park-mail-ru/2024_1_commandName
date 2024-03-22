@@ -1,0 +1,26 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fullscreen-container {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--aside-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile h4 {
+    margin: 15px 0;
+}
+
+#profile-avatar {
+    width: 100px;
+    border-radius: 50%;
+}

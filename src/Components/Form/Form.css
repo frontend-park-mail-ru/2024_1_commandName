@@ -1,3 +1,8 @@
+:root {
+    --form-bgc: var(--blue-light);
+    --form-input-color: var(--white);
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -10,10 +15,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--blue);
+    background-color: var(--form-bgc);
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-input {
+    background-color: var(--form-input-color);
 }
 
 .form-button {
