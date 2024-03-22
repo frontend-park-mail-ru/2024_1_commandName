@@ -33,6 +33,7 @@ export function validatePassword(password) {
     const minLength = 8;
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
+    const latinLettersRegex = /^[a-zA-Z]+$/;
     const digitRegex = /[0-9]/;
     const specialCharsRegex = /[~!@#$%^&*_+()[\]{}></\\|"'.,:;-]/;
 
@@ -49,12 +50,12 @@ export function validatePassword(password) {
         !uppercaseRegex.test(password) ||
         !lowercaseRegex.test(password) ||
         !digitRegex.test(password) ||
-        !specialCharsRegex.test(password)
+        !specialCharsRegex.test(password) ||
+        !latinLettersRegex.test(password)
     ) {
         result.message =
-            'Пароль должен содержать как минимум одну заглавную и одну строчную букву, ' +
-            'одну цифру и один специальный символ из: ' +
-            '~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | " \' . , :';
+            'Пароль должен содержать состоять из латинских символов и содержать:\nодну заглавную\nодну строчную букву\n' +
+            'одну цифру\nодин специальный символ';
         return result;
     }
 
