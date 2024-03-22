@@ -68,7 +68,7 @@ export default class ChatPage {
         );
         activeChatContainer.innerHTML = '';
 
-        const chatInput = this.#parent.querySelector('#chat_input');
+        const chatInput = this.#parent.querySelector('#chat_input_block');
 
         let chatName = `${chat.name} `;
         switch (chat.type) {
