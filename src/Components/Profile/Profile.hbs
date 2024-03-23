@@ -8,12 +8,14 @@
                 <h2 class='text_center profile_title'>Профиль</h2>
             </div>
             <div class='flex_center'>
-                <img
-                    id='profile-avatar'
-                    src='{{avatar}}'
-                    alt='Не удалось загрузить фотографию профиля'
-                    onerror="if (this.src != 'img/avatar.jpg') this.src = 'img/avatar.jpg';"
-                />
+                <div class='img-circle'>
+                    <img
+                        id='profile-avatar'
+                        src='{{avatar}}'
+                        alt='Не удалось загрузить фотографию профиля'
+                        onerror="if (this.src != 'img/avatar.jpg') this.src = 'img/avatar.jpg';"
+                    />
+                </div>
             </div>
             <h4 class='text_center' id='profile__name'>{{name}} {{surname}}</h4>
             <hr />
