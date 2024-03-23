@@ -45,6 +45,25 @@ export class ProfileAPI {
         }
     }
 
+    async uploadAvatar(file) {
+        // TODO: реализовать
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            return makeBaseRequest(
+                `${baseUrl}/updateProfileInfo`,
+                'POST',
+                formData,
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
     async changePassword(oldPassword, newPassword) {
         try {
             return makeBaseRequest(`${baseUrl}/changePassword`, 'POST', {

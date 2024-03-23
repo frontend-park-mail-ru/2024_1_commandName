@@ -28,6 +28,24 @@ export default class LoginPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
+        const avatartField = target.querySelector('#avatar');
+        if (avatartField.files[0]) {
+            const api = new ProfileAPI();
+            api.uploadAvatar(avatartField.files[0])
+                .then((data) => {
+                    if (data.status === 200) {
+                        // Обработка успешной авторизации
+                        goToPage(ProfilePage);
+                    } else {
+                        error.textContent = data.body.error;
+                    }
+                })
+                .catch((error) => {
+                    alert('Что-то пошло не так');
+                    console.error('Edit avatar failed:', error);
+                });
+        }
+
         if (profileFields.username) {
             const valid = validateUsername(profileFields.username);
             if (!valid.success) {
