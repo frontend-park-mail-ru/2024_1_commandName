@@ -30,3 +30,7 @@
     color: red;
     margin: 0px;
 }
+
+.form label {
+    padding-left: 5px;
+}
