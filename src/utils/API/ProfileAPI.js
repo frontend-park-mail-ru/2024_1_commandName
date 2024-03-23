@@ -23,17 +23,10 @@ export class ProfileAPI {
         }
     }
 
-    async editProfile(newProfile) {
+    async editProfile(newProfile, editedFieldCnt) {
         try {
-            let editedFieldCount = 0;
-            Object.values(newProfile).reduce((count, value) => {
-                if (value !== '') {
-                    editedFieldCount++;
-                }
-            }, 0);
-
             return makeBaseRequest(`${baseUrl}/updateProfileInfo`, 'POST', {
-                numOfUpdatedFields: editedFieldCount,
+                numOfUpdatedFields: editedFieldCnt,
                 user: newProfile,
             });
         } catch (error) {
@@ -46,14 +39,14 @@ export class ProfileAPI {
     }
 
     async uploadAvatar(file) {
-        // TODO: реализовать
+        const formData = new FormData();
+        formData.append('avatar', file);
         try {
-            const formData = new FormData();
-            formData.append('file', file);
             return makeBaseRequest(
-                `${baseUrl}/updateProfileInfo`,
+                `${baseUrl}/uploadAvatar`,
                 'POST',
                 formData,
+                null,
             );
         } catch (error) {
             console.error(

@@ -3,15 +3,24 @@
  * @return {Promise<Response>} - Json ответа
  * @throws Если произошла ошибка при выполнении запроса.
  */
-export async function makeBaseRequest(url, method, body) {
+export async function makeBaseRequest(
+    url,
+    method,
+    body,
+    contentType = 'application/json',
+) {
     const options = {
         method: method,
-        headers: new Headers({ 'Content-Type': 'application/json' }),
         credentials: 'include',
     };
-
     if (body && method.toLowerCase() !== 'GET') {
-        options.body = JSON.stringify(body);
+        options.body = body;
+    }
+    if (contentType) {
+        options.headers = new Headers({
+            'Content-Type': contentType,
+        });
+        options.body = JSON.stringify(options.body);
     }
 
     const response = await fetch(url, options);

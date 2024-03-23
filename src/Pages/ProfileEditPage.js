@@ -29,7 +29,7 @@ export default class LoginPage {
         error.textContent = '';
 
         const avatartField = target.querySelector('#avatar');
-        if (avatartField.files[0]) {
+        if (avatartField.files.length > 0) {
             const api = new ProfileAPI();
             api.uploadAvatar(avatartField.files[0])
                 .then((data) => {
@@ -62,9 +62,19 @@ export default class LoginPage {
             }
         }
 
+        let editedFieldCnt = 0;
+        Object.values(profileFields).reduce((count, value) => {
+            if (value !== '') {
+                editedFieldCnt++;
+            }
+        }, 0);
+
+        if (editedFieldCnt == 0) {
+            return;
+        }
         // Отправка данных на сервер
         const api = new ProfileAPI();
-        api.editProfile(profileFields)
+        api.editProfile(profileFields, editedFieldCnt)
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
@@ -87,11 +97,6 @@ export default class LoginPage {
                 goToPage(ProfilePage);
             },
             inputs: [
-                {
-                    id: 'avatar',
-                    type: 'file',
-                    placeholder: 'Фотография',
-                }, // TODO: не работает
                 {
                     id: 'username',
                     type: 'text',
@@ -116,6 +121,11 @@ export default class LoginPage {
                     id: 'about',
                     type: 'text',
                     placeholder: 'О себе',
+                },
+                {
+                    id: 'avatar',
+                    type: 'file',
+                    placeholder: 'Фотография',
                 },
             ],
             submitButtonText: 'Редактировать',
