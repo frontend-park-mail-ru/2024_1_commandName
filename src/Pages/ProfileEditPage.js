@@ -2,6 +2,7 @@ import Form from '../Components/Form/Form.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { goToPage } from '../utils/goToPage.js';
 import ProfilePage from './ProfilePage.js';
+import { validateUsername, validateEmail } from '../utils/valid.js';
 
 /**
  * Рендерит страницу редактирования профиля
@@ -26,6 +27,22 @@ export default class LoginPage {
         };
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
+
+        if (profileFields.username) {
+            const valid = validateUsername(profileFields.username);
+            if (!valid.success) {
+                error.textContent = valid.message;
+                return;
+            }
+        }
+
+        if (profileFields.email) {
+            const valid = validateEmail(profileFields.email);
+            if (!valid.success) {
+                error.textContent = valid.message;
+                return;
+            }
+        }
 
         // Отправка данных на сервер
         const api = new ProfileAPI();
