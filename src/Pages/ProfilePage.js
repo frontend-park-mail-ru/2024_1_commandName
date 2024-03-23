@@ -23,7 +23,6 @@ export default class ProfilePage {
 
                 const profileConfig = responce.body.user;
                 const profile = new Profile(this.#parent, profileConfig);
-                console.log(profileConfig);
                 profile.render();
             })
             .catch((error) => {

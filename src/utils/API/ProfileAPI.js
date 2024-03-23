@@ -32,11 +32,24 @@ export class ProfileAPI {
                 }
             }, 0);
 
-            console.log(editedFieldCount);
-
             return makeBaseRequest(`${baseUrl}/updateProfileInfo`, 'POST', {
                 numOfUpdatedFields: editedFieldCount,
                 user: newProfile,
+            });
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async changePassword(oldPassword, newPassword) {
+        try {
+            return makeBaseRequest(`${baseUrl}/changePassword`, 'POST', {
+                oldPassword: oldPassword,
+                newPassword: newPassword,
             });
         } catch (error) {
             console.error(
