@@ -35,4 +35,8 @@ export default class ChatList extends BaseComponent {
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
     }
+
+    setUserName(user) {
+        this.getParent().querySelector('#profile_btn').innerHTML = user;
+    }
 }
