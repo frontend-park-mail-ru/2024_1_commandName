@@ -10,7 +10,7 @@
 }
 
 .chat_list_item:hover {
-    transition: var(--hover-transition);
+    transition: var(--transition);
     background-color: var(--chat-list-item-color-hover);
     border-color: var(--chat-list-item-color-hover);
 }
