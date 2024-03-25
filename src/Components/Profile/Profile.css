@@ -29,7 +29,23 @@
     padding: 5px;
 }
 
+.profile_back_btn {
+    position: absolute;
+    height: 100%;
+}
+
+.profile_header {
+    display: flex;
+    width: 100%;
+}
+
+.profile_title {
+    width: 100%;
+}
+
 #profile-avatar {
-    width: 100px;
-    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+    width: 150px;
+    height: 154px;
 }

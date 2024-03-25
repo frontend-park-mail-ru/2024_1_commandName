@@ -1,17 +1,30 @@
 <div class='fullscreen-container'>
     <div class='center-container'>
         <div class='profile'>
-            <h2 class='text_center'>Профиль</h2>
+            <div class='profile_header'>
+                <div class='profile_back_btn'>
+                    <button id='backButton'>&lt;</button>
+                </div>
+                <h2 class='text_center profile_title'>Профиль</h2>
+            </div>
             <div class='flex_center'>
-                <picture >
-                    <source srcset={{avatar}} />
-                    <img id='profile-avatar' src="img/avatar.jpg" alt='Не удалось загрузить фотографию профиля'/>
-                </picture>
+                <div class='img-circle'>
+                    <picture>
+                        <source srcset='img/avatar.jpg' />
+                        <img id='profile-avatar' src="{{avatar}}" alt='Не удалось загрузить фотографию профиля'/>
+                    </picture>
+                </div>
             </div>
             <p class='text_center profile_field' id='profile__name'>{{name}} {{surname}}</h4>
-            <p class='text_center profile_field' id='profile__username'>{{username}}</h4>
+            <p class='text_center profile_field' id='profile__username'>@{{username}}</h4>
             <p class='text_center profile_field' id='profile__email'>{{email}}</h4>
             <p class='text_center profile_description' id='profile__about'>{{about}}</p>
+            <div class='flex_center'>
+                <button id='editButton'>Редактиоровать профиль</button>
+            </div>
+            <div class='flex_center'>
+                <button id='changePasswordButton'>Изменить пароль</button>
+            </div>
         </div>
     </div>
 </div>

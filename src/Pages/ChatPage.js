@@ -5,6 +5,7 @@ import LoginPage from './LoginPage.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
+import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 
 /**
  * Рендерит страницу чатов
@@ -55,6 +56,22 @@ export default class ChatPage {
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
             });
+
+        const profileAPI = new ProfileAPI();
+        profileAPI
+            .getProfile()
+            .then((responce) => {
+                if (responce.status != 200) {
+                    throw new Error('Пришел не 200 статус');
+                }
+                const profile = responce.body.user;
+                this.#chatList.setUserName(
+                    `${profile.name} ${profile.surname}`,
+                );
+            })
+            .catch((error) => {
+                console.error('Ошибка при получении профиля:', error);
+            });
     }
 
     messageDraftHandler = (event) => {
@@ -68,7 +85,7 @@ export default class ChatPage {
         );
         activeChatContainer.innerHTML = '';
 
-        const chatInput = this.#parent.querySelector('#chat_input');
+        const chatInput = this.#parent.querySelector('#chat_input_block');
 
         let chatName = `${chat.name} `;
         switch (chat.type) {

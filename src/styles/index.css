@@ -55,6 +55,19 @@ button:hover {
     background-color: var(--blue-hover);
 }
 
+button.inline_button {
+    background-color: transparent;
+    border: transparent;
+}
+
+button.inline_button:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: var(--hover-transition);
+    color: rgb(50, 50, 50);
+}
+
+
 input {
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -75,4 +88,12 @@ input {
 
 .text_center {
     text-align: center;
+}
+
+.img-circle {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }

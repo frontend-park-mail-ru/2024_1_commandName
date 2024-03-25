@@ -36,6 +36,8 @@ export function validatePassword(password) {
     const digitRegex = /[0-9]/;
     const specialCharsRegex = /[~!@#$%^&*_+()[\]{}></\\|"'.,:;-]/;
 
+    const passwordRegex = /^[a-zA-Z0-9~!@#$%^&*_+()[\]{}></\\|"'.,:;-]+$/;
+
     const result = { success: false, message: '' };
 
     // Проверка длины пароля
@@ -46,15 +48,15 @@ export function validatePassword(password) {
 
     // Проверка наличия заглавной и строчной буквы, цифры и специального символа
     if (
-        !uppercaseRegex.test(password) ||
+        !passwordRegex.test(password) ||
         !lowercaseRegex.test(password) ||
-        !digitRegex.test(password) ||
-        !specialCharsRegex.test(password)
+        !uppercaseRegex.test(password) ||
+        !specialCharsRegex.test(password) ||
+        !digitRegex.test(password)
     ) {
         result.message =
-            'Пароль должен содержать как минимум одну заглавную и одну строчную букву, ' +
-            'одну цифру и один специальный символ из: ' +
-            '~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | " \' . , :';
+            'Пароль должен содержать состоять из латинских символов и содержать: одну заглавную, одну строчную букву,' +
+            'одну цифру и один специальный символ';
         return result;
     }
 
@@ -94,3 +96,11 @@ export function validateUsername(username) {
 
     return { success: true, message: 'Имя пользователя валидно' };
 }
+
+// Tests:
+// console.log(validatePassword('Demouser123!').success == true);
+// console.log(validatePassword('Demouser123').success == false);
+// console.log(validatePassword('Demouser!').success == false);
+// console.log(validatePassword('emouser123!').success == false);
+// console.log(validatePassword('TESTSTES123!').success == false);
+// console.log(validatePassword('Demouser123!ыфв').success == false);
