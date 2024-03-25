@@ -1,0 +1,35 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fullscreen-container {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--aside-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile_field {
+    margin: 5px;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom: 1px solid var(--blue);
+}
+
+.profile_description {
+    margin: 5px;
+    padding: 5px;
+}
+
+#profile-avatar {
+    width: 100px;
+    border-radius: 50%;
+}

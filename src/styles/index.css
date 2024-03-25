@@ -2,14 +2,20 @@
 
 :root {
     --border-radius: 10px;
+    --transition: all 0.3s;
 
-    --white: #f0f0f0;
+    --white: #F8F8F8;
     --green-light: #5abe48;
     --gray: #c2c2c2;
-    --blue-light: #C9D8ED;
-    --blue-light-hover: #d9e1ec;
-    --blue: #A5B6CF;
-    --blue-hover: #b0c1da;
+    --blue-light: #D4DFE6;
+    --blue-light-hover: #c9d6de;
+    --blue-dark: #3f708f;
+    --blue: #AFC5D3;
+    --blue-hover: #a9bfcc;
+
+    --aside-color: var(--blue-light);
+    --input-color: var(--blue);
+    --btn-color: var(--blue);
 }
 
 body {
@@ -38,15 +44,15 @@ button {
     padding: 10px;
     border-radius: var(--border-radius);
     border: 1px solid #ddd;
-    background-color: var(--blue-light);
+    background-color: var(--btn-color);
     color: black;
     cursor: pointer;
 }
 
 button:hover {
-    transition: .3s;
-    border: 1px solid var(--blue-light-hover);
-    background-color: var(--blue-light-hover);
+    transition: var(--transition);
+    border: 1px solid var(--blue-hover);
+    background-color: var(--blue-hover);
 }
 
 input {
@@ -56,7 +62,17 @@ input {
     padding: 10px;
     border-radius: var(--border-radius);
     border: 1px solid #ddd;
-    background-color: var(--blue-light);
+    background-color: var(--input-color);
     color: black;
     cursor: pointer;
+}
+
+.flex_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text_center {
+    text-align: center;
 }
