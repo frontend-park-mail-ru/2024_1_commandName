@@ -44,7 +44,8 @@
 }
 
 #profile-avatar {
+    display: block;
     object-fit: cover;
     width: 150px;
-    height: 150px;
+    height: 154px;
 }

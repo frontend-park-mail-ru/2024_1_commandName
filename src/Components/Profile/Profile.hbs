@@ -9,12 +9,10 @@
             </div>
             <div class='flex_center'>
                 <div class='img-circle'>
-                    <img
-                        id='profile-avatar'
-                        src='{{avatar}}'
-                        alt='Не удалось загрузить фотографию профиля'
-                        onerror="if (this.src != 'img/avatar.jpg') this.src = 'img/avatar.jpg';"
-                    />
+                    <picture>
+                        <source srcset='img/avatar.jpg' />
+                        <img id='profile-avatar' src="{{avatar}}" alt='Не удалось загрузить фотографию профиля'/>
+                    </picture>
                 </div>
             </div>
             <p class='text_center profile_field' id='profile__name'>{{name}} {{surname}}</h4>
