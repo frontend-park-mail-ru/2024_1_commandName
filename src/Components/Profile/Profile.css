@@ -17,15 +17,9 @@
 }
 
 .profile_field {
-    margin: 15px 0;
     font-weight: bold;
     font-size: 1.1em;
-    background-color: var(--blue-dark);
-    height: 1px;
-}
-
-.profile_field:not(:last-child) {
-    border-bottom: 1px;
+    border-bottom: 1px solid var(--blue-dark);
 }
 
 #profile-avatar {
