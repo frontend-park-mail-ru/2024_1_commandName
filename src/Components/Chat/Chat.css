@@ -72,7 +72,7 @@ main {
 .input_attach:hover,
 .input_send:hover {
     background-color: var(--chat-input-color-hover);
-    transition: var(--hover-transition);
+    transition: var(--transition);
 }
 
 .input_text {

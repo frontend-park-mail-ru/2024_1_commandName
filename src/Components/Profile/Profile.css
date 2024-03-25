@@ -16,8 +16,16 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile h4 {
+.profile_field {
     margin: 15px 0;
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: var(--blue-dark);
+    height: 1px;
+}
+
+.profile_field:not(:last-child) {
+    border-bottom: 1px;
 }
 
 #profile-avatar {
