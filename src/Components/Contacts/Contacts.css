@@ -25,8 +25,14 @@
 .contacts_header {
     display: flex;
     width: 100%;
+
 }
 
 .contacts_title {
     width: 100%;
+}
+
+#contact_list {
+    max-height: 500px;
+    overflow: auto;
 }

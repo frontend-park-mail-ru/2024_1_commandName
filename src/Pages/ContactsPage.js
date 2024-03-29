@@ -26,7 +26,6 @@ export default class ContactsPage {
                 }
 
                 const contactsConfig = responce.body.contacts;
-                console.log('test');
                 contacts.setContacts(contactsConfig);
             })
             .catch((error) => {
