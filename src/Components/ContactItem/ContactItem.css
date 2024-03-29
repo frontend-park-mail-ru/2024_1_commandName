@@ -1,11 +1,10 @@
-.contact_item__wrapper {
+.contact_item {
     border-top: 1px solid var(--blue);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.contact_item__wrapper:last-child {
+.contact_item:last-child {
     border-bottom: 1px solid var(--blue);
 }
 
@@ -14,8 +13,7 @@
     font-size: 1.4em;
 }
 
-
 .contact_item__username {
-    margin-top: 0;
+    margin: 0;
     font-size: 0.9em;
 }
