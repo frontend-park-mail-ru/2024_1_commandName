@@ -123,7 +123,7 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    goToPage(LoginPage);
+                    goToPage(LoginPage, '/login');
                 } else {
                     console.log('Error logged out');
                 }

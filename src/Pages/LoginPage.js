@@ -15,6 +15,7 @@ export default class LoginPage {
 
     constructor(parent) {
         this.#parent = parent;
+        this.formCallback = this.formCallback.bind(this);
     }
 
     formCallback(event) {
@@ -39,7 +40,7 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage(ChatPage);
+                    goToPage(ChatPage, '/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -55,7 +56,7 @@ export default class LoginPage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(RegisterPage);
+                goToPage(RegisterPage, '/register');
             },
             inputs: [
                 {

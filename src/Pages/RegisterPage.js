@@ -50,7 +50,7 @@ export default class RegisterPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged in');
-                    goToPage(ChatPage);
+                    goToPage(ChatPage, '/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,7 +66,7 @@ export default class RegisterPage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(LoginPage);
+                goToPage(LoginPage, '/login');
             },
             inputs: [
                 {

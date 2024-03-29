@@ -43,7 +43,7 @@ export default class ChangePasswordPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage(ChatPage);
+                    goToPage(ChatPage, '/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -59,7 +59,7 @@ export default class ChangePasswordPage {
             header: 'Изменение пароля',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(ProfilePage);
+                goToPage(ProfilePage, '/profile');
             },
             inputs: [
                 {

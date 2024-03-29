@@ -35,7 +35,7 @@ export default class LoginPage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        goToPage(ProfilePage);
+                        goToPage(ProfilePage, '/profile');
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -78,7 +78,7 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage(ProfilePage);
+                    goToPage(ProfilePage, '/profile');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -94,7 +94,7 @@ export default class LoginPage {
             header: 'Редактировать профиль',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(ProfilePage);
+                goToPage(ProfilePage, '/profile');
             },
             inputs: [
                 {
