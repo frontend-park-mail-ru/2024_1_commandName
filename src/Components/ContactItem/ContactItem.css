@@ -1,0 +1,21 @@
+.contact_item__wrapper {
+    border-top: 1px solid var(--blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact_item__wrapper:last-child {
+    border-bottom: 1px solid var(--blue);
+}
+
+.contact_item__fullname {
+    margin-bottom: 5px;
+    font-size: 1.4em;
+}
+
+
+.contact_item__username {
+    margin-top: 0;
+    font-size: 0.9em;
+}

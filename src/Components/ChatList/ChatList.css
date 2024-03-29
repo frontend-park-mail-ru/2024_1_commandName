@@ -26,11 +26,11 @@ aside.chat {
     background-color: var(--blue-light);
     flex: 0 0 10%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* padding-left: 25px;
-    padding-right: 25px; */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
     border-radius: var(--border-radius);
+    margin: 0px 30px 35px 30px;
 }
 
 .search_input {
@@ -40,13 +40,16 @@ aside.chat {
 }
 
 .profile_wrapper {
-    padding: 10px;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #profile_btn {
     font-size: 1.1em;
+}
+
+#logout_btn {
+    margin: 0;
 }

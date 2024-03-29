@@ -4,8 +4,8 @@ import ChatPage from '../../Pages/ChatPage.js';
 import ProfileEditPage from '../../Pages/ProfileEditPage.js';
 import ChangePasswordPage from '../../Pages/ChangePasswordPage.js';
 /**
- * Рендерит форму для логина или регистрации
- * @class Класс компонента формы
+ * Рендерит профиль
+ * @class Класс компонента профиля
  */
 export default class Profile extends BaseComponent {
     templateName = 'Profile';
