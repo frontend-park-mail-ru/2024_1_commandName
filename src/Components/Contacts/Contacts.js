@@ -21,12 +21,16 @@ export default class Contacts extends BaseComponent {
             });
     }
 
-    addContacts(contacts) {
-        console.log(contacts);
+    setContacts(contacts) {
         const contactList = this.getParent().querySelector('#contact_list');
-        contacts.forEach((con) => {
-            const conItem = new ContactItem(contactList, con);
-            conItem.render();
-        });
+        contactList.innerHTML = '';
+        if (contacts.length > 0) {
+            contacts.forEach((con) => {
+                const conItem = new ContactItem(contactList, con);
+                conItem.render();
+            });
+        } else {
+            contactList.innerHTML = 'У Вас ещё нет контактов';
+        }
     }
 }

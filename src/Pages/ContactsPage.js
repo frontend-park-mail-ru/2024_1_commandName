@@ -27,7 +27,7 @@ export default class ContactsPage {
 
                 const contactsConfig = responce.body.contacts;
                 console.log('test');
-                contacts.addContacts(contactsConfig);
+                contacts.setContacts(contactsConfig);
             })
             .catch((error) => {
                 console.error('Ошибка при получении профиля:', error);
