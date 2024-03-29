@@ -1,8 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
-import { goToPage } from '../../utils/goToPage.js';
-import ChatPage from '../../Pages/ChatPage.js';
-import ProfileEditPage from '../../Pages/ProfileEditPage.js';
-import ChangePasswordPage from '../../Pages/ChangePasswordPage.js';
+import { handleRouting } from '../../utils/router.js';
 /**
  * Рендерит форму для логина или регистрации
  * @class Класс компонента формы
@@ -17,17 +14,20 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                goToPage(ChatPage, '/chat');
+                window.history.pushState({}, '', '/chat');
+                handleRouting();
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                goToPage(ProfileEditPage, '/profile/edit');
+                window.history.pushState({}, '', '/profile/edit');
+                handleRouting();
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                goToPage(ChangePasswordPage, '/profile/password');
+                window.history.pushState({}, '', '/profile/password');
+                handleRouting();
             });
     }
 }

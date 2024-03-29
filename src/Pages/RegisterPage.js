@@ -1,9 +1,7 @@
 import { validatePassword, validateUsername } from '../utils/valid.js';
-import { goToPage } from '../utils/goToPage.js';
+import { handleRouting } from '../utils/router.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import LoginPage from './LoginPage.js';
 import Form from '../Components/Form/Form.js';
-import ChatPage from './ChatPage.js';
 
 /**
  * Рендерит страницу регистрации
@@ -16,6 +14,7 @@ export default class RegisterPage {
 
     constructor(parent) {
         this.#parent = parent;
+        this.formCallback = this.formCallback.bind(this);
     }
 
     formCallback(event) {
@@ -49,8 +48,8 @@ export default class RegisterPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    console.log('Successfully logged in');
-                    goToPage(ChatPage, '/chat');
+                    window.history.pushState({}, '', '/chat');
+                    handleRouting();
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,7 +65,8 @@ export default class RegisterPage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(LoginPage, '/login');
+                window.history.pushState({}, '', '/login');
+                handleRouting();
             },
             inputs: [
                 {

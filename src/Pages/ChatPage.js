@@ -1,7 +1,6 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import { goToPage } from '../utils/goToPage.js';
-import LoginPage from './LoginPage.js';
+import { handleRouting } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
@@ -20,6 +19,7 @@ export default class ChatPage {
 
     constructor(parent) {
         this.#parent = parent;
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     render() {
@@ -43,7 +43,6 @@ export default class ChatPage {
             .getChats()
             .then((chats) => {
                 chats.body.chats.forEach((chatConfig) => {
-                    //
                     this.#chatList.addChat(chatConfig, () => {
                         this.#currentChatId = chatConfig.id;
                         this.#chat.setInputMessageValue(
@@ -60,11 +59,11 @@ export default class ChatPage {
         const profileAPI = new ProfileAPI();
         profileAPI
             .getProfile()
-            .then((responce) => {
-                if (responce.status != 200) {
+            .then((response) => {
+                if (response.status !== 200) {
                     throw new Error('Пришел не 200 статус');
                 }
-                const profile = responce.body.user;
+                const profile = response.body.user;
                 this.#chatList.setUserName(
                     `${profile.name} ${profile.surname}`,
                 );
@@ -123,13 +122,14 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    goToPage(LoginPage, '/login');
+                    window.history.pushState({}, '', '/login');
+                    handleRouting();
                 } else {
                     console.log('Error logged out');
                 }
             })
             .catch((error) => {
-                console.error('Login failed:', error);
+                console.error('Logout failed:', error);
             });
     }
 }

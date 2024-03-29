@@ -1,7 +1,5 @@
-import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import RegisterPage from './RegisterPage.js';
-import ChatPage from './ChatPage.js';
+import { handleRouting } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
 
 /**
@@ -40,7 +38,8 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage(ChatPage, '/chat');
+                    window.history.pushState({}, '', '/chat');
+                    handleRouting();
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -56,7 +55,8 @@ export default class LoginPage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(RegisterPage, '/register');
+                window.history.pushState({}, '', '/register');
+                handleRouting();
             },
             inputs: [
                 {
