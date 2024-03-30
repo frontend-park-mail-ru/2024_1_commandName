@@ -19,7 +19,6 @@ export default class ChatPage {
 
     constructor(parent) {
         this.#parent = parent;
-        this.handleLogout = this.handleLogout.bind(this);
     }
 
     render() {

@@ -13,7 +13,6 @@ export default class LoginPage {
 
     constructor(parent) {
         this.#parent = parent;
-        this.formCallback = this.formCallback.bind(this);
     }
 
     formCallback(event) {
