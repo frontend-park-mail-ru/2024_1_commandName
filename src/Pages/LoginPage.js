@@ -22,11 +22,11 @@ export default class LoginPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
-        if (username.length == 0) {
+        if (username.length === 0) {
             error.textContent = 'Заполните поле Имя пользователя';
             return;
         }
-        if (password.length == 0) {
+        if (password.length === 0) {
             error.textContent = 'Заполните поле Пароль';
             return;
         }
