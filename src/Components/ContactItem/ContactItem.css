@@ -1,0 +1,19 @@
+.contact_item {
+    border-top: 1px solid var(--blue);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.contact_item:last-child {
+    border-bottom: 1px solid var(--blue);
+}
+
+.contact_item__fullname {
+    margin-bottom: 5px;
+    font-size: 1.4em;
+}
+
+.contact_item__username {
+    margin: 0;
+    font-size: 0.9em;
+}
