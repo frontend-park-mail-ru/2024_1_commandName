@@ -1,3 +1,5 @@
+import { goToPage } from '../router.js';
+
 /**
  * Базовый запрос для API
  * @return {Promise<Response>} - Json ответа
@@ -24,9 +26,9 @@ export async function makeBaseRequest(
     }
 
     const response = await fetch(url, options);
-    // if (response.status === 401) {
-    //     // Если не авторизованы, переходим на страницу логина
-    //     window.history.pushState({}, '', '/login');
-    // }
-    return await response.json();
+    const json = await response.json();
+    if (json.status === 400 || json.status === 401) {
+        goToPage('login');
+    }
+    return json;
 }
