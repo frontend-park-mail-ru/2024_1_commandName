@@ -27,7 +27,7 @@ export async function makeBaseRequest(
 
     const response = await fetch(url, options);
     const json = await response.json();
-    if (json.status === 400 || json.status === 401) {
+    if (json.status === 401) {
         goToPage('login');
     }
     return json;
