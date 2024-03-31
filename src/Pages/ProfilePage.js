@@ -16,12 +16,12 @@ export default class ProfilePage {
 
         profileAPI
             .getProfile()
-            .then((responce) => {
-                if (responce.status != 200) {
+            .then((response) => {
+                if (response.status !== 200) {
                     throw new Error('Пришел не 200 статус');
                 }
 
-                const profileConfig = responce.body.user;
+                const profileConfig = response.body.user;
                 const profile = new Profile(this.#parent, profileConfig);
                 profile.render();
             })

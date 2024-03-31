@@ -1,7 +1,7 @@
 import Form from '../Components/Form/Form.js';
 import { validatePassword } from '../utils/valid.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
-import { handleRouting } from '../utils/router.js';
+import { goToPage } from '../utils/router.js';
 
 /**
  * Рендерит страницу изменения пароля
@@ -21,11 +21,11 @@ export default class ChangePasswordPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
-        if (oldPassword.length == 0) {
+        if (oldPassword.length === 0) {
             error.textContent = 'Заполните поле Старый пароль';
             return;
         }
-        if (newPassword.length == 0) {
+        if (newPassword.length === 0) {
             error.textContent = 'Заполните поле Новый пароль';
             return;
         }
@@ -41,8 +41,7 @@ export default class ChangePasswordPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    window.history.pushState({}, '', '/chat');
-                    handleRouting();
+                    goToPage('/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -58,8 +57,7 @@ export default class ChangePasswordPage {
             header: 'Изменение пароля',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                window.history.pushState({}, '', '/profile');
-                handleRouting();
+                goToPage('/profile');
             },
             inputs: [
                 {

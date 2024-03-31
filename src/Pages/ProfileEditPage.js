@@ -1,7 +1,7 @@
 import Form from '../Components/Form/Form.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { validateUsername, validateEmail } from '../utils/valid.js';
-import { handleRouting } from '../utils/router.js';
+import { goToPage } from '../utils/router.js';
 
 /**
  * Рендерит страницу редактирования профиля
@@ -34,8 +34,7 @@ export default class LoginPage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        window.history.pushState({}, '', '/profile');
-                        handleRouting();
+                        goToPage('/profile');
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -69,7 +68,7 @@ export default class LoginPage {
             }
         }, 0);
 
-        if (editedFieldCnt == 0) {
+        if (editedFieldCnt === 0) {
             return;
         }
         // Отправка данных на сервер
@@ -78,8 +77,7 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    window.history.pushState({}, '', '/profile');
-                    handleRouting();
+                    goToPage('/profile');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -95,8 +93,7 @@ export default class LoginPage {
             header: 'Редактировать профиль',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                window.history.pushState({}, '', '/profile');
-                handleRouting();
+                goToPage('/profile');
             },
             inputs: [
                 {

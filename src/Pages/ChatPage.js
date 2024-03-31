@@ -1,6 +1,6 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import { handleRouting } from '../utils/router.js';
+import { goToPage } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
@@ -121,8 +121,7 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    window.history.pushState({}, '', '/login');
-                    handleRouting();
+                    goToPage('/login');
                 } else {
                     console.log('Error logged out');
                 }

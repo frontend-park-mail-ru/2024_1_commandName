@@ -1,5 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
-import { handleRouting } from '../../utils/router.js';
+import { goToPage } from '../../utils/router.js';
 /**
  * Рендерит форму для логина или регистрации
  * @class Класс компонента формы
@@ -14,20 +14,17 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                window.history.pushState({}, '', '/chat');
-                handleRouting();
+                goToPage('/chat');
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                window.history.pushState({}, '', '/profile/edit');
-                handleRouting();
+                goToPage('/profile/edit');
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                window.history.pushState({}, '', '/profile/password');
-                handleRouting();
+                goToPage('/profile/password');
             });
     }
 }

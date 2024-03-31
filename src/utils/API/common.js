@@ -24,6 +24,9 @@ export async function makeBaseRequest(
     }
 
     const response = await fetch(url, options);
-    const json = await response.json();
-    return json;
+    // if (response.status === 401) {
+    //     // Если не авторизованы, переходим на страницу логина
+    //     window.history.pushState({}, '', '/login');
+    // }
+    return await response.json();
 }

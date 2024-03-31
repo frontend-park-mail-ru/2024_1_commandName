@@ -1,6 +1,6 @@
 import { ROUTES } from '../config/config.js';
 
-export function handleRouting() {
+function handleRouting() {
     const path = window.location.pathname;
     const page = ROUTES[path] || ROUTES['*']; // Используем Page404 при неизвестном пути
 
@@ -8,6 +8,11 @@ export function handleRouting() {
     rootNode.innerHTML = '';
     const renderPage = new page(rootNode);
     renderPage.render();
+}
+
+export function goToPage(path) {
+    window.history.pushState({}, '', path);
+    handleRouting();
 }
 
 // Обработка изменения URL
