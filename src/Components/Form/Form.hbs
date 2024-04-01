@@ -3,10 +3,11 @@
         <h3>{{header}}</h3>
         {{#each inputs}}
             {{#ifEquals this.type 'checkbox_list'}}
+                <label for="">{{this.placeholder}}</label>
                 <div class="form_checkbox_list_wrapper">
                     {{#each this.items}}
                     <div class="form_checkbox">
-                      <label for="">
+                      <label for="{{../this.list_name}}_{{this.id}}">
                         <input type="checkbox" name="{{../this.list_name}}" id="{{../this.list_name}}_{{this.id}}" value="{{../this.list_name}}_{{this.id}}"/>
                         {{this.name}} {{this.surname}} @{{this.username}}
                       </label>

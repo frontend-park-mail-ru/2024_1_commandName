@@ -28,7 +28,7 @@
 
 .form_checkbox_list_wrapper {
     background-color: var(--blue);
-    padding: 10px;
+    padding: 5px;
     border-radius: var(--border-radius);
     max-height: 200px;
     overflow: auto;
