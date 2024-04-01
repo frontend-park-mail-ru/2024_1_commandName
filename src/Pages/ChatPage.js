@@ -60,7 +60,8 @@ export default class ChatPage {
                         );
                     });
                 });
-                if (!checkChatId) {
+                if (!checkChatId && !isNaN(this.#currentChatId)) {
+                    console.log('here');
                     window.history.pushState({}, '', '/chat');
                     this.#currentChatId = null;
                 }

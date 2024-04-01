@@ -1,4 +1,5 @@
 import { goToPage } from '../router.js';
+let redirectEnabled = true;
 
 /**
  * Базовый запрос для API
@@ -27,8 +28,16 @@ export async function makeBaseRequest(
 
     const response = await fetch(url, options);
     const json = await response.json();
-    if (json.status === 401) {
+    // Проверяем, разрешено ли перенаправление, и статус ответа
+    if (redirectEnabled && json.status === 401) {
         goToPage('login');
+    } else if (!redirectEnabled && json.status === 401) {
+        throw new Error('Ошибка авторизации: необходимо перелогиниться.');
     }
     return json;
+}
+
+// Функция для включения или отключения перенаправления
+export function enableRedirect(value) {
+    redirectEnabled = value;
 }
