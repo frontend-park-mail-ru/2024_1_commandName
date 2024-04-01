@@ -53,11 +53,7 @@ export default class ChatPage {
                             this.#messageDrafts[chatConfig.id] || '',
                         );
                         this.displayActiveChat(chatConfig);
-                        window.history.pushState(
-                            {},
-                            '',
-                            '/chat?id=' + chatConfig.id,
-                        );
+                        goToPage('/chat?id=' + chatConfig.id);
                     });
                 });
                 if (!checkChatId && !isNaN(this.#currentChatId)) {
