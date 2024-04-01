@@ -31,6 +31,7 @@ export async function makeBaseRequest(
     // Проверяем, разрешено ли перенаправление, и статус ответа
     if (redirectEnabled && json.status === 401) {
         goToPage('login');
+        enableRedirect(false);
     } else if (!redirectEnabled && json.status === 401) {
         throw new Error('Ошибка авторизации: необходимо перелогиниться.');
     }
