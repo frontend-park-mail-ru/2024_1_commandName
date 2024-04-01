@@ -19,12 +19,12 @@ export default class Profile extends BaseComponent {
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                goToPage('/profile/edit');
+                goToPage('/edit');
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                goToPage('/profile/password');
+                goToPage('/password');
             });
     }
 }
