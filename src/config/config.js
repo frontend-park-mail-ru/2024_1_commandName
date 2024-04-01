@@ -14,7 +14,7 @@ export const ROUTES = {
     '/register': RegisterPage,
     '/chat': ChatPage,
     '/profile': ProfilePage,
-    '/profile/edit': ProfileEditPage,
-    '/profile/password': ChangePasswordPage,
+    '/edit': ProfileEditPage,
+    '/password': ChangePasswordPage,
     '*': Page404,
 };
