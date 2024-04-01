@@ -57,8 +57,7 @@ export default class ChatPage {
                     });
                 });
                 if (!checkChatId && !isNaN(this.#currentChatId)) {
-                    console.log('here');
-                    window.history.pushState({}, '', '/chat');
+                    goToPage('/chat');
                     this.#currentChatId = null;
                 }
             })

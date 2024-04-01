@@ -7,7 +7,6 @@ api.checkAuth()
             console.log('Is auth');
         } else {
             console.log('Not auth');
-            //window.history.pushState({}, '', '/login'); // Изменяем URL на /login при отсутствии авторизации
         }
     })
     .catch((error) => {
