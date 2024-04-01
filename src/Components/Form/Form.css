@@ -26,6 +26,14 @@
     background-color: var(--form-input-color);
 }
 
+.form_checkbox_list_wrapper {
+    background-color: var(--blue);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    max-height: 200px;
+    overflow: auto;
+}
+
 .form-error-message {
     color: red;
     margin: 0px;
