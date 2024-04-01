@@ -17,8 +17,9 @@ export default class ChatPage {
     #messageDrafts = {};
     #currentChatId;
 
-    constructor(parent) {
+    constructor(parent, urlParams) {
         this.#parent = parent;
+        this.#currentChatId = parseInt(urlParams.get('id'));
     }
 
     render() {
@@ -36,20 +37,33 @@ export default class ChatPage {
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);
+        let checkChatId = false;
 
         const chatAPI = new ChatAPI();
         chatAPI
             .getChats()
             .then((chats) => {
                 chats.body.chats.forEach((chatConfig) => {
+                    if (chatConfig.id === this.#currentChatId) {
+                        checkChatId = true;
+                        this.displayActiveChat(chatConfig);
+                    }
                     this.#chatList.addChat(chatConfig, () => {
-                        this.#currentChatId = chatConfig.id;
                         this.#chat.setInputMessageValue(
                             this.#messageDrafts[chatConfig.id] || '',
                         );
                         this.displayActiveChat(chatConfig);
+                        window.history.pushState(
+                            {},
+                            '',
+                            '/chat?id=' + chatConfig.id,
+                        );
                     });
                 });
+                if (!checkChatId) {
+                    window.history.pushState({}, '', '/chat');
+                    this.#currentChatId = null;
+                }
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
