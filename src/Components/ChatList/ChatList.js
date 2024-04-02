@@ -1,8 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
-import { goToPage } from '../../utils/goToPage.js';
-import ProfilePage from '../../Pages/ProfilePage.js';
-import ContactsPage from '../../Pages/ContactsPage.js';
+import { goToPage } from '../../utils/router.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -20,12 +18,12 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
-                goToPage(ProfilePage);
+                goToPage('/profile');
             });
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
-                goToPage(ContactsPage);
+                goToPage('/contacts');
             });
     }
 

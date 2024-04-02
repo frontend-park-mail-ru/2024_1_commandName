@@ -1,9 +1,7 @@
 import { validatePassword, validateUsername } from '../utils/valid.js';
-import { goToPage } from '../utils/goToPage.js';
+import { goToPage } from '../utils/router.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import LoginPage from './LoginPage.js';
 import Form from '../Components/Form/Form.js';
-import ChatPage from './ChatPage.js';
 
 /**
  * Рендерит страницу регистрации
@@ -11,7 +9,7 @@ import ChatPage from './ChatPage.js';
  */
 export default class RegisterPage {
     #parent;
-    #errorMessage;
+    // #errorMessage;
     #signupForm;
 
     constructor(parent) {
@@ -28,7 +26,7 @@ export default class RegisterPage {
         error.textContent = '';
 
         // Валидация данных
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             error.textContent = 'Пароли не совпадают';
             return;
         }
@@ -49,8 +47,7 @@ export default class RegisterPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    console.log('Successfully logged in');
-                    goToPage(ChatPage);
+                    goToPage('/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,7 +63,7 @@ export default class RegisterPage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(LoginPage);
+                goToPage('/login');
             },
             inputs: [
                 {
