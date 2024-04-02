@@ -1,8 +1,8 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { goToPage } from '../../utils/router.js';
 /**
- * Рендерит форму для логина или регистрации
- * @class Класс компонента формы
+ * Рендерит профиль
+ * @class Класс компонента профиля
  */
 export default class Profile extends BaseComponent {
     templateName = 'Profile';
