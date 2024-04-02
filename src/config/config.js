@@ -5,6 +5,7 @@ import Page404 from '../Pages/Page404.js';
 import ProfilePage from '../Pages/ProfilePage.js';
 import ProfileEditPage from '../Pages/ProfileEditPage.js';
 import ChangePasswordPage from '../Pages/ChangePasswordPage.js';
+import ContactsPage from '../Pages/ContactsPage.js';
 
 export const ROOT = document.getElementById('root');
 
@@ -16,5 +17,6 @@ export const ROUTES = {
     '/profile': ProfilePage,
     '/edit': ProfileEditPage,
     '/password': ChangePasswordPage,
+    '/contacts': ContactsPage,
     '*': Page404,
 };

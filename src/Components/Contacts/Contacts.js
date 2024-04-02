@@ -1,5 +1,4 @@
-import ChatPage from '../../Pages/ChatPage.js';
-import { goToPage } from '../../utils/goToPage.js';
+import { goToPage } from '../../utils/router.js';
 import { BaseComponent } from '../BaseComponent.js';
 import ContactItem from '../ContactItem/ContactItem.js';
 
@@ -17,7 +16,7 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                goToPage(ChatPage);
+                goToPage('/chat');
             });
     }
 

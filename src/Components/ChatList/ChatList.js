@@ -23,7 +23,7 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
-                goToPage(ContactsPage);
+                goToPage('/contacts');
             });
     }
 
