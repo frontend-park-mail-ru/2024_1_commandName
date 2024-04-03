@@ -7,10 +7,16 @@
     padding: 15px;
     border-radius: var(--border-radius);
     margin: 4px 0px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chat_list_item:hover {
     transition: var(--transition);
     background-color: var(--chat-list-item-color-hover);
     border-color: var(--chat-list-item-color-hover);
+}
+
+.three-dots {
+    margin-left: auto;
 }
