@@ -20,3 +20,14 @@
 .three-dots {
     margin-left: auto;
 }
+
+.modal {
+    position: relative;
+    background-color: var(--aside-color);
+    border-radius: var(--border-radius);
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,7 +1,11 @@
 <div class='chat_list_item' id='chat_list_item_{{id}}'>
     {{! TODO: аватаркаx }}
-    <p>{{name}}</p>
+    <p class='chat_name' id='chat_name_{{id}}'>{{name}}</p>
     {{! TODO: последнее сообщение }}
     {{! TODO: вреся и 'прочитано' }}
-    <p class='three-dots'>...</p>
+    <div><p class='three_dots' id='three_dots_{{id}}'>...</p>
+        <div class='modal hidden' id='modal_{{id}}'>
+            <button class="delete-button" id='delete-button_{{id}}'>Удалить</button>
+        </div>
+    </div>
 </div>
