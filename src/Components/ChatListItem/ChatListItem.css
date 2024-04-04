@@ -17,8 +17,12 @@
     border-color: var(--chat-list-item-color-hover);
 }
 
-.three-dots {
-    margin-left: auto;
+.chat_name {
+    width: 100%;
+}
+
+.three_dots {
+    text-align: right;
 }
 
 .modal {
