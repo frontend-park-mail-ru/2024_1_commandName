@@ -1,5 +1,7 @@
 import { ContactsAPI } from '../utils/API/ContactsAPI.js';
+import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
+import { goToPage } from '../utils/router.js';
 
 /**
  * Рендерит страницу чатов
@@ -7,6 +9,7 @@ import Contacts from '../Components/Contacts/Contacts.js';
  */
 export default class ContactsPage {
     #parent;
+    #contactsList;
 
     constructor(parent) {
         this.#parent = parent;
@@ -15,21 +18,47 @@ export default class ContactsPage {
     render() {
         const contactsAPI = new ContactsAPI();
 
-        const contacts = new Contacts(this.#parent, {});
-        contacts.render();
+        this.#contactsList = new Contacts(this.#parent, {});
+        this.#contactsList.render();
 
         contactsAPI
             .getContacts()
-            .then((responce) => {
-                if (responce.status != 200) {
-                    throw new Error('Пришел не 200 статус');
+            .then((response) => {
+                if (response.body.contacts.length === 0) {
+                    this.#contactsList.innerHTML = 'У Вас ещё нет контактов';
+                } else {
+                    response.body.contacts.forEach((contactConfig) => {
+                        //console.log(contactConfig);
+                        this.#contactsList.addContact(contactConfig, () => {
+                            this.getChatByName(contactConfig.username);
+                        });
+                    });
                 }
-
-                const contactsConfig = responce.body.contacts;
-                contacts.setContacts(contactsConfig);
             })
             .catch((error) => {
                 console.error('Ошибка при получении профиля:', error);
+            });
+    }
+
+    getChatByName(name) {
+        let checkChatId = false;
+        const chatAPI = new ChatAPI();
+        chatAPI
+            .getChats()
+            .then((chats) => {
+                chats.body.chats.forEach((chatConfig) => {
+                    console.log(chatConfig.name, name);
+                    if (chatConfig.name === name) {
+                        checkChatId = true;
+                        goToPage('/chat?id=' + chatConfig.id);
+                    }
+                });
+                if (!checkChatId) {
+                    goToPage('/chat');
+                }
+            })
+            .catch((error) => {
+                console.error('Ошибка при получении чатов:', error);
             });
     }
 }

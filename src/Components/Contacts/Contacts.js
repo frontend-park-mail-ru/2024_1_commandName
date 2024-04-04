@@ -20,6 +20,12 @@ export default class Contacts extends BaseComponent {
             });
     }
 
+    addContact(contactConfig, handler) {
+        const contactList = this.getParent().querySelector('#contact_list');
+        contactConfig.handler = handler;
+        const contact = new ContactItem(contactList, contactConfig);
+        contact.render();
+    }
     setContacts(contacts) {
         const contactList = this.getParent().querySelector('#contact_list');
         contactList.innerHTML = '';

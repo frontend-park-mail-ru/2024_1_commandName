@@ -42,8 +42,8 @@ export default class ChatPage {
         const chatAPI = new ChatAPI();
         chatAPI
             .getChats()
-            .then((chats) => {
-                chats.body.chats.forEach((chatConfig) => {
+            .then((response) => {
+                response.body.chats.forEach((chatConfig) => {
                     if (chatConfig.id === this.#currentChatId) {
                         checkChatId = true;
                         this.displayActiveChat(chatConfig);
@@ -54,6 +54,7 @@ export default class ChatPage {
                         );
                         this.displayActiveChat(chatConfig);
                         goToPage('/chat?id=' + chatConfig.id);
+                        console.log(chatConfig);
                     });
                 });
                 if (!checkChatId && !isNaN(this.#currentChatId)) {
