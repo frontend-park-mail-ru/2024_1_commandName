@@ -14,3 +14,14 @@
     background-color: var(--chat-list-item-color-hover);
     border-color: var(--chat-list-item-color-hover);
 }
+
+.chat_list_item_avatar {
+    display: block;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+}
+
+.chat_list_item_avatar__wrapper {
+    margin-right: 15px;
+}

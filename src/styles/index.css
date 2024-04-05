@@ -84,6 +84,20 @@ input {
     cursor: pointer;
 }
 
+.flex {
+    display: flex;
+}
+
+.flex_ver_center {
+    display: flex;
+    align-items: center;
+}
+
+.flex_hor_center {
+    display: flex;
+    justify-content: center;
+}
+
 .flex_center {
     display: flex;
     align-items: center;
@@ -95,6 +109,8 @@ input {
 }
 
 .img-circle {
+    width: min-content;
+    height: min-content;
     border-radius: 50%;
     display: flex;
     align-items: center;

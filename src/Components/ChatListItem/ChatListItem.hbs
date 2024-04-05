@@ -1,6 +1,16 @@
-<div class='chat_list_item' id='chat_list_item_{{id}}'>
-    {{! TODO: аватаркаx }}
+<div class='chat_list_item flex_ver_center' id='chat_list_item_{{id}}'>
+    {{! <div class='flex_center'> }}
+    <div class='img-circle chat_list_item_avatar__wrapper'>
+        <picture>
+            <source srcset='img/avatar.jpg' />
+            <img
+                class='chat_list_item_avatar'
+                src='{{avatar}}'
+                alt='Не удалось загрузить фотографию чата'
+            />
+        </picture>
+    </div>
     {{name}}
     {{! TODO: последнее сообщение }}
-    {{! TODO: вреся и 'прочитано' }}
+    {{! TODO: время и 'прочитано' }}
 </div>
