@@ -28,7 +28,6 @@ export default class ContactsPage {
                     this.#contactsList.innerHTML = 'У Вас ещё нет контактов';
                 } else {
                     response.body.contacts.forEach((contactConfig) => {
-                        //console.log(contactConfig);
                         this.#contactsList.addContact(contactConfig, () => {
                             this.getChatByName(contactConfig.username);
                         });
@@ -47,7 +46,6 @@ export default class ContactsPage {
             .getChats()
             .then((chats) => {
                 chats.body.chats.forEach((chatConfig) => {
-                    console.log(chatConfig.name, name);
                     if (chatConfig.name === name) {
                         checkChatId = true;
                         goToPage('/chat?id=' + chatConfig.id);

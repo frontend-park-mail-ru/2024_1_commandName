@@ -54,7 +54,6 @@ export default class ChatPage {
                         );
                         this.displayActiveChat(chatConfig);
                         goToPage('/chat?id=' + chatConfig.id);
-                        console.log(chatConfig);
                     });
                 });
                 if (!checkChatId && !isNaN(this.#currentChatId)) {
