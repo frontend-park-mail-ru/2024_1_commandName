@@ -1,7 +1,6 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import { goToPage } from '../utils/goToPage.js';
-import LoginPage from './LoginPage.js';
+import { goToPage } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
@@ -18,8 +17,9 @@ export default class ChatPage {
     #messageDrafts = {};
     #currentChatId;
 
-    constructor(parent) {
+    constructor(parent, urlParams) {
         this.#parent = parent;
+        this.#currentChatId = parseInt(urlParams.get('id'));
     }
 
     render() {
@@ -37,21 +37,29 @@ export default class ChatPage {
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);
+        let checkChatId = false;
 
         const chatAPI = new ChatAPI();
         chatAPI
             .getChats()
             .then((chats) => {
                 chats.body.chats.forEach((chatConfig) => {
-                    //
+                    if (chatConfig.id === this.#currentChatId) {
+                        checkChatId = true;
+                        this.displayActiveChat(chatConfig);
+                    }
                     this.#chatList.addChat(chatConfig, () => {
-                        this.#currentChatId = chatConfig.id;
                         this.#chat.setInputMessageValue(
                             this.#messageDrafts[chatConfig.id] || '',
                         );
                         this.displayActiveChat(chatConfig);
+                        goToPage('/chat?id=' + chatConfig.id);
                     });
                 });
+                if (!checkChatId && !isNaN(this.#currentChatId)) {
+                    goToPage('/chat');
+                    this.#currentChatId = null;
+                }
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
@@ -60,11 +68,11 @@ export default class ChatPage {
         const profileAPI = new ProfileAPI();
         profileAPI
             .getProfile()
-            .then((responce) => {
-                if (responce.status != 200) {
+            .then((response) => {
+                if (response.status !== 200) {
                     throw new Error('Пришел не 200 статус');
                 }
-                const profile = responce.body.user;
+                const profile = response.body.user;
                 this.#chatList.setUserName(
                     `${profile.name} ${profile.surname}`,
                 );
@@ -123,13 +131,13 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    goToPage(LoginPage);
+                    goToPage('/login');
                 } else {
                     console.log('Error logged out');
                 }
             })
             .catch((error) => {
-                console.error('Login failed:', error);
+                console.error('Logout failed:', error);
             });
     }
 }

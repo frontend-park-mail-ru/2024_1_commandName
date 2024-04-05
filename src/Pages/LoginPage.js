@@ -1,8 +1,7 @@
-import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import RegisterPage from './RegisterPage.js';
-import ChatPage from './ChatPage.js';
+import { goToPage } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
+import { enableRedirect } from '../utils/API/common.js';
 
 /**
  * Рендерит страницу авторизации
@@ -10,7 +9,7 @@ import Form from '../Components/Form/Form.js';
  */
 export default class LoginPage {
     #parent;
-    #errorMessage;
+    // #errorMessage;
     #signinForm;
 
     constructor(parent) {
@@ -24,11 +23,11 @@ export default class LoginPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
-        if (username.length == 0) {
+        if (username.length === 0) {
             error.textContent = 'Заполните поле Имя пользователя';
             return;
         }
-        if (password.length == 0) {
+        if (password.length === 0) {
             error.textContent = 'Заполните поле Пароль';
             return;
         }
@@ -39,7 +38,8 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage(ChatPage);
+                    enableRedirect(true);
+                    goToPage('/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -55,7 +55,7 @@ export default class LoginPage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(RegisterPage);
+                goToPage('/register');
             },
             inputs: [
                 {
