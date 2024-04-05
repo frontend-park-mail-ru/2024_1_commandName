@@ -30,10 +30,15 @@ export default class CreateGroupPage {
             }, this);
 
         const group = {
-            groupname: event.target.querySelector('#group_name').value,
+            groupName: event.target.querySelector('#group_name').value,
             description: event.target.querySelector('#group_description').value,
             userIds: userIds,
         };
+
+        if (group.groupName.length === 0) {
+            error.textContent = 'Заполните поле Название';
+            return;
+        }
 
         const chatAPI = new ChatAPI();
         chatAPI
