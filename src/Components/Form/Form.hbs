@@ -3,8 +3,8 @@
         <h3>{{header}}</h3>
         {{#each inputs}}
             {{#ifEquals this.type 'checkbox_list'}}
-                <label for="">{{this.placeholder}}</label>
-                <div class="form_checkbox_list_wrapper">
+                <label for="{{this.id}}">{{this.placeholder}}</label>
+                <div id="{{this.id}}" class="form_checkbox_list_wrapper">
                     {{#each this.items}}
                     <div class="form_checkbox">
                       <label for="{{../this.list_name}}_{{this.id}}">

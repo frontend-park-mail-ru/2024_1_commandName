@@ -1,4 +1,7 @@
 import Form from '../Components/Form/Form.js';
+import { ChatAPI } from '../utils/API/ChatAPI.js';
+import { enableRedirect } from '../utils/API/common.js';
+import { goToPage } from '../utils/router.js';
 
 /**
  * Рендерит страницу создания группы
@@ -13,7 +16,41 @@ export default class CreateGroupPage {
 
     formCallback(event) {
         event.preventDefault();
-        // ...
+        const error = event.target.querySelector('#error-message');
+
+        const userList = event.target.querySelectorAll(
+            '#user_list input[type=checkbox]',
+        );
+        const userIds = Array.from(userList)
+            .filter((item) => {
+                return item.checked;
+            })
+            .map((item) => {
+                return Number(item.value.replace('user_list_', ''));
+            }, this);
+
+        const group = {
+            groupname: event.target.querySelector('#group_name').value,
+            description: event.target.querySelector('#group_description').value,
+            userIds: userIds,
+        };
+
+        const chatAPI = new ChatAPI();
+        chatAPI
+            .createGroup(group)
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    enableRedirect(true);
+                    goToPage('/chat');
+                } else {
+                    error.textContent = data.body.error;
+                }
+            })
+            .catch((error) => {
+                alert('Что-то пошло не так');
+                console.error('createGroup failed:', error);
+            });
     }
 
     render() {
@@ -22,14 +59,20 @@ export default class CreateGroupPage {
             onSubmit: this.formCallback,
             inputs: [
                 {
-                    id: 'groupname',
+                    id: 'group_name',
                     type: 'text',
                     placeholder: 'Название',
                     required: true,
                 },
                 {
-                    id: 'users',
-                    list_name: 'users',
+                    id: 'group_description',
+                    type: 'text',
+                    placeholder: 'Описание',
+                    required: true,
+                },
+                {
+                    id: 'user_list',
+                    list_name: 'user_list',
                     type: 'checkbox_list',
                     placeholder: 'Участники',
                     items: [
