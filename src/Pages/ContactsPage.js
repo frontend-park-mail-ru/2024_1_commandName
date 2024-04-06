@@ -21,10 +21,9 @@ export default class ContactsPage {
         contactsAPI
             .getContacts()
             .then((responce) => {
-                if (responce.status != 200) {
+                if (responce.status !== 200) {
                     throw new Error('Пришел не 200 статус');
                 }
-
                 const contactsConfig = responce.body.contacts;
                 contacts.setContacts(contactsConfig);
             })

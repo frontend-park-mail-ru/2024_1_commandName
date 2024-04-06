@@ -7,10 +7,31 @@
     padding: 15px;
     border-radius: var(--border-radius);
     margin: 4px 0px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chat_list_item:hover {
     transition: var(--transition);
     background-color: var(--chat-list-item-color-hover);
     border-color: var(--chat-list-item-color-hover);
+}
+
+.chat_name {
+    width: 100%;
+}
+
+.three_dots {
+    text-align: right;
+}
+
+.modal {
+    position: relative;
+    background-color: var(--aside-color);
+    border-radius: var(--border-radius);
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
 }
