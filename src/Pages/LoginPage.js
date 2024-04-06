@@ -2,7 +2,6 @@ import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { goToPage } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
 import { enableRedirect } from '../utils/API/common.js';
-import { websocketManager } from '../utils/WebSocket.js';
 
 /**
  * Рендерит страницу авторизации
@@ -40,7 +39,6 @@ export default class LoginPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     enableRedirect(true);
-                    websocketManager.connect();
                     goToPage('/chat');
                 } else {
                     error.textContent = data.body.error;

@@ -21,6 +21,7 @@ export default class ChatPage {
     constructor(parent, urlParams) {
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
+        websocketManager.connect();
     }
 
     render() {
@@ -33,7 +34,8 @@ export default class ChatPage {
         this.#chatList.render();
 
         this.#chat = new Chat(wrapper, {
-            inputMessaegHandler: this.messageDraftHandler,
+            inputMessageHandler: this.messageDraftHandler,
+            sendMessageHandler: this.messageSendHandler,
         });
         this.#chat.render();
 
@@ -83,6 +85,20 @@ export default class ChatPage {
 
     messageDraftHandler = (event) => {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
+    };
+
+    messageSendHandler = () => {
+        const inputMessage = this.#parent.querySelector('#input_message').value;
+        const chatId = this.#currentChatId; // Получаем ID текущего чата
+        if (inputMessage && chatId) {
+            // Проверяем, что есть сообщение и ID чата
+            websocketManager.sendMessage(chatId, inputMessage);
+            setTimeout(() => {
+                goToPage('/chat?id=' + chatId);
+            }, 200);
+        } else {
+            console.error('Нет текста сообщения или ID чата.');
+        }
     };
 
     displayActiveChat(chat) {

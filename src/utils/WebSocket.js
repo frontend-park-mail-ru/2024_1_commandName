@@ -21,7 +21,12 @@ class WebSocketManager {
         }
     }
 
-    sendMessage(message) {
+    sendMessage(chatId, messageText) {
+        const message = {
+            chat_id: chatId,
+            message_text: messageText,
+        };
+        console.log(message);
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
         } else {
