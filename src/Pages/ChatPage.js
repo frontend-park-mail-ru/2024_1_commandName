@@ -5,6 +5,7 @@ import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
+import { websocketManager } from '../utils/WebSocket.js';
 
 /**
  * Рендерит страницу чатов
@@ -129,6 +130,7 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
+                    websocketManager.close();
                     goToPage('/login');
                 } else {
                     console.log('Error logged out');
