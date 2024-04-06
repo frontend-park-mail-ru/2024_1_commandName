@@ -22,4 +22,18 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async chatByUserId(UserId) {
+        try {
+            return makeBaseRequest(`${baseUrl}/createPrivateChat`, 'POST', {
+                user_id: UserId,
+            });
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

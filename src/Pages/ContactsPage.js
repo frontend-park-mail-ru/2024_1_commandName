@@ -17,6 +17,7 @@ export default class ContactsPage {
 
     render() {
         const contactsAPI = new ContactsAPI();
+        const chatAPI = new ChatAPI();
 
         this.#contactsList = new Contacts(this.#parent, {});
         this.#contactsList.render();
@@ -29,7 +30,15 @@ export default class ContactsPage {
                 } else {
                     response.body.contacts.forEach((contactConfig) => {
                         this.#contactsList.addContact(contactConfig, () => {
-                            this.getChatByName(contactConfig.username);
+                            chatAPI
+                                .chatByUserId(contactConfig.id)
+                                .then((response) => {
+                                    if (response.status === 200) {
+                                        goToPage(
+                                            '/chat?id=' + response.body.chat_id,
+                                        );
+                                    }
+                                });
                         });
                     });
                 }
