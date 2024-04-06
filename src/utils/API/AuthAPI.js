@@ -13,7 +13,7 @@ export class AuthAPI {
      */
     async checkAuth() {
         try {
-            return makeBaseRequest(`${baseUrl}/checkAuth`, 'GET');
+            return makeBaseRequest(`http://${baseUrl}/checkAuth`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -32,7 +32,7 @@ export class AuthAPI {
      */
     async login(username, password) {
         try {
-            return makeBaseRequest(`${baseUrl}/login`, 'POST', {
+            return makeBaseRequest(`http://${baseUrl}/login`, 'POST', {
                 username: username,
                 password: password,
             });
@@ -52,7 +52,7 @@ export class AuthAPI {
      */
     async logout() {
         try {
-            return makeBaseRequest(`${baseUrl}/logout`, 'GET');
+            return makeBaseRequest(`http://${baseUrl}/logout`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -71,7 +71,7 @@ export class AuthAPI {
      */
     async register(username, password) {
         try {
-            return makeBaseRequest(`${baseUrl}/register`, 'POST', {
+            return makeBaseRequest(`http://${baseUrl}/register`, 'POST', {
                 username: username,
                 password: password,
             });

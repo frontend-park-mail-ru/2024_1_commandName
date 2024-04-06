@@ -13,7 +13,7 @@ export class ChatAPI {
      */
     async getChats() {
         try {
-            return makeBaseRequest(`${baseUrl}/getChats`, 'GET');
+            return makeBaseRequest(`http://${baseUrl}/getChats`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',

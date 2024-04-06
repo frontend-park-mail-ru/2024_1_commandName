@@ -9,6 +9,10 @@ export default class Chat extends BaseComponent {
         this.getParent()
             .querySelector('#input_message')
             .addEventListener('input', this.getConfig().inputMessaegHandler);
+
+        // this.getParent()
+        //     .querySelector('.input_send')
+        //     .addEventListener('click', this.sendMessageHandler);
     }
 
     setInputMessageValue(value) {

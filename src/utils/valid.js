@@ -1,12 +1,12 @@
 /**
  * Функция для валидации email.
  * @param {string} email - email
- * @returns {{success: bool, message: String}} - Объект с результатом валидации.
+ * @returns {{success: boolean, message: string}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
 export function validateEmail(email) {
-    if (email.length == 0) {
+    if (email.length === 0) {
         return { success: false, message: 'Заполните поле Email' };
     }
     const emailRegex =
@@ -20,13 +20,13 @@ export function validateEmail(email) {
 
 /**
  * Функция для валидации пароля.
- * @param {string} email - Пароль
- * @returns {{success: bool, message: String}} - Объект с результатом валидации.
+ * @returns {{success: boolean, message: string}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
+ * @param password - Проверяемый пароль
  */
 export function validatePassword(password) {
-    if (password.length == 0) {
+    if (password.length === 0) {
         return { success: false, message: 'Заполните поле Пароль' };
     }
 
@@ -67,12 +67,12 @@ export function validatePassword(password) {
 /**
  * Функция для валидации никнейма.
  * @param {string} username - Никнейм для валидации.
- * @returns {{success: bool, message: String}} - Объект с результатом валидации.
+ * @returns {{success: boolean, message: string}} - Объект с результатом валидации.
  * @property {boolean} success - Успешно ли прошла валидация.
  * @property {string} message - Сообщение о результате валидации.
  */
 export function validateUsername(username) {
-    if (username.length == 0) {
+    if (username.length === 0) {
         return { success: false, message: 'Заполните поле Имя пользователя' };
     }
     const minLength = 4;

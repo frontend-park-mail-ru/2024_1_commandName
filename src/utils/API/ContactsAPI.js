@@ -13,7 +13,7 @@ export class ContactsAPI {
      */
     async getContacts() {
         try {
-            return makeBaseRequest(`${baseUrl}/getContacts`, 'GET');
+            return makeBaseRequest(`http://${baseUrl}/getContacts`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',

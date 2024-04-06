@@ -13,7 +13,7 @@ export class ProfileAPI {
      */
     async getProfile() {
         try {
-            return makeBaseRequest(`${baseUrl}/getProfileInfo`, 'GET');
+            return makeBaseRequest(`http://${baseUrl}/getProfileInfo`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -25,10 +25,14 @@ export class ProfileAPI {
 
     async editProfile(newProfile, editedFieldCnt) {
         try {
-            return makeBaseRequest(`${baseUrl}/updateProfileInfo`, 'POST', {
-                numOfUpdatedFields: editedFieldCnt,
-                user: newProfile,
-            });
+            return makeBaseRequest(
+                `http://${baseUrl}/updateProfileInfo`,
+                'POST',
+                {
+                    numOfUpdatedFields: editedFieldCnt,
+                    user: newProfile,
+                },
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -43,7 +47,7 @@ export class ProfileAPI {
         formData.append('avatar', file);
         try {
             return makeBaseRequest(
-                `${baseUrl}/uploadAvatar`,
+                `http://${baseUrl}/uploadAvatar`,
                 'POST',
                 formData,
                 null,
@@ -59,7 +63,7 @@ export class ProfileAPI {
 
     async changePassword(oldPassword, newPassword) {
         try {
-            return makeBaseRequest(`${baseUrl}/changePassword`, 'POST', {
+            return makeBaseRequest(`http://${baseUrl}/changePassword`, 'POST', {
                 oldPassword: oldPassword,
                 newPassword: newPassword,
             });
