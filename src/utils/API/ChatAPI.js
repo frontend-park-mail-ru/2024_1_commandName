@@ -36,4 +36,18 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async chatById(ChatId) {
+        try {
+            return makeBaseRequest(`${baseUrl}/getChat`, 'POST', {
+                chat_id: ChatId,
+            });
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

@@ -37,17 +37,22 @@ export default class ChatPage {
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);
-        let checkChatId = false;
 
         const chatAPI = new ChatAPI();
+        if (this.#currentChatId) {
+            chatAPI.chatById(this.#currentChatId).then((response) => {
+                if (response.status === 200) {
+                    this.displayActiveChat(response.body.chat);
+                } else {
+                    goToPage('/chat');
+                    this.#currentChatId = null;
+                }
+            });
+        }
         chatAPI
             .getChats()
             .then((response) => {
                 response.body.chats.forEach((chatConfig) => {
-                    if (chatConfig.id === this.#currentChatId) {
-                        checkChatId = true;
-                        this.displayActiveChat(chatConfig);
-                    }
                     this.#chatList.addChat(chatConfig, () => {
                         this.#chat.setInputMessageValue(
                             this.#messageDrafts[chatConfig.id] || '',
@@ -56,10 +61,6 @@ export default class ChatPage {
                         goToPage('/chat?id=' + chatConfig.id);
                     });
                 });
-                if (!checkChatId && !isNaN(this.#currentChatId)) {
-                    goToPage('/chat');
-                    this.#currentChatId = null;
-                }
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
