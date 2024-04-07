@@ -17,6 +17,7 @@ export default class ChatPage {
     #chatList;
     #messageDrafts = {};
     #currentChatId;
+    UserId;
 
     constructor(parent, urlParams) {
         this.#parent = parent;
@@ -76,6 +77,7 @@ export default class ChatPage {
                     throw new Error('Пришел не 200 статус');
                 }
                 const profile = response.body.user;
+                this.UserId = profile.id;
                 this.#chatList.setUserName(`${profile.username}`);
             })
             .catch((error) => {
@@ -130,7 +132,13 @@ export default class ChatPage {
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
+            // Если сообщение от акитивного юзера, то
+            let owner = 'message';
+            if (this.UserId === message.user_id) {
+                owner = 'my_message';
+            }
             const messageElement = new Message(activeChatContainer, {
+                message_owner: owner,
                 message_text: message.message_text,
             });
             messageElement.render();
