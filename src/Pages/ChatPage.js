@@ -90,11 +90,18 @@ export default class ChatPage {
     };
 
     messageSendHandler = () => {
-        const inputMessage = this.#parent.querySelector('#input_message').value;
+        const inputMessage = this.#parent
+            .querySelector('#input_message')
+            .value.trim();
         const chatId = this.#currentChatId; // Получаем ID текущего чата
+        function escapeHTML(html) {
+            return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
         if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
-            websocketManager.sendMessage(chatId, inputMessage);
+            const sanitizedInputMessage = escapeHTML(inputMessage); // Фильтрация XSS
+            websocketManager.sendMessage(chatId, sanitizedInputMessage);
             setTimeout(() => {
                 goToPage('/chat?id=' + chatId);
             }, 200);
