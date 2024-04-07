@@ -5,6 +5,7 @@ import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
+import { websocketManager } from '../utils/WebSocket.js';
 
 /**
  * Рендерит страницу чатов
@@ -16,10 +17,12 @@ export default class ChatPage {
     #chatList;
     #messageDrafts = {};
     #currentChatId;
+    userId;
 
     constructor(parent, urlParams) {
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
+        websocketManager.connect();
     }
 
     render() {
@@ -32,7 +35,8 @@ export default class ChatPage {
         this.#chatList.render();
 
         this.#chat = new Chat(wrapper, {
-            inputMessaegHandler: this.messageDraftHandler,
+            inputMessageHandler: this.messageDraftHandler,
+            sendMessageHandler: this.messageSendHandler,
         });
         this.#chat.render();
 
@@ -74,6 +78,7 @@ export default class ChatPage {
                     throw new Error('Пришел не 200 статус');
                 }
                 const profile = response.body.user;
+                this.userId = profile.id;
                 this.#chatList.setUserName(`${profile.username}`);
             })
             .catch((error) => {
@@ -83,6 +88,27 @@ export default class ChatPage {
 
     messageDraftHandler = (event) => {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
+    };
+
+    messageSendHandler = () => {
+        const inputMessage = this.#parent
+            .querySelector('#input_message')
+            .value.trim();
+        const chatId = this.#currentChatId; // Получаем ID текущего чата
+        function escapeHTML(html) {
+            return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        if (inputMessage && chatId) {
+            // Проверяем, что есть сообщение и ID чата
+            const sanitizedInputMessage = escapeHTML(inputMessage); // Фильтрация XSS
+            websocketManager.sendMessage(chatId, sanitizedInputMessage);
+            setTimeout(() => {
+                goToPage('/chat?id=' + chatId);
+            }, 200);
+        } else {
+            console.error('Нет текста сообщения или ID чата.');
+        }
     };
 
     displayActiveChat(chat) {
@@ -114,7 +140,13 @@ export default class ChatPage {
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
+            // Если сообщение от акитивного юзера, то
+            let owner = 'message';
+            if (this.userId === message.user_id) {
+                owner = 'my_message';
+            }
             const messageElement = new Message(activeChatContainer, {
+                message_owner: owner,
                 message_text: message.message_text,
             });
             messageElement.render();
@@ -130,6 +162,7 @@ export default class ChatPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
+                    websocketManager.close();
                     goToPage('/login');
                 } else {
                     console.log('Error logged out');

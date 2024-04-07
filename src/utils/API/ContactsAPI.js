@@ -1,5 +1,5 @@
 import { makeBaseRequest } from './common.js';
-import { baseUrl } from './config.js';
+import { baseUrl, protocol } from './config.js';
 
 /**
  * API для работы с контактами
@@ -13,7 +13,10 @@ export class ContactsAPI {
      */
     async getContacts() {
         try {
-            return makeBaseRequest(`${baseUrl}/getContacts`, 'GET');
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getContacts`,
+                'GET',
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
