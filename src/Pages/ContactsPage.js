@@ -47,25 +47,4 @@ export default class ContactsPage {
                 console.error('Ошибка при получении контактов:', error);
             });
     }
-
-    getChatByName(name) {
-        let checkChatId = false;
-        const chatAPI = new ChatAPI();
-        chatAPI
-            .getChats()
-            .then((chats) => {
-                chats.body.chats.forEach((chatConfig) => {
-                    if (chatConfig.name === name) {
-                        checkChatId = true;
-                        goToPage('/chat?id=' + chatConfig.id);
-                    }
-                });
-                if (!checkChatId) {
-                    goToPage('/chat');
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка при получении чатов:', error);
-            });
-    }
 }
