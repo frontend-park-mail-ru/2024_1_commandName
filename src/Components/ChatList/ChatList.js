@@ -40,10 +40,6 @@ export default class ChatList extends BaseComponent {
         chat.render();
     }
 
-    deleteChat(chatConfig, handler) {
-        chatConfig.deleteHandler = handler;
-    }
-
     setUserName(user) {
         this.getParent().querySelector('#profile_btn').innerHTML = user;
     }

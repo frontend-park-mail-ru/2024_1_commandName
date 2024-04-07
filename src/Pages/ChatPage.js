@@ -53,9 +53,6 @@ export default class ChatPage {
             .getChats()
             .then((response) => {
                 response.body.chats.forEach((chatConfig) => {
-                    this.#chatList.deleteChat(chatConfig, () => {
-                        this.deleteChatById(chatConfig.id);
-                    });
                     this.#chatList.addChat(chatConfig, () => {
                         this.#chat.setInputMessageValue(
                             this.#messageDrafts[chatConfig.id] || '',
@@ -87,24 +84,6 @@ export default class ChatPage {
     messageDraftHandler = (event) => {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
-
-    deleteChatById(chatId) {
-        const chatAPI = new ChatAPI();
-        chatAPI
-            .deleteChatById(chatId)
-            .then((data) => {
-                if (data.status === 200) {
-                    // Обработка успешной авторизации
-                    goToPage('/chat');
-                } else {
-                    throw new Error('Пришел не 200 статус');
-                }
-            })
-            .catch((error) => {
-                alert('Что-то пошло не так');
-                console.error('delete chat failed:', error);
-            });
-    }
 
     displayActiveChat(chat) {
         // Очищаем контейнер активного чата

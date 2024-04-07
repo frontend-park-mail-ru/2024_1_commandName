@@ -1,4 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
+import { ChatAPI } from '../../utils/API/ChatAPI.js';
+import { goToPage } from '../../utils/router.js';
 
 /**
  * Рендерит компонент чата для боковой панели
@@ -26,6 +28,22 @@ export default class ChatListItem extends BaseComponent {
             .addEventListener('click', this.getConfig().handler);
         this.getParent()
             .querySelector(`#delete-button_${id}`)
-            .addEventListener('click', this.getConfig().deleteHandler);
+            .addEventListener('click', () => {
+                const chatAPI = new ChatAPI();
+                chatAPI
+                    .deleteChatById(id)
+                    .then((data) => {
+                        if (data.status === 200) {
+                            // Обработка успешной авторизации
+                            goToPage('/chat');
+                        } else {
+                            throw new Error('Пришел не 200 статус');
+                        }
+                    })
+                    .catch((error) => {
+                        alert('Что-то пошло не так');
+                        console.error('delete chat failed:', error);
+                    });
+            });
     }
 }
