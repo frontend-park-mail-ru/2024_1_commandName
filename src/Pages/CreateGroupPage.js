@@ -30,12 +30,12 @@ export default class CreateGroupPage {
             }, this);
 
         const group = {
-            groupName: event.target.querySelector('#group_name').value,
             description: event.target.querySelector('#group_description').value,
-            userIds: userIds,
+            group_name: event.target.querySelector('#group_name').value,
+            user_ids: userIds,
         };
 
-        if (group.groupName.length === 0) {
+        if (group.group_name.length === 0) {
             error.textContent = 'Заполните поле Название';
             return;
         }

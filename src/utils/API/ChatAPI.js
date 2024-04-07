@@ -25,7 +25,7 @@ export class ChatAPI {
 
     async createGroup(group) {
         try {
-            return makeBaseRequest(`${baseUrl}/createGroup`, 'POST', group);
+            return makeBaseRequest(`${baseUrl}/createGroupChat`, 'POST', group);
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
