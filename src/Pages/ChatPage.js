@@ -53,6 +53,9 @@ export default class ChatPage {
             .getChats()
             .then((response) => {
                 response.body.chats.forEach((chatConfig) => {
+                    this.#chatList.deleteChat(chatConfig, () => {
+                        this.deleteChatById(chatConfig.id);
+                    });
                     this.#chatList.addChat(chatConfig, () => {
                         this.#chat.setInputMessageValue(
                             this.#messageDrafts[chatConfig.id] || '',
@@ -99,7 +102,7 @@ export default class ChatPage {
             })
             .catch((error) => {
                 alert('Что-то пошло не так');
-                console.error('Edit avatar failed:', error);
+                console.error('delete chat failed:', error);
             });
     }
 
