@@ -1,5 +1,5 @@
 import { makeBaseRequest } from './common.js';
-import { baseUrl } from './config.js';
+import { protocol, baseUrl } from './config.js';
 
 /**
  * Предоставляет методы для взаимодействия с API авторизацией
@@ -52,7 +52,7 @@ export class AuthAPI {
      */
     async logout() {
         try {
-            return makeBaseRequest(`http://${baseUrl}/logout`, 'GET');
+            return makeBaseRequest(`${protocol}://${baseUrl}/logout`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -71,10 +71,14 @@ export class AuthAPI {
      */
     async register(username, password) {
         try {
-            return makeBaseRequest(`http://${baseUrl}/register`, 'POST', {
-                username: username,
-                password: password,
-            });
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/register`,
+                'POST',
+                {
+                    username: username,
+                    password: password,
+                },
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',

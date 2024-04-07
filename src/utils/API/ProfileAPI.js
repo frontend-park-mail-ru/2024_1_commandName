@@ -1,5 +1,5 @@
 import { makeBaseRequest } from './common.js';
-import { baseUrl } from './config.js';
+import { baseUrl, protocol } from './config.js';
 
 /**
  * API для работы с профилями
@@ -13,7 +13,10 @@ export class ProfileAPI {
      */
     async getProfile() {
         try {
-            return makeBaseRequest(`http://${baseUrl}/getProfileInfo`, 'GET');
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getProfileInfo`,
+                'GET',
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -26,7 +29,7 @@ export class ProfileAPI {
     async editProfile(newProfile, editedFieldCnt) {
         try {
             return makeBaseRequest(
-                `http://${baseUrl}/updateProfileInfo`,
+                `${protocol}://${baseUrl}/updateProfileInfo`,
                 'POST',
                 {
                     numOfUpdatedFields: editedFieldCnt,
@@ -47,7 +50,7 @@ export class ProfileAPI {
         formData.append('avatar', file);
         try {
             return makeBaseRequest(
-                `http://${baseUrl}/uploadAvatar`,
+                `${protocol}://${baseUrl}/uploadAvatar`,
                 'POST',
                 formData,
                 null,
@@ -63,10 +66,14 @@ export class ProfileAPI {
 
     async changePassword(oldPassword, newPassword) {
         try {
-            return makeBaseRequest(`http://${baseUrl}/changePassword`, 'POST', {
-                oldPassword: oldPassword,
-                newPassword: newPassword,
-            });
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/changePassword`,
+                'POST',
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                },
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
