@@ -24,11 +24,12 @@ export default class ChatListItem extends BaseComponent {
         this.getParent()
             .querySelector(`#chat_name_${id}`)
             .addEventListener('click', this.getConfig().handler);
-        this.getParent()
-            .querySelector(`#delete-button_${id}`)
-            .addEventListener('click', () => {
-                console.log('Чат с id=' + id + ' удален');
-                modal.classList.add('hidden');
-            });
+        this.getParent().querySelector(`#delete-button_${id}`).addEventListener(
+            'click',
+            this.getConfig().deleteHandler,
+            // this.getConfig().deleteHandler;
+            // console.log('Чат с id=' + id + ' удален');
+            // modal.classList.add('hidden');
+        );
     }
 }

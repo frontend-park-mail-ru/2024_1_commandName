@@ -85,6 +85,24 @@ export default class ChatPage {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
 
+    deleteChatById(chatId) {
+        const chatAPI = new ChatAPI();
+        chatAPI
+            .deleteChatById(chatId)
+            .then((data) => {
+                if (data.status === 200) {
+                    // Обработка успешной авторизации
+                    goToPage('/chat');
+                } else {
+                    throw new Error('Пришел не 200 статус');
+                }
+            })
+            .catch((error) => {
+                alert('Что-то пошло не так');
+                console.error('Edit avatar failed:', error);
+            });
+    }
+
     displayActiveChat(chat) {
         // Очищаем контейнер активного чата
         const activeChatContainer = document.getElementById(

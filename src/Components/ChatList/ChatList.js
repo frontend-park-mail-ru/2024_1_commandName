@@ -40,6 +40,11 @@ export default class ChatList extends BaseComponent {
         chat.render();
     }
 
+    deleteChat(chatConfig, handler) {
+        chatConfig.deleteHandler = handler;
+        console.log('Чат с id=' + chatConfig.id + ' удален');
+    }
+
     setUserName(user) {
         this.getParent().querySelector('#profile_btn').innerHTML = user;
     }
