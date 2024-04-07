@@ -2,10 +2,17 @@ import { baseUrl } from './API/config.js';
 class WebSocketManager {
     constructor() {
         this.socket = null;
+        if (baseUrl === 'chatme.site/api/v1') {
+            this.protocol = 'wss';
+        } else {
+            this.protocol = 'ws';
+        }
     }
 
     connect() {
-        this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
+        this.socket = new WebSocket(
+            `${this.protocol}://${baseUrl}/sendMessage`,
+        );
         this.socket.onopen = () => {
             console.log('WebSocket connection established.');
         };
