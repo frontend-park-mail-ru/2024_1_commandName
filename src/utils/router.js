@@ -13,7 +13,10 @@ function handleRouting() {
 
 export function goToPage(path) {
     window.history.pushState({}, '', path);
-    handleRouting();
+
+    if (window.location.pathname !== path.split('?')[0]) {
+        handleRouting();
+    }
 }
 
 // Обработка изменения URL

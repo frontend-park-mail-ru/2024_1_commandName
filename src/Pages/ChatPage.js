@@ -74,9 +74,7 @@ export default class ChatPage {
                     throw new Error('Пришел не 200 статус');
                 }
                 const profile = response.body.user;
-                this.#chatList.setUserName(
-                    `${profile.name} ${profile.surname}`,
-                );
+                this.#chatList.setUserName(`${profile.username}`);
             })
             .catch((error) => {
                 console.error('Ошибка при получении профиля:', error);
