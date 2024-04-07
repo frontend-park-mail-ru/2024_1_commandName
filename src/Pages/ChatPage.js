@@ -26,6 +26,20 @@ export default class ChatPage {
     }
 
     render() {
+        const profileAPI = new ProfileAPI();
+        profileAPI
+            .getProfile()
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw new Error('Пришел не 200 статус');
+                }
+                const profile = response.body.user;
+                this.userId = profile.id;
+                this.#chatList.setUserName(`${profile.username}`);
+            })
+            .catch((error) => {
+                console.error('Ошибка при получении профиля:', error);
+            });
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
@@ -68,21 +82,6 @@ export default class ChatPage {
             })
             .catch((error) => {
                 console.error('Ошибка при получении чатов:', error);
-            });
-
-        const profileAPI = new ProfileAPI();
-        profileAPI
-            .getProfile()
-            .then((response) => {
-                if (response.status !== 200) {
-                    throw new Error('Пришел не 200 статус');
-                }
-                const profile = response.body.user;
-                this.userId = profile.id;
-                this.#chatList.setUserName(`${profile.username}`);
-            })
-            .catch((error) => {
-                console.error('Ошибка при получении профиля:', error);
             });
     }
 

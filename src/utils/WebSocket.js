@@ -35,7 +35,6 @@ class WebSocketManager {
             chat_id: chatId,
             message_text: messageText,
         };
-        console.log(message);
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
         } else {
