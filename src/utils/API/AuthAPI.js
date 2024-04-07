@@ -13,7 +13,7 @@ export class AuthAPI {
      */
     async checkAuth() {
         try {
-            return makeBaseRequest(`http://${baseUrl}/checkAuth`, 'GET');
+            return makeBaseRequest(`${protocol}://${baseUrl}/checkAuth`, 'GET');
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -32,7 +32,7 @@ export class AuthAPI {
      */
     async login(username, password) {
         try {
-            return makeBaseRequest(`http://${baseUrl}/login`, 'POST', {
+            return makeBaseRequest(`${protocol}://${baseUrl}/login`, 'POST', {
                 username: username,
                 password: password,
             });
