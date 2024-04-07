@@ -1,5 +1,6 @@
 import Form from '../Components/Form/Form.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
+import { ContactsAPI } from '../utils/API/ContactsAPI.js';
 import { enableRedirect } from '../utils/API/common.js';
 import { goToPage } from '../utils/router.js';
 
@@ -59,45 +60,48 @@ export default class CreateGroupPage {
     }
 
     render() {
-        const form = new Form(this.#parent, {
-            header: 'Создать группу',
-            onSubmit: this.formCallback,
-            inputs: [
-                {
-                    id: 'group_name',
-                    type: 'text',
-                    placeholder: 'Название',
-                    required: true,
-                },
-                {
-                    id: 'group_description',
-                    type: 'text',
-                    placeholder: 'Описание',
-                    required: true,
-                },
-                {
-                    id: 'user_list',
-                    list_name: 'user_list',
-                    type: 'checkbox_list',
-                    placeholder: 'Участники',
-                    items: [
+        const contactsAPI = new ContactsAPI();
+        contactsAPI
+            .getContacts()
+            .then((response) => {
+                const contacts = response.body.contacts;
+                const userListItems = contacts.map((contact) => ({
+                    id: contact.id,
+                    name: contact.name,
+                    surname: contact.surname,
+                    username: contact.username,
+                }));
+                const form = new Form(this.#parent, {
+                    header: 'Создать группу',
+                    onSubmit: this.formCallback,
+                    inputs: [
                         {
-                            id: 1,
-                            name: 'Ivan',
-                            surname: 'Naumov',
-                            username: 'ivan_naum',
+                            id: 'group_name',
+                            type: 'text',
+                            placeholder: 'Название',
+                            required: true,
                         },
                         {
-                            id: 2,
-                            name: 'test',
-                            surname: 'testsur',
-                            username: 'testusername',
+                            id: 'group_description',
+                            type: 'text',
+                            placeholder: 'Описание',
+                            required: true,
+                        },
+                        {
+                            id: 'user_list',
+                            list_name: 'user_list',
+                            type: 'checkbox_list',
+                            placeholder: 'Участники',
+                            items: userListItems,
                         },
                     ],
-                },
-            ],
-            submitButtonText: 'Создать',
-        });
-        form.render();
+                    submitButtonText: 'Создать',
+                });
+                form.render();
+            })
+            .catch((error) => {
+                console.error('Failed to fetch contacts:', error);
+                // Handle error, maybe show a message to the user
+            });
     }
 }
