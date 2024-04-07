@@ -44,7 +44,7 @@ export default class ContactsPage {
                 }
             })
             .catch((error) => {
-                console.error('Ошибка при получении профиля:', error);
+                console.error('Ошибка при получении контактов:', error);
             });
     }
 
