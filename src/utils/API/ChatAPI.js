@@ -50,4 +50,18 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async deleteChatById(ChatId) {
+        try {
+            return makeBaseRequest(`${baseUrl}/deleteChat`, 'POST', {
+                chat_id: ChatId,
+            });
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
