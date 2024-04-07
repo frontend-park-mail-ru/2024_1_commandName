@@ -20,16 +20,10 @@ export default class Contacts extends BaseComponent {
             });
     }
 
-    setContacts(contacts) {
+    addContact(contactConfig, handler) {
         const contactList = this.getParent().querySelector('#contact_list');
-        contactList.innerHTML = '';
-        if (contacts.length > 0) {
-            contacts.forEach((con) => {
-                const conItem = new ContactItem(contactList, con);
-                conItem.render();
-            });
-        } else {
-            contactList.innerHTML = 'У Вас ещё нет контактов';
-        }
+        contactConfig.handler = handler;
+        const contact = new ContactItem(contactList, contactConfig);
+        contact.render();
     }
 }
