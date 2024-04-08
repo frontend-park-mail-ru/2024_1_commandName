@@ -14,7 +14,7 @@
 }
 
 .my_message {
-    border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 1px;
+    border-radius:  var(--border-radius) var(--border-radius) 1px var(--border-radius);
     background-color: var(--my-message-color);
     padding: 10px;
     max-width: 75%;

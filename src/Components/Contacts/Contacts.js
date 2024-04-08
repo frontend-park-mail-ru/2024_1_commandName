@@ -16,7 +16,7 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                goToPage('/chat');
+                goToPage('/chat', true);
             });
     }
 

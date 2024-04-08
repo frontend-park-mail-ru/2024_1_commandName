@@ -1,50 +1,44 @@
 import { ContactsAPI } from '../utils/API/ContactsAPI.js';
-import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
-import { goToPage } from '../utils/router.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу чатов
  * @class Класс страницы чатов
  */
-export default class ContactsPage {
+export default class ContactsPage extends BasePage {
     #parent;
-    #contactsList;
+    #contacts;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.getData().then(() => this.render());
     }
 
+    getData = async () => {
+        try {
+            const contactsApi = new ContactsAPI();
+
+            const contactsResponse = await contactsApi.getContacts();
+
+            if (contactsResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+            this.#contacts = contactsResponse.body.contacts;
+
+            return {
+                contacts: this.#contacts,
+            };
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+            throw error;
+        }
+    };
+
     render() {
-        const contactsAPI = new ContactsAPI();
-        const chatAPI = new ChatAPI();
-
-        this.#contactsList = new Contacts(this.#parent, {});
-        this.#contactsList.render();
-
-        contactsAPI
-            .getContacts()
-            .then((response) => {
-                if (response.body.contacts.length === 0) {
-                    this.#contactsList.innerHTML = 'У Вас ещё нет контактов';
-                } else {
-                    response.body.contacts.forEach((contactConfig) => {
-                        this.#contactsList.addContact(contactConfig, () => {
-                            chatAPI
-                                .chatByUserId(contactConfig.id)
-                                .then((response) => {
-                                    if (response.status === 200) {
-                                        goToPage(
-                                            '/chat?id=' + response.body.chat_id,
-                                        );
-                                    }
-                                });
-                        });
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка при получении контактов:', error);
-            });
+        const contacts = new Contacts(this.#parent, {});
+        contacts.render();
+        contacts.setContacts(this.#contacts);
     }
 }

@@ -2,16 +2,19 @@ import Form from '../Components/Form/Form.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { validateUsername, validateEmail } from '../utils/valid.js';
 import { goToPage } from '../utils/router.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу редактирования профиля
  * @class Класс страницы редактирования профиля
  */
-export default class LoginPage {
+export default class LoginPage extends BasePage {
     #parent;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -77,7 +80,7 @@ export default class LoginPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/profile');
+                    goToPage('/profile', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -93,7 +96,7 @@ export default class LoginPage {
             header: 'Редактировать профиль',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/profile');
+                goToPage('/profile', true);
             },
             inputs: [
                 {
