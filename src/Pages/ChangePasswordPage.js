@@ -2,16 +2,19 @@ import Form from '../Components/Form/Form.js';
 import { validatePassword } from '../utils/valid.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { goToPage } from '../utils/router.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу изменения пароля
  * @class Класс страницы изменения пароля
  */
-export default class ChangePasswordPage {
+export default class ChangePasswordPage extends BasePage {
     #parent;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -57,7 +60,7 @@ export default class ChangePasswordPage {
             header: 'Изменение пароля',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/profile');
+                goToPage('/profile', true);
             },
             inputs: [
                 {

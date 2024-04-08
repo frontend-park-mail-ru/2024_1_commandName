@@ -7,25 +7,54 @@ import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
+import { BasePage } from './BasePage.js';
 
-/**
+/*
  * Рендерит страницу чатов
  * @class Класс страницы чатов
  */
-export default class ChatPage {
+export default class ChatPage extends BasePage {
     #parent;
     #chat;
     #chatList;
     #messageDrafts = {};
     #currentChatId;
-    userId;
-    //#history = [];
+    #profile;
+    #chats;
 
     constructor(parent, urlParams) {
+        super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
+        this.getData().then(() => this.render());
         websocketManager.connect();
     }
+
+    getData = async () => {
+        try {
+            const chatAPI = new ChatAPI();
+            const profileAPI = new ProfileAPI();
+
+            const [chatsResponse, profileResponse] = await Promise.all([
+                chatAPI.getChats(),
+                profileAPI.getProfile(),
+            ]);
+
+            this.#chats = chatsResponse.body.chats;
+            if (profileResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+            this.#profile = profileResponse.body.user;
+
+            return {
+                chats: this.#chats,
+                profile: this.#profile,
+            };
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+            throw error;
+        }
+    };
 
     render() {
         const wrapper = document.createElement('div');
@@ -35,6 +64,7 @@ export default class ChatPage {
             logoutHandler: this.handleLogout,
         });
         this.#chatList.render();
+        this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
             inputMessageHandler: this.messageDraftHandler,
@@ -43,48 +73,25 @@ export default class ChatPage {
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);
-        let checkChatId = false;
-
-        const chatAPI = new ChatAPI();
-        chatAPI
-            .getChats()
-            .then((chats) => {
-                chats.body.chats.forEach((chatConfig) => {
-                    if (chatConfig.id === this.#currentChatId) {
-                        checkChatId = true;
-                        this.displayActiveChat(chatConfig);
-                    }
-                    this.#chatList.addChat(chatConfig, () => {
-                        this.#chat.setInputMessageValue(
-                            this.#messageDrafts[chatConfig.id] || '',
-                        );
-                        this.displayActiveChat(chatConfig);
-                        goToPage('/chat?id=' + chatConfig.id);
-                    });
-                });
-                if (!checkChatId && !isNaN(this.#currentChatId)) {
-                    goToPage('/chat');
-                    this.#currentChatId = null;
-                }
-            })
-            .catch((error) => {
-                console.error('Ошибка при получении чатов:', error);
-            });
-
-        const profileAPI = new ProfileAPI();
-        profileAPI
-            .getProfile()
-            .then((response) => {
-                if (response.status !== 200) {
-                    throw new Error('Пришел не 200 статус');
-                }
-                const profile = response.body.user;
-                this.userId = profile.id;
-                this.#chatList.setUserName(`${profile.username}`);
-            })
-            .catch((error) => {
-                console.error('Ошибка при получении профиля:', error);
-            });
+        this.displayChats(this.#chats);
+        // let checkChatId = false;
+        // this.#chats.forEach((chatConfig) => {
+        //     if (chatConfig.id === this.#currentChatId) {
+        //         checkChatId = true;
+        //         this.displayActiveChat(chatConfig);
+        //     }
+        //     this.#chatList.addChat(chatConfig, () => {
+        //         this.#chat.setInputMessageValue(
+        //             this.#messageDrafts[chatConfig.id] || '',
+        //         );
+        //         this.displayActiveChat(chatConfig);
+        //         goToPage('/chat?id=' + chatConfig.id, false);
+        //     });
+        // });
+        // if (!checkChatId && !isNaN(this.#currentChatId)) {
+        //     goToPage('/chat', false);
+        //     this.#currentChatId = null;
+        // }
     }
 
     messageDraftHandler = (event) => {
@@ -92,20 +99,50 @@ export default class ChatPage {
     };
 
     messageSendHandler = () => {
+        // Контейнер активного чата
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
         const inputMessage = this.#parent
             .querySelector('#input_message')
             .value.trim();
-        const chatId = this.#currentChatId; // Получаем ID текущего чата
-
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = parseInt(urlParams.get('id'));
         if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
             const sanitizedInputMessage = sanitizer(inputMessage);
             websocketManager.sendMessage(chatId, sanitizedInputMessage);
-            goToPage('/chat?id=' + chatId);
+            const messageElement = new Message(activeChatContainer, {
+                message_owner: 'my_message',
+                message_text: sanitizedInputMessage,
+            });
+            messageElement.render();
+            document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
         }
     };
+
+    displayChats(chats) {
+        let checkChatId = false;
+        chats.forEach((chatConfig) => {
+            if (chatConfig.id === this.#currentChatId) {
+                checkChatId = true;
+                this.displayActiveChat(chatConfig);
+            }
+            this.#chatList.addChat(chatConfig, () => {
+                this.#chat.setInputMessageValue(
+                    this.#messageDrafts[chatConfig.id] || '',
+                );
+                this.displayActiveChat(chatConfig);
+                goToPage('/chat?id=' + chatConfig.id, false);
+            });
+        });
+        if (!checkChatId && !isNaN(this.#currentChatId)) {
+            goToPage('/chat', false);
+            this.#currentChatId = null;
+        }
+    }
 
     displayActiveChat(chat) {
         // Очищаем контейнер активного чата
@@ -138,7 +175,7 @@ export default class ChatPage {
         chat.messages.forEach((message) => {
             // Если сообщение от акитивного юзера, то
             let owner = 'message';
-            if (this.userId === message.user_id) {
+            if (this.#profile.id === message.user_id) {
                 owner = 'my_message';
             }
             const messageElement = new Message(activeChatContainer, {
@@ -159,7 +196,7 @@ export default class ChatPage {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
                     websocketManager.close();
-                    goToPage('/login');
+                    goToPage('/login', true);
                 } else {
                     console.log('Error logged out');
                 }

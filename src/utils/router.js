@@ -7,14 +7,16 @@ function handleRouting() {
 
     const rootNode = document.getElementById('root');
     rootNode.innerHTML = '';
-    const renderPage = new page(rootNode, urlParams);
-    // тут будет await
-    renderPage.render();
+    new page(rootNode, urlParams);
 }
 
-export function goToPage(path) {
-    window.history.pushState({}, '', path);
-    handleRouting();
+export function goToPage(path, needReload) {
+    if (needReload) {
+        window.history.pushState({}, '', path);
+        handleRouting();
+    } else {
+        window.history.replaceState({}, '', path);
+    }
 }
 
 // Обработка изменения URL
