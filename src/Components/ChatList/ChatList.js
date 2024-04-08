@@ -28,7 +28,7 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#create_group_btn')
             .addEventListener('click', () => {
-                goToPage('/create_group');
+                goToPage('/create_group', true);
             });
     }
 

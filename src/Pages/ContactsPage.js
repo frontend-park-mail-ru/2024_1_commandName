@@ -1,6 +1,8 @@
 import { ContactsAPI } from '../utils/API/ContactsAPI.js';
+import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
+import { goToPage } from '../utils/router.js';
 
 /**
  * Рендерит страницу чатов
@@ -9,6 +11,7 @@ import { BasePage } from './BasePage.js';
 export default class ContactsPage extends BasePage {
     #parent;
     #contacts;
+    #contactsList;
 
     constructor(parent) {
         super(parent);
@@ -18,9 +21,9 @@ export default class ContactsPage extends BasePage {
 
     getData = async () => {
         try {
-            const contactsApi = new ContactsAPI();
+            const contactsAPI = new ContactsAPI();
 
-            const contactsResponse = await contactsApi.getContacts();
+            const contactsResponse = await contactsAPI.getContacts();
 
             if (contactsResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
@@ -37,8 +40,17 @@ export default class ContactsPage extends BasePage {
     };
 
     render() {
-        const contacts = new Contacts(this.#parent, {});
-        contacts.render();
-        contacts.setContacts(this.#contacts);
+        const chatAPI = new ChatAPI();
+        this.#contactsList = new Contacts(this.#parent, {});
+        this.#contactsList.render();
+        this.#contacts.forEach((contactConfig) => {
+            this.#contactsList.addContact(contactConfig, () => {
+                chatAPI.chatByUserId(contactConfig.id).then((response) => {
+                    if (response.status === 200) {
+                        goToPage('/chat?id=' + response.body.chat_id, true);
+                    }
+                });
+            });
+        });
     }
 }
