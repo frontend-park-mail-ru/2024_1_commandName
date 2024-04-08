@@ -6,6 +6,7 @@ import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { websocketManager } from '../utils/WebSocket.js';
+import { sanitizer } from '../utils/valid.js';
 
 /**
  * Рендерит страницу чатов
@@ -18,6 +19,7 @@ export default class ChatPage {
     #messageDrafts = {};
     #currentChatId;
     userId;
+    //#history = [];
 
     constructor(parent, urlParams) {
         this.#parent = parent;
@@ -94,17 +96,12 @@ export default class ChatPage {
             .querySelector('#input_message')
             .value.trim();
         const chatId = this.#currentChatId; // Получаем ID текущего чата
-        function escapeHTML(html) {
-            return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
 
         if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
-            const sanitizedInputMessage = escapeHTML(inputMessage); // Фильтрация XSS
+            const sanitizedInputMessage = sanitizer(inputMessage);
             websocketManager.sendMessage(chatId, sanitizedInputMessage);
-            setTimeout(() => {
-                goToPage('/chat?id=' + chatId);
-            }, 200);
+            goToPage('/chat?id=' + chatId);
         } else {
             console.error('Нет текста сообщения или ID чата.');
         }

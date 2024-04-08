@@ -97,6 +97,10 @@ export function validateUsername(username) {
     return { success: true, message: 'Имя пользователя валидно' };
 }
 
+export function sanitizer(text) {
+    return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 // Tests:
 // console.log(validatePassword('Demouser123!').success == true);
 // console.log(validatePassword('Demouser123').success == false);

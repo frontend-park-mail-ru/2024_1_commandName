@@ -8,6 +8,7 @@ function handleRouting() {
     const rootNode = document.getElementById('root');
     rootNode.innerHTML = '';
     const renderPage = new page(rootNode, urlParams);
+    // тут будет await
     renderPage.render();
 }
 
