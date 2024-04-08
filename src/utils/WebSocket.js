@@ -11,6 +11,10 @@ class WebSocketManager {
         }
     }
 
+    setMessageHandler(handler) {
+        this.messageHandler = handler;
+    }
+
     connect() {
         this.socket = new WebSocket(
             `${this.protocol}://${baseUrl}${this.ws_way}/sendMessage`,
@@ -20,6 +24,13 @@ class WebSocketManager {
         };
         this.socket.onerror = (error) => {
             console.error('WebSocket error:', error);
+        };
+        // Добавляем прослушивание входящих сообщений
+        this.socket.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            if (this.messageHandler) {
+                this.messageHandler(message);
+            }
         };
     }
 
@@ -35,7 +46,6 @@ class WebSocketManager {
             chat_id: chatId,
             message_text: messageText,
         };
-        console.log(message);
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
         } else {

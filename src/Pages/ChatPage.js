@@ -26,8 +26,9 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
-        this.getData().then(() => this.render());
         websocketManager.connect();
+        websocketManager.setMessageHandler(this.handleWebSocketMessage);
+        this.getData().then(() => this.render());
     }
 
     getData = async () => {
@@ -74,24 +75,6 @@ export default class ChatPage extends BasePage {
 
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
-        // let checkChatId = false;
-        // this.#chats.forEach((chatConfig) => {
-        //     if (chatConfig.id === this.#currentChatId) {
-        //         checkChatId = true;
-        //         this.displayActiveChat(chatConfig);
-        //     }
-        //     this.#chatList.addChat(chatConfig, () => {
-        //         this.#chat.setInputMessageValue(
-        //             this.#messageDrafts[chatConfig.id] || '',
-        //         );
-        //         this.displayActiveChat(chatConfig);
-        //         goToPage('/chat?id=' + chatConfig.id, false);
-        //     });
-        // });
-        // if (!checkChatId && !isNaN(this.#currentChatId)) {
-        //     goToPage('/chat', false);
-        //     this.#currentChatId = null;
-        // }
     }
 
     messageDraftHandler = (event) => {
@@ -100,9 +83,6 @@ export default class ChatPage extends BasePage {
 
     messageSendHandler = () => {
         // Контейнер активного чата
-        const activeChatContainer = document.getElementById(
-            'active-chat-container',
-        );
         const inputMessage = this.#parent
             .querySelector('#input_message')
             .value.trim();
@@ -112,14 +92,25 @@ export default class ChatPage extends BasePage {
             // Проверяем, что есть сообщение и ID чата
             const sanitizedInputMessage = sanitizer(inputMessage);
             websocketManager.sendMessage(chatId, sanitizedInputMessage);
-            const messageElement = new Message(activeChatContainer, {
-                message_owner: 'my_message',
-                message_text: sanitizedInputMessage,
-            });
-            messageElement.render();
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
+        }
+    };
+
+    handleWebSocketMessage = (message) => {
+        if (message.chat_id === this.#currentChatId) {
+            // Сообщение принадлежит текущему чату, выводим его
+            const activeChatContainer = document.getElementById(
+                'active-chat-container',
+            );
+            const owner =
+                message.user_id === this.#profile.id ? 'my_message' : 'message';
+            const messageElement = new Message(activeChatContainer, {
+                message_owner: owner,
+                message_text: message.message_text,
+            });
+            messageElement.render();
         }
     };
 
@@ -135,6 +126,7 @@ export default class ChatPage extends BasePage {
                     this.#messageDrafts[chatConfig.id] || '',
                 );
                 this.displayActiveChat(chatConfig);
+                this.#currentChatId = chatConfig.id;
                 goToPage('/chat?id=' + chatConfig.id, false);
             });
         });
