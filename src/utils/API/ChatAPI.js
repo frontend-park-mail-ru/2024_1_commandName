@@ -25,9 +25,13 @@ export class ChatAPI {
 
     async chatByUserId(UserId) {
         try {
-            return makeBaseRequest(`${baseUrl}/createPrivateChat`, 'POST', {
-                user_id: UserId,
-            });
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/createPrivateChat`,
+                'POST',
+                {
+                    user_id: UserId,
+                },
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
@@ -39,7 +43,7 @@ export class ChatAPI {
 
     async chatById(ChatId) {
         try {
-            return makeBaseRequest(`${baseUrl}/getChat`, 'POST', {
+            return makeBaseRequest(`${protocol}://${baseUrl}/getChat`, 'POST', {
                 chat_id: ChatId,
             });
         } catch (error) {
@@ -53,9 +57,13 @@ export class ChatAPI {
 
     async deleteChatById(ChatId) {
         try {
-            return makeBaseRequest(`${baseUrl}/deleteChat`, 'POST', {
-                chat_id: ChatId,
-            });
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/deleteChat`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
         } catch (error) {
             console.error(
                 'There was a problem with the fetch operation:',
