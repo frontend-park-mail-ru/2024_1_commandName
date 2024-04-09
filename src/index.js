@@ -15,9 +15,9 @@ api.checkAuth()
 
 // eslint-disable-next-line no-undef
 Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
-    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+    return arg1 === arg2 ? options.fn(this) : options.inverse(this);
 });
 // eslint-disable-next-line no-undef
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
-    return arg1 != arg2 ? options.fn(this) : options.inverse(this);
+    return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });

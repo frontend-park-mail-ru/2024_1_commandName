@@ -46,7 +46,6 @@ export default class CreateGroupPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    enableRedirect(true);
                     goToPage('/chat');
                 } else {
                     error.textContent = data.body.error;

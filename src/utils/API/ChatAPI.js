@@ -16,7 +16,7 @@ export class ChatAPI {
             return makeBaseRequest(`${baseUrl}/getChats`, 'GET');
         } catch (error) {
             console.error(
-                'There was a problem with the fetch operation:',
+                `There was a problem with the fetch operation ${baseUrl}/getChats:`,
                 error,
             );
             throw error;
@@ -28,7 +28,7 @@ export class ChatAPI {
             return makeBaseRequest(`${baseUrl}/createGroupChat`, 'POST', group);
         } catch (error) {
             console.error(
-                'There was a problem with the fetch operation:',
+                `There was a problem with the fetch operation ${baseUrl}/createGroup:`,
                 error,
             );
             throw error;
