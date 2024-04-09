@@ -1,6 +1,6 @@
 import Form from '../Components/Form/Form.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
-import { enableRedirect } from '../utils/API/common.js';
+import { ContactsAPI } from '../utils/API/ContactsAPI.js';
 import { goToPage } from '../utils/router.js';
 
 /**
@@ -9,10 +9,38 @@ import { goToPage } from '../utils/router.js';
  */
 export default class CreateGroupPage {
     #parent;
+    #contacts;
+    #userListItems;
 
     constructor(parent) {
         this.#parent = parent;
+        this.getData().then(() => this.render());
     }
+
+    getData = async () => {
+        try {
+            const contactsApi = new ContactsAPI();
+
+            const contactsResponse = await contactsApi.getContacts();
+
+            if (contactsResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+            this.#contacts = contactsResponse.body.contacts;
+            this.#userListItems = this.#contacts.map((contact) => ({
+                id: contact.id,
+                label: `${contact.surname} ${contact.name} @${contact.username}`,
+            }));
+
+            return {
+                contacts: this.#contacts,
+                userListItems: this.#userListItems,
+            };
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+            throw error;
+        }
+    };
 
     formCallback(event) {
         event.preventDefault();
@@ -46,7 +74,7 @@ export default class CreateGroupPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/chat');
+                    goToPage('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -79,19 +107,7 @@ export default class CreateGroupPage {
                     list_name: 'user_list',
                     type: 'checkbox_list',
                     placeholder: 'Участники',
-                    items: [
-                        {
-                            id: 1,
-                            label: `Ivan Naumov @ivan_naum`
-                        },
-                        {
-                            id: 2,
-                            name: 'test',
-                            surname: 'testsur',
-                            username: 'testusername',
-                            label: `test testsur @testusername`
-                        },
-                    ],
+                    items: this.#userListItems,
                 },
             ],
             submitButtonText: 'Создать',
