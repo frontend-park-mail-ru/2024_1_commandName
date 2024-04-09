@@ -50,7 +50,7 @@ aside.chat {
     font-size: 1.1em;
 }
 
-#contacts_btn, #create_group_btn {
+.chat-list-button {
     font-size: 1em;
     margin-bottom: 10px;
 }
