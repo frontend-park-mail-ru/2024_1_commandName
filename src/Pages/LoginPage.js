@@ -2,18 +2,21 @@ import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { goToPage } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
 import { enableRedirect } from '../utils/API/common.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу авторизации
  * @class Класс страницы авторизации
  */
-export default class LoginPage {
+export default class LoginPage extends BasePage {
     #parent;
     // #errorMessage;
     #signinForm;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -39,7 +42,7 @@ export default class LoginPage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     enableRedirect(true);
-                    goToPage('/chat');
+                    goToPage('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -55,7 +58,7 @@ export default class LoginPage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/register');
+                goToPage('/register', true);
             },
             inputs: [
                 {

@@ -1,6 +1,6 @@
 :root {
     --message-color: var(--white);
-    --my-message-color: var(--green-light);
+    --my-message-color: var(--blue-light);
 }
 
 .message {
@@ -14,8 +14,11 @@
 }
 
 .my_message {
-    border-radius: var(--border-radius) var(--border-radius) 1px var(--border-radius);
+    border-radius:  var(--border-radius) var(--border-radius) 1px var(--border-radius);
     background-color: var(--my-message-color);
+    padding: 10px;
+    max-width: 75%;
     margin-left: auto;
     margin-right: 0;
+    margin-bottom: 5px;
 }

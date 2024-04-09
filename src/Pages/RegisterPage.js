@@ -2,18 +2,21 @@ import { validatePassword, validateUsername } from '../utils/valid.js';
 import { goToPage } from '../utils/router.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import Form from '../Components/Form/Form.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу регистрации
  * @class Класс страницы регистрации
  */
-export default class RegisterPage {
+export default class RegisterPage extends BasePage {
     #parent;
     // #errorMessage;
     #signupForm;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -47,7 +50,7 @@ export default class RegisterPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/chat');
+                    goToPage('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -63,7 +66,7 @@ export default class RegisterPage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/login');
+                goToPage('/login', true);
             },
             inputs: [
                 {
