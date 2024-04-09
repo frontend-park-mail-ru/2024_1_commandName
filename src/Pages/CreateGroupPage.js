@@ -82,15 +82,14 @@ export default class CreateGroupPage {
                     items: [
                         {
                             id: 1,
-                            name: 'Ivan',
-                            surname: 'Naumov',
-                            username: 'ivan_naum',
+                            label: `Ivan Naumov @ivan_naum`
                         },
                         {
                             id: 2,
                             name: 'test',
                             surname: 'testsur',
                             username: 'testusername',
+                            label: `test testsur @testusername`
                         },
                     ],
                 },
