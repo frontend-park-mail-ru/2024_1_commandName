@@ -99,8 +99,12 @@ export default class ChatPage extends BasePage {
     };
 
     handleWebSocketMessage = (message) => {
-        if (message.chat_id === this.#currentChatId) {
-            // Сообщение принадлежит текущему чату, выводим его
+        const chatIndex = this.#chats.findIndex(
+            (chat) => chat.id === message.chat_id,
+        );
+        if (chatIndex !== -1) {
+            const chat = this.#chats.splice(chatIndex, 1)[0];
+            this.#chats.unshift(chat);
             const activeChatContainer = document.getElementById(
                 'active-chat-container',
             );
@@ -111,10 +115,16 @@ export default class ChatPage extends BasePage {
                 message_text: message.message_text,
             });
             messageElement.render();
+            this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
+            this.displayChats(this.#chats); // Обновляем отображение чатов
         }
     };
 
     displayChats(chats) {
+        const chatListContainer = document.getElementById(
+            'chat-list-container',
+        );
+        chatListContainer.innerHTML = '';
         let checkChatId = false;
         chats.forEach((chatConfig) => {
             if (chatConfig.id === this.#currentChatId) {
@@ -130,6 +140,7 @@ export default class ChatPage extends BasePage {
                 goToPage('/chat?id=' + chatConfig.id, false);
             });
         });
+        this.#messageDrafts[this.#currentChatId] = '';
         if (!checkChatId && !isNaN(this.#currentChatId)) {
             goToPage('/chat', false);
             this.#currentChatId = null;
