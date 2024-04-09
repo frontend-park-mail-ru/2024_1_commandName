@@ -13,7 +13,6 @@ export default class ContactsPage extends BasePage {
     #contacts;
     #contactsList;
 
-
     constructor(parent) {
         super(parent);
         this.#parent = parent;
@@ -39,7 +38,7 @@ export default class ContactsPage extends BasePage {
             throw error;
         }
     };
-  
+
     render() {
         const chatAPI = new ChatAPI();
         this.#contactsList = new Contacts(this.#parent, {});
