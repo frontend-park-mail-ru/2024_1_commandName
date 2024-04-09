@@ -22,3 +22,14 @@
     margin-right: 0;
     margin-bottom: 5px;
 }
+
+.message_data {
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    font-size: 12px;
+    color: #999;
+    align-self: flex-end;
+}
