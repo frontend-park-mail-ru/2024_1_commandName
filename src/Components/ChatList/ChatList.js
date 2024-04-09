@@ -18,12 +18,12 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
-                goToPage('/profile');
+                goToPage('/profile', true);
             });
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
-                goToPage('/contacts');
+                goToPage('/contacts', true);
             });
     }
 

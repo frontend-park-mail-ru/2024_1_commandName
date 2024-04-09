@@ -35,7 +35,7 @@ export default class ChatListItem extends BaseComponent {
                     .then((data) => {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
-                            goToPage('/chat');
+                            goToPage('/chat', true);
                         } else {
                             throw new Error('Пришел не 200 статус');
                         }
