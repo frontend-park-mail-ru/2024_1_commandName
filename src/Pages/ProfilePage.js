@@ -26,6 +26,11 @@ export default class ProfilePage extends BasePage {
             }
 
             this.#profile = profileResponse.body.user;
+
+            if (this.#profile.avatar === '') {
+                this.#profile.avatar = './img/avatar.jpg';
+            }
+
             return {
                 profile: this.#profile,
             };
