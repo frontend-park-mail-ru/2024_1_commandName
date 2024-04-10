@@ -73,6 +73,7 @@ export default class LoginPage extends BasePage {
         }, 0);
 
         if (editedFieldCnt === 0) {
+            error.textContent = 'Вы не внесли изменений';
             return;
         }
         // Отправка данных на сервер
@@ -133,6 +134,7 @@ export default class LoginPage extends BasePage {
                 {
                     id: 'avatar',
                     type: 'file',
+                    accept: 'image/*',
                     placeholder: 'Фотография',
                 },
             ],
