@@ -147,10 +147,11 @@ export default class ChatPage extends BasePage {
         );
         chatListContainer.innerHTML = '';
         let checkChatId = false;
+        let checkChatConfig = null;
         chats.forEach((chatConfig) => {
             if (chatConfig.id === this.#currentChatId) {
+                checkChatConfig = chatConfig;
                 checkChatId = true;
-                this.displayActiveChat(chatConfig);
             }
             this.#chatList.addChat(chatConfig, () => {
                 this.#chat.setInputMessageValue(
@@ -165,6 +166,9 @@ export default class ChatPage extends BasePage {
         if (!checkChatId && !isNaN(this.#currentChatId)) {
             goToPage('/chat', false);
             this.#currentChatId = null;
+        }
+        if (checkChatId) {
+            this.displayActiveChat(checkChatConfig);
         }
     }
 
@@ -216,6 +220,8 @@ export default class ChatPage extends BasePage {
         });
 
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
+
+        this.#chatList.setActiveChat(chat.id);
     }
 
     handleLogout(event) {
