@@ -130,7 +130,7 @@ export default class ChatPage extends BasePage {
                 'active-chat-container',
             );
             const owner =
-                message.user_id === this.#profile.id ? 'my_message' : 'message';
+                message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_text: message.message_text,
@@ -214,6 +214,8 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
+
+        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
     }
 
     handleLogout(event) {

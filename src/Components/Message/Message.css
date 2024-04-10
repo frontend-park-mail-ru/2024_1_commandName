@@ -13,14 +13,15 @@
     margin-bottom: 5px;
 }
 
+.message:last-child {
+    margin-bottom: 0px;
+}
+
 .my_message {
     border-radius: var(--border-radius) var(--border-radius) 1px var(--border-radius);
     background-color: var(--my-message-color);
-    padding: 10px;
-    max-width: 75%;
     margin-left: auto;
     margin-right: 0;
-    margin-bottom: 5px;
 }
 
 .message_data {

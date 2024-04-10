@@ -13,6 +13,13 @@ main {
     background-color: var(--chat-bg-color);
 }
 
+.chat {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
+    justify-content: flex-end
+}
 
 .chat_header {
     width: 75%;
@@ -47,10 +54,10 @@ main {
     overflow: auto;
     display: flex;
     flex-direction: column;
+    padding-top: 7px;
 }
 
 .input_block {
-    flex: 0 0 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -58,6 +65,8 @@ main {
 
 .chat-input {
     background-color: var(--chat-input-color);
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .input_attach,
@@ -82,5 +91,6 @@ main {
     padding: auto;
     padding-left: 15px;
     border-radius: var(--border-radius);
-    margin: 10px 10px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
