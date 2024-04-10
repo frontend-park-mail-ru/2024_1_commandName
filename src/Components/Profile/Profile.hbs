@@ -10,15 +10,29 @@
             <div class='flex_center'>
                 <div class='img-circle'>
                     <picture>
-<!--                        <source srcset='./img/avatar.jpg' />-->
-                        <img id='profile-avatar' src="{{avatar}}" alt='Не удалось загрузить фотографию профиля'/>
+                        <source srcset='./img/avatar.jpg' />
+                        <img
+                            id='profile-avatar'
+                            src='{{avatar}}'
+                            alt='Не удалось загрузить фотографию профиля'
+                        />
                     </picture>
                 </div>
             </div>
-            <p class='text_center profile_field' id='profile__name'>{{name}} {{surname}}</p>
-            <p class='text_center profile_field' id='profile__username'>@{{username}}</p>
-            <p class='text_center profile_field' id='profile__email'>{{email}}</p>
-            <p class='text_center profile_description' id='profile__about'>{{about}}</p>
+            <p class='text_center profile_field' id='profile__name'>{{name}}
+                {{surname}}</p>
+            <p
+                class='text_center profile_field'
+                id='profile__username'
+            >@{{username}}</p>
+            <p
+                class='text_center profile_field'
+                id='profile__email'
+            >{{email}}</p>
+            <p
+                class='text_center profile_description'
+                id='profile__about'
+            >{{about}}</p>
             <div class='flex_center'>
                 <button id='editButton'>Редактировать профиль</button>
             </div>

@@ -24,11 +24,8 @@ export default class ProfilePage extends BasePage {
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
+
             this.#profile = profileResponse.body.user;
-            console.log(this.#profile);
-            if (this.#profile.avatar === '') {
-                this.#profile.avatar = './img/avatar.jpg';
-            }
             return {
                 profile: this.#profile,
             };

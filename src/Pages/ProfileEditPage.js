@@ -10,11 +10,12 @@ import { BasePage } from './BasePage.js';
  */
 export default class LoginPage extends BasePage {
     #parent;
+    #profile;
 
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        this.render();
+        this.getData().then(() => this.render());
     }
 
     formCallback(event) {
@@ -103,26 +104,31 @@ export default class LoginPage extends BasePage {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    value: this.#profile.username,
                 },
                 {
                     id: 'email',
                     type: 'email',
                     placeholder: 'Email',
+                    value: this.#profile.email,
                 },
                 {
                     id: 'name',
                     type: 'text',
                     placeholder: 'Имя',
+                    value: this.#profile.name,
                 },
                 {
                     id: 'surname',
                     type: 'text',
                     placeholder: 'Фамилия',
+                    value: this.#profile.surname,
                 },
                 {
                     id: 'about',
                     type: 'text',
                     placeholder: 'О себе',
+                    value: this.#profile.about,
                 },
                 {
                     id: 'avatar',
@@ -135,4 +141,24 @@ export default class LoginPage extends BasePage {
         });
         form.render();
     }
+
+    getData = async () => {
+        try {
+            const profileAPI = new ProfileAPI();
+
+            const profileResponse = await profileAPI.getProfile();
+
+            if (profileResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+
+            this.#profile = profileResponse.body.user;
+            return {
+                profile: this.#profile,
+            };
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+            throw error;
+        }
+    };
 }

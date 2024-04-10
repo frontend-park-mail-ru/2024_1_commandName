@@ -22,6 +22,7 @@
                     class='form-input'
                     type='{{this.type}}'
                     id='{{this.id}}'
+                    {{#if value}}value='{{value}}'{{/if}}
                     placeholder='{{placeholder}}'
                     {{#if autocomplete}}autocomplete='{{autocomplete}}'{{/if}}
                     {{#if required}} required {{/if}}
