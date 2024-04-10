@@ -61,9 +61,7 @@ export default class ChatPage extends BasePage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        this.#chatList = new ChatList(wrapper, {
-            logoutHandler: this.handleLogout,
-        });
+        this.#chatList = new ChatList(wrapper, {});
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
@@ -75,6 +73,29 @@ export default class ChatPage extends BasePage {
 
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
+
+        this.#chatList
+            .getParent()
+            .querySelector('#logout_btn')
+            .addEventListener('click', this.handleLogout);
+        this.#chatList
+            .getParent()
+            .querySelector('#profile_btn')
+            .addEventListener('click', () => {
+                goToPage('/profile', true);
+            });
+        this.#chatList
+            .getParent()
+            .querySelector('#contacts_btn')
+            .addEventListener('click', () => {
+                goToPage('/contacts', true);
+            });
+        this.#chatList
+            .getParent()
+            .querySelector('#create_group_btn')
+            .addEventListener('click', () => {
+                goToPage('/create_group', true);
+            });
     }
 
     messageDraftHandler = (event) => {
@@ -176,14 +197,17 @@ export default class ChatPage extends BasePage {
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
-            // Если сообщение от акитивного юзера, то
-            let owner = 'message';
-            if (this.#profile.id === message.user_id) {
-                owner = 'my_message';
-            }
+            // Форматируем время отправки сообщения
+            const sentAt = new Date(message.sent_at);
+            const timeString = `${sentAt.getHours()}:${sentAt.getMinutes()}`;
+            // Определяем класс сообщения в зависимости от отправителя
+            const owner =
+                message.user_id === this.#profile.id ? 'my_message' : 'message';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_text: message.message_text,
+                username: message.username,
+                sent_at: timeString,
             });
             messageElement.render();
         });
