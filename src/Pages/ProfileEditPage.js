@@ -71,14 +71,13 @@ export default class LoginPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        goToPage('/profile', true);
+                        // goToPage('/profile', true);
                     } else {
                         error.textContent = data.body.error;
                     }
                 })
                 .catch((error) => {
                     console.log(error);
-
                     alert('Что-то пошло не так');
                     console.error('Edit avatar failed:', error);
                     return;
