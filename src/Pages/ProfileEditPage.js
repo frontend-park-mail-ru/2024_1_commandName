@@ -32,22 +32,6 @@ export default class LoginPage extends BasePage {
         error.textContent = '';
 
         const avatartField = target.querySelector('#avatar');
-        if (avatartField.files.length > 0) {
-            const api = new ProfileAPI();
-            api.uploadAvatar(avatartField.files[0])
-                .then((data) => {
-                    if (data.status === 200) {
-                        // Обработка успешной авторизации
-                        goToPage('/profile', true);
-                    } else {
-                        error.textContent = data.body.error;
-                    }
-                })
-                .catch((error) => {
-                    alert('Что-то пошло не так');
-                    console.error('Edit avatar failed:', error);
-                });
-        }
 
         if (profileFields.username) {
             const valid = validateUsername(profileFields.username);
@@ -76,6 +60,32 @@ export default class LoginPage extends BasePage {
             error.textContent = 'Вы не внесли изменений';
             return;
         }
+
+        if (avatartField.files.length > 0) {
+            if (avatartField.files[0].size > 5242880) {
+                error.textContent =
+                    'Размер фотографии не должен превышать 5MB';
+                return;
+            }
+            const api = new ProfileAPI();
+            api.uploadAvatar(avatartField.files[0])
+                .then((data) => {
+                    if (data.status === 200) {
+                        // Обработка успешной авторизации
+                        goToPage('/profile', true);
+                    } else {
+                        error.textContent = data.body.error;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+
+                    alert('Что-то пошло не так');
+                    console.error('Edit avatar failed:', error);
+                    return;
+                });
+        }
+
         // Отправка данных на сервер
         const api = new ProfileAPI();
         api.editProfile(profileFields, editedFieldCnt)
