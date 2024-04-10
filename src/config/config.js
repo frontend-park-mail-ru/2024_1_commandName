@@ -12,7 +12,7 @@ import EditGroupPage from '../Pages/EditGroupPage.js';
 export const ROOT = document.getElementById('root');
 
 export const ROUTES = {
-    '/': LoginPage,
+    '/': ChatPage,
     '/login': LoginPage,
     '/register': RegisterPage,
     '/chat': ChatPage,

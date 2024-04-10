@@ -81,7 +81,7 @@ export default class CreateGroupPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/chat', true);
+                    goToPage('/chat?id=' + data.body.chat_id, true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -96,6 +96,9 @@ export default class CreateGroupPage extends BasePage {
         const form = new Form(this.#parent, {
             header: 'Создать группу',
             onSubmit: this.formCallback,
+            onAdditionButtonClick: () => {
+                goToPage('/chat', true);
+            },
             inputs: [
                 {
                     id: 'group_name',
@@ -118,6 +121,7 @@ export default class CreateGroupPage extends BasePage {
                 },
             ],
             submitButtonText: 'Создать',
+            additionButtonText: 'Назад',
         });
         form.render();
     }

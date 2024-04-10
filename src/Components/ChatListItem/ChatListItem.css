@@ -14,7 +14,15 @@
 .chat_list_item:hover {
     transition: var(--transition);
     background-color: var(--chat-list-item-color-hover);
-    border-color: var(--chat-list-item-color-hover);
+}
+
+.chat_list_item__active {
+    background-color: var(--white);
+}
+
+.chat_list_item__active:hover {
+    transition: var(--transition);
+    background-color: var(--white);
 }
 
 .chat_name {

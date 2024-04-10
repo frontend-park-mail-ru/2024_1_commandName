@@ -10,11 +10,12 @@ import { BasePage } from './BasePage.js';
  */
 export default class LoginPage extends BasePage {
     #parent;
+    #profile;
 
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        this.render();
+        this.getData().then(() => this.render());
     }
 
     formCallback(event) {
@@ -31,22 +32,6 @@ export default class LoginPage extends BasePage {
         error.textContent = '';
 
         const avatartField = target.querySelector('#avatar');
-        if (avatartField.files.length > 0) {
-            const api = new ProfileAPI();
-            api.uploadAvatar(avatartField.files[0])
-                .then((data) => {
-                    if (data.status === 200) {
-                        // Обработка успешной авторизации
-                        goToPage('/profile', true);
-                    } else {
-                        error.textContent = data.body.error;
-                    }
-                })
-                .catch((error) => {
-                    alert('Что-то пошло не так');
-                    console.error('Edit avatar failed:', error);
-                });
-        }
 
         if (profileFields.username) {
             const valid = validateUsername(profileFields.username);
@@ -72,8 +57,33 @@ export default class LoginPage extends BasePage {
         }, 0);
 
         if (editedFieldCnt === 0) {
+            error.textContent = 'Вы не внесли изменений';
             return;
         }
+
+        if (avatartField.files.length > 0) {
+            if (avatartField.files[0].size > 5242880) {
+                error.textContent = 'Размер фотографии не должен превышать 5MB';
+                return;
+            }
+            const api = new ProfileAPI();
+            api.uploadAvatar(avatartField.files[0])
+                .then((data) => {
+                    if (data.status === 200) {
+                        // Обработка успешной авторизации
+                        // goToPage('/profile', true);
+                    } else {
+                        error.textContent = data.body.error;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert('Что-то пошло не так');
+                    console.error('Edit avatar failed:', error);
+                    return;
+                });
+        }
+
         // Отправка данных на сервер
         const api = new ProfileAPI();
         api.editProfile(profileFields, editedFieldCnt)
@@ -103,30 +113,36 @@ export default class LoginPage extends BasePage {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    value: this.#profile.username,
                 },
                 {
                     id: 'email',
                     type: 'email',
                     placeholder: 'Email',
+                    value: this.#profile.email,
                 },
                 {
                     id: 'name',
                     type: 'text',
                     placeholder: 'Имя',
+                    value: this.#profile.name,
                 },
                 {
                     id: 'surname',
                     type: 'text',
                     placeholder: 'Фамилия',
+                    value: this.#profile.surname,
                 },
                 {
                     id: 'about',
                     type: 'text',
                     placeholder: 'О себе',
+                    value: this.#profile.about,
                 },
                 {
                     id: 'avatar',
                     type: 'file',
+                    accept: 'image/*',
                     placeholder: 'Фотография',
                 },
             ],
@@ -135,4 +151,24 @@ export default class LoginPage extends BasePage {
         });
         form.render();
     }
+
+    getData = async () => {
+        try {
+            const profileAPI = new ProfileAPI();
+
+            const profileResponse = await profileAPI.getProfile();
+
+            if (profileResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+
+            this.#profile = profileResponse.body.user;
+            return {
+                profile: this.#profile,
+            };
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+            throw error;
+        }
+    };
 }

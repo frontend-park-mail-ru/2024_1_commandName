@@ -7,6 +7,7 @@ import ChatListItem from '../ChatListItem/ChatListItem.js';
  */
 export default class ChatList extends BaseComponent {
     templateName = 'ChatList';
+    #currentActiveChatId;
 
     render() {
         super.render();
@@ -23,6 +24,18 @@ export default class ChatList extends BaseComponent {
         chatConfig.handler = handler;
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
+    }
+
+    setActiveChat(chatId) {
+        if (this.#currentActiveChatId) {
+            this.getParent()
+                .querySelector('#chat_list_item_' + this.#currentActiveChatId)
+                .classList.remove('chat_list_item__active');
+        }
+        this.getParent()
+            .querySelector('#chat_list_item_' + chatId)
+            .classList.add('chat_list_item__active');
+        this.#currentActiveChatId = chatId;
     }
 
     setUserName(user) {

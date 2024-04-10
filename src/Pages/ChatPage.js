@@ -130,7 +130,7 @@ export default class ChatPage extends BasePage {
                 'active-chat-container',
             );
             const owner =
-                message.user_id === this.#profile.id ? 'my_message' : 'message';
+                message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_text: message.message_text,
@@ -147,12 +147,14 @@ export default class ChatPage extends BasePage {
         );
         chatListContainer.innerHTML = '';
         let checkChatId = false;
+        let checkChatConfig = null;
         chats.forEach((chatConfig) => {
             if (chatConfig.id === this.#currentChatId) {
+                checkChatConfig = chatConfig;
                 checkChatId = true;
-                this.displayActiveChat(chatConfig);
             }
-            this.#chatList.addChat(chatConfig, () => {
+            this.#chatList.addChat(chatConfig, (event) => {
+                event.preventDefault();
                 this.#chat.setInputMessageValue(
                     this.#messageDrafts[chatConfig.id] || '',
                 );
@@ -165,6 +167,9 @@ export default class ChatPage extends BasePage {
         if (!checkChatId && !isNaN(this.#currentChatId)) {
             goToPage('/chat', false);
             this.#currentChatId = null;
+        }
+        if (checkChatId) {
+            this.displayActiveChat(checkChatConfig);
         }
     }
 
@@ -199,7 +204,10 @@ export default class ChatPage extends BasePage {
         chat.messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
-            const timeString = `${sentAt.getHours()}:${sentAt.getMinutes()}`;
+            const timeString =
+                sentAt.getHours().toString().padStart(2, '0') +
+                ':' +
+                sentAt.getMinutes().toString().padStart(2, '0');
             // Определяем класс сообщения в зависимости от отправителя
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : 'message';
@@ -211,6 +219,10 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
+
+        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
+
+        this.#chatList.setActiveChat(chat.id);
     }
 
     handleLogout(event) {
