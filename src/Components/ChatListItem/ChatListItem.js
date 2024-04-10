@@ -16,7 +16,8 @@ export default class ChatListItem extends BaseComponent {
         const modal = this.getParent().querySelector(`#modal_${id}`);
         this.getParent()
             .querySelector(`#three_dots_${id}`)
-            .addEventListener('click', () => {
+            .addEventListener('click', (event) => {
+                event.preventDefault();
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
                 } else {
@@ -24,7 +25,7 @@ export default class ChatListItem extends BaseComponent {
                 }
             });
         this.getParent()
-            .querySelector(`#chat_name_${id}`)
+            .querySelector(`#chat_list_item_${id}`)
             .addEventListener('click', this.getConfig().handler);
         this.getParent()
             .querySelector(`#delete-button_${id}`)

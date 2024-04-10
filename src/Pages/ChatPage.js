@@ -153,7 +153,8 @@ export default class ChatPage extends BasePage {
                 checkChatConfig = chatConfig;
                 checkChatId = true;
             }
-            this.#chatList.addChat(chatConfig, () => {
+            this.#chatList.addChat(chatConfig, (event) => {
+                event.preventDefault();
                 this.#chat.setInputMessageValue(
                     this.#messageDrafts[chatConfig.id] || '',
                 );
