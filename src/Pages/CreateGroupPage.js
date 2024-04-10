@@ -81,7 +81,7 @@ export default class CreateGroupPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/chat', true);
+                    goToPage('/chat?id=' + data.body.chat_id, true);
                 } else {
                     error.textContent = data.body.error;
                 }
