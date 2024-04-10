@@ -63,8 +63,7 @@ export default class LoginPage extends BasePage {
 
         if (avatartField.files.length > 0) {
             if (avatartField.files[0].size > 5242880) {
-                error.textContent =
-                    'Размер фотографии не должен превышать 5MB';
+                error.textContent = 'Размер фотографии не должен превышать 5MB';
                 return;
             }
             const api = new ProfileAPI();
