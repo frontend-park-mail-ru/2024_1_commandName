@@ -199,7 +199,10 @@ export default class ChatPage extends BasePage {
         chat.messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
-            const timeString = `${sentAt.getHours()}:${sentAt.getMinutes()}`;
+            const timeString =
+                sentAt.getHours().toString().padStart(2, '0') +
+                ':' +
+                sentAt.getMinutes().toString().padStart(2, '0');
             // Определяем класс сообщения в зависимости от отправителя
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : 'message';
