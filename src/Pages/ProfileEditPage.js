@@ -37,7 +37,7 @@ export default class LoginPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        goToPage('/profile');
+                        goToPage('/profile', true);
                     } else {
                         error.textContent = data.body.error;
                     }

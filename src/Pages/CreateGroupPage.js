@@ -2,17 +2,19 @@ import Form from '../Components/Form/Form.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import { ContactsAPI } from '../utils/API/ContactsAPI.js';
 import { goToPage } from '../utils/router.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу создания группы
  * @class Класс страницы создания группы
  */
-export default class CreateGroupPage {
+export default class CreateGroupPage extends BasePage {
     #parent;
     #contacts;
     #userListItems;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
         this.getData().then(() => this.render());
     }

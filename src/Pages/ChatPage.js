@@ -197,14 +197,17 @@ export default class ChatPage extends BasePage {
 
         // Отображаем сообщения в чате
         chat.messages.forEach((message) => {
-            // Если сообщение от акитивного юзера, то
-            let owner = 'message';
-            if (this.#profile.id === message.user_id) {
-                owner = 'my_message';
-            }
+            // Форматируем время отправки сообщения
+            const sentAt = new Date(message.sent_at);
+            const timeString = `${sentAt.getHours()}:${sentAt.getMinutes()}`;
+            // Определяем класс сообщения в зависимости от отправителя
+            const owner =
+                message.user_id === this.#profile.id ? 'my_message' : 'message';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_text: message.message_text,
+                username: message.username,
+                sent_at: timeString,
             });
             messageElement.render();
         });

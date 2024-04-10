@@ -11,7 +11,7 @@ export default class ChatListItem extends BaseComponent {
 
     render() {
         super.render();
-
+        const chatAPI = new ChatAPI();
         const id = this.getConfig().id;
         const modal = this.getParent().querySelector(`#modal_${id}`);
         this.getParent()
@@ -29,13 +29,34 @@ export default class ChatListItem extends BaseComponent {
         this.getParent()
             .querySelector(`#delete-button_${id}`)
             .addEventListener('click', () => {
-                const chatAPI = new ChatAPI();
                 chatAPI
                     .deleteChatById(id)
                     .then((data) => {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
                             goToPage('/chat', true);
+                        } else {
+                            throw new Error('Пришел не 200 статус');
+                        }
+                    })
+                    .catch((error) => {
+                        alert('Что-то пошло не так');
+                        console.error('delete chat failed:', error);
+                    });
+            });
+        this.getParent()
+            .querySelector(`#edit-button_${id}`)
+            .addEventListener('click', () => {
+                chatAPI
+                    .chatById(id)
+                    .then((data) => {
+                        if (data.status === 200) {
+                            if (data.body.chat.type === '2') {
+                                goToPage(
+                                    '/edit_group?id=' + data.body.chat.id,
+                                    true,
+                                );
+                            }
                         } else {
                             throw new Error('Пришел не 200 статус');
                         }

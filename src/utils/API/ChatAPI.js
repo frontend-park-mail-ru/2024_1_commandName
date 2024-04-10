@@ -88,4 +88,24 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async editGroup(ChatId, newName, newDescription) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/updateGroupChat`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                    new_description: newDescription,
+                    new_name: newName,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
