@@ -61,9 +61,7 @@ export default class ChatPage extends BasePage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        this.#chatList = new ChatList(wrapper, {
-            logoutHandler: this.handleLogout,
-        });
+        this.#chatList = new ChatList(wrapper, {});
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
@@ -75,6 +73,29 @@ export default class ChatPage extends BasePage {
 
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
+
+        this.#chatList
+            .getParent()
+            .querySelector('#logout_btn')
+            .addEventListener('click', this.handleLogout);
+        this.#chatList
+            .getParent()
+            .querySelector('#profile_btn')
+            .addEventListener('click', () => {
+                goToPage('/profile', true);
+            });
+        this.#chatList
+            .getParent()
+            .querySelector('#contacts_btn')
+            .addEventListener('click', () => {
+                goToPage('/contacts', true);
+            });
+        this.#chatList
+            .getParent()
+            .querySelector('#create_group_btn')
+            .addEventListener('click', () => {
+                goToPage('/create_group', true);
+            });
     }
 
     messageDraftHandler = (event) => {
