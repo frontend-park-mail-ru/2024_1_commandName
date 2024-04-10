@@ -68,6 +68,11 @@ export default class CreateGroupPage {
             return;
         }
 
+        if (group.user_ids.length === 0) {
+            error.textContent = 'Добавьте пользователей';
+            return;
+        }
+
         const chatAPI = new ChatAPI();
         chatAPI
             .createGroup(group)
