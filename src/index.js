@@ -21,3 +21,16 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker
+            .register('../utils/serviceWorker.js')
+            .then(function (registration) {
+                console.log('Service Worker зарегистрирован:', registration);
+            })
+            .catch(function (err) {
+                console.log('Ошибка при регистрации Service Worker:', err);
+            });
+    });
+}

@@ -53,6 +53,8 @@ export default class ChatPage extends BasePage {
             };
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
+            alert('Похоже, вы не подключены к интернету');
+            this.render();
             throw error;
         }
     };
