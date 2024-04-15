@@ -4,7 +4,7 @@
     "description": "Фронтенд-репозиторий проекта Messenger команды commandName",
     "main": "index.js",
     "scripts": {
-        "start": "node server/index.js",
+        "start": "parcel src/index.html --port 3000",
         "prestart": "npm run compile:templates",
         "style:all": "npm run style:lint && npm run style:prettier",
         "style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
