@@ -1,21 +1,22 @@
 import { validatePassword, validateUsername } from '../utils/valid.js';
-import { goToPage } from '../utils/goToPage.js';
+import { goToPage } from '../utils/router.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import LoginPage from './LoginPage.js';
 import Form from '../Components/Form/Form.js';
-import ChatPage from './ChatPage.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу регистрации
  * @class Класс страницы регистрации
  */
-export default class RegisterPage {
+export default class RegisterPage extends BasePage {
     #parent;
-    #errorMessage;
+    // #errorMessage;
     #signupForm;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -28,7 +29,7 @@ export default class RegisterPage {
         error.textContent = '';
 
         // Валидация данных
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             error.textContent = 'Пароли не совпадают';
             return;
         }
@@ -49,8 +50,7 @@ export default class RegisterPage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    console.log('Successfully logged in');
-                    goToPage(ChatPage);
+                    goToPage('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,25 +66,28 @@ export default class RegisterPage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(LoginPage);
+                goToPage('/login', true);
             },
             inputs: [
                 {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    autocomplete: 'username',
                     required: true,
                 },
                 {
                     id: 'password',
                     type: 'password',
                     placeholder: 'Пароль',
+                    autocomplete: 'new-password',
                     required: true,
                 },
                 {
                     id: 'confirm-password',
                     type: 'password',
                     placeholder: 'Повторите пароль',
+                    autocomplete: 'new-password',
                     required: true,
                 },
             ],
@@ -93,6 +96,5 @@ export default class RegisterPage {
         });
         form.render();
         this.#signupForm = form.getForm();
-        this.addEventListeners();
     }
 }

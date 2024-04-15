@@ -1,26 +1,15 @@
 aside.chat {
-    background-color: #A5B6CF;
+    background-color: var(--aside-color);
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     height: 100%;
     flex: 0 0 25%;
-}
-
-.chat-list-container {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #A5B6CF;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 5px;
 }
 
 .chat_list_header {
-    background-color: #A5B6CF;
+    background-color: var(--aside-color);
     display: flex;
     align-items: center;
     padding-left: 25px;
@@ -28,23 +17,44 @@ aside.chat {
 }
 
 .chat_list {
-    background-color: #A5B6CF;
+    background-color: var(--aside-color);
     overflow: auto;
     height: 100%;
 }
 
-.chat_list_item {
-    padding: 15px;
-    border: 1px solid silver;
-    margin: 2px;
-}
-
 .chat_list_menu {
-    background-color: #C9D8ED;
+    background-color: var(--blue-light);
     flex: 0 0 10%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    border-radius: var(--border-radius);
+    margin: 0px 30px 35px 30px;
+}
+
+.search_input {
+    margin-top: 0;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.profile_wrapper {
+    width: 100%;
+    display: flex;
     justify-content: space-between;
-    padding-left: 25px;
-    padding-right: 25px;
+    margin-bottom: 20px;
+}
+
+#profile_btn {
+    font-size: 1.1em;
+}
+
+.chat-list-button {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+#logout_btn {
+    margin: 0;
 }

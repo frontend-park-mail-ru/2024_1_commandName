@@ -3,11 +3,15 @@
         <h2> Чаты </h2>
     </div>
     <div className='seach_container'>
-        <input class='search_input' placeholder='Поиск...' />
+        <input class='search_input' placeholder='Поиск...' disabled />
     </div>
     <div class='chat_list' id='chat-list-container'> </div>
     <div class='chat_list_menu'>
-        <div class='chat_list_menu_item'>Пользователь</div>
+        <div class='profile_wrapper'>
+            <button id='profile_btn' class='chat-list-button inline_button'>Мой профиль</button>
+            <button id='logout_btn' class="chat-list-button">Выйти</button>
+        </div>
+        <button id='contacts_btn' class='chat-list-button inline_button'>Контакты</button>
+        <button id='create_group_btn' class='chat-list-button inline_button'>Создать группу</button>
     </div>
-    <button id='logout_btn'>Выйти</button>
 </aside>

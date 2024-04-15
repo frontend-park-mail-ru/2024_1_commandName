@@ -1,13 +1,45 @@
+:root {
+    --chat-list-item-color-hover: var(--blue-light-hover);
+}
+
 .chat_list_item {
     cursor: pointer;
     padding: 15px;
-    border: 1px solid #adbfd8;
-    border-radius: 10px;
-    margin: 2px;
+    border-radius: var(--border-radius);
+    margin: 4px 0px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chat_list_item:hover {
-    transition: 0.5s;
-    background-color: #b6c9e4;
-    border-color: #b6c9e4;
+    transition: var(--transition);
+    background-color: var(--chat-list-item-color-hover);
+}
+
+.chat_list_item__active {
+    background-color: var(--white);
+}
+
+.chat_list_item__active:hover {
+    transition: var(--transition);
+    background-color: var(--white);
+}
+
+.chat_name {
+    width: 100%;
+}
+
+.three_dots {
+    text-align: right;
+}
+
+.modal {
+    position: relative;
+    background-color: var(--aside-color);
+    border-radius: var(--border-radius);
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
 }

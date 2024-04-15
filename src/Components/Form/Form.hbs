@@ -1,12 +1,45 @@
-<div class="form-container">
-    <form id='form' class="form">
+<div class='fullscreen-container'>
+    <form id='form' class='form center-container' novalidate>
         <h3>{{header}}</h3>
         {{#each inputs}}
-            <input class="form-input" type="{{this.type}}" id="{{this.id}}" placeholder="{{this.placeholder}}" {{#if required}}required{{/if}} />
+            {{#ifEquals this.type 'checkbox_list'}}
+                <label for="{{this.id}}">{{this.placeholder}}</label>
+                <div id="{{this.id}}" class="form_checkbox_list_wrapper">
+                    {{#each this.items}}
+                    <div class="form_checkbox">
+                      <label for="{{../this.list_name}}_{{this.id}}">
+                        <input type="checkbox" name="{{../this.list_name}}" id="{{../this.list_name}}_{{this.id}}" value="{{../this.list_name}}_{{this.id}}"/>
+                         {{this.label}}
+                      </label>
+                    </div>
+                    {{/each}}
+                </div>
+            {{/ifEquals}}
+            
+            {{#ifNotEquals this.type 'checkbox_list'}}
+                <label сlass="form_label" for='{{this.id}}'>{{placeholder}}</label>
+                <input
+                    class='form-input'
+                    type='{{this.type}}'
+                    id='{{this.id}}'
+                    {{#if value}}value='{{value}}'{{/if}}
+                    placeholder='{{placeholder}}'
+                    {{#if accept}}accept="{{accept}}"{{/if}}
+                    {{#if autocomplete}}autocomplete='{{autocomplete}}'{{/if}}
+                    {{#if required}} required {{/if}}
+                />
+            {{/ifNotEquals}}
         {{/each}}
 
-        <button class="form-button" type='submit' id="submitButton">{{submitButtonText}}</button>
-        <button class="form-button" id="additionButton">{{additionButtonText}}</button>
-        <p class="form-error-message" id="error-message"></p>
+        <button
+            class='form-button'
+            type='submit'
+            id='submitButton'
+        >{{submitButtonText}}</button>
+        <button
+            class='form-button inline_button'
+            id='additionButton'
+        >{{additionButtonText}}</button>
+        <p class='form-error-message' id='error-message'></p>
     </form>
 </div>

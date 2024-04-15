@@ -7,13 +7,10 @@ import ChatListItem from '../ChatListItem/ChatListItem.js';
  */
 export default class ChatList extends BaseComponent {
     templateName = 'ChatList';
+    #currentActiveChatId;
 
     render() {
         super.render();
-
-        this.getParent()
-            .querySelector('#logout_btn')
-            .addEventListener('click', this.getConfig().logoutHandler);
     }
 
     /*
@@ -27,5 +24,21 @@ export default class ChatList extends BaseComponent {
         chatConfig.handler = handler;
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
+    }
+
+    setActiveChat(chatId) {
+        if (this.#currentActiveChatId) {
+            this.getParent()
+                .querySelector('#chat_list_item_' + this.#currentActiveChatId)
+                .classList.remove('chat_list_item__active');
+        }
+        this.getParent()
+            .querySelector('#chat_list_item_' + chatId)
+            .classList.add('chat_list_item__active');
+        this.#currentActiveChatId = chatId;
+    }
+
+    setUserName(user) {
+        this.getParent().querySelector('#profile_btn').innerHTML = user;
     }
 }

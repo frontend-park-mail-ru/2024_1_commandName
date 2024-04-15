@@ -9,7 +9,13 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '..', 'src')));
+app.use(express.static(path.join(__dirname, '..', 'uploads')));
 app.use(cookie());
+
+// Обработка всех остальных запросов
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'src', 'index.html'));
+});
 
 const port = process.env.PORT || 3000;
 

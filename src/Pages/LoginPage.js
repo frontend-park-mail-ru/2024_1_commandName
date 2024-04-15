@@ -1,20 +1,22 @@
-import { goToPage } from '../utils/goToPage.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import RegisterPage from './RegisterPage.js';
-import ChatPage from './ChatPage.js';
+import { goToPage } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
+import { enableRedirect } from '../utils/API/common.js';
+import { BasePage } from './BasePage.js';
 
 /**
  * Рендерит страницу авторизации
  * @class Класс страницы авторизации
  */
-export default class LoginPage {
+export default class LoginPage extends BasePage {
     #parent;
-    #errorMessage;
+    // #errorMessage;
     #signinForm;
 
     constructor(parent) {
+        super(parent);
         this.#parent = parent;
+        this.render();
     }
 
     formCallback(event) {
@@ -24,14 +26,23 @@ export default class LoginPage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
+        if (username.length === 0) {
+            error.textContent = 'Заполните поле Имя пользователя';
+            return;
+        }
+        if (password.length === 0) {
+            error.textContent = 'Заполните поле Пароль';
+            return;
+        }
+
         // Отправка данных на сервер
         const api = new AuthAPI();
         api.login(username, password)
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    console.log('Successfully logged in');
-                    goToPage(ChatPage);
+                    enableRedirect(true);
+                    goToPage('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -47,19 +58,21 @@ export default class LoginPage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(RegisterPage);
+                goToPage('/register', true);
             },
             inputs: [
                 {
                     id: 'username',
                     type: 'text',
                     placeholder: 'Имя пользователя',
+                    autocomplete: 'username',
                     required: true,
                 },
                 {
                     id: 'password',
                     type: 'password',
                     placeholder: 'Пароль',
+                    autocomplete: 'current-password',
                     required: true,
                 },
             ],

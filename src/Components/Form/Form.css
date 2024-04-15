@@ -1,3 +1,8 @@
+:root {
+    --form-bgc: var(--blue-light);
+    --form-input-color: var(--white);
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -10,31 +15,30 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #A5B6CF;
+    background-color: var(--form-bgc);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-button {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    background-color: #C9D8ED;
-    color: black;
-    cursor: pointer;
+.form-input {
+    margin-top: 3px;
+    background-color: var(--form-input-color);
 }
 
-.form-button:hover {
-    transition: .5s;
-    border: 1px solid #d9e1ec;
-    background-color: #d9e1ec;
+.form_checkbox_list_wrapper {
+    background-color: var(--blue);
+    padding: 5px;
+    border-radius: var(--border-radius);
+    max-height: 200px;
+    overflow: auto;
 }
 
 .form-error-message {
     color: red;
-    margin-top: 10px;
+    margin: 0px;
+}
+
+.form label {
+    padding-left: 5px;
 }
