@@ -1,0 +1,45 @@
+@import '../../styles/index.scss';
+
+$chat-list-item-color-hover: $blue-light-hover;
+
+.chat_list_item {
+    cursor: pointer;
+    padding: 15px;
+    border-radius: $border-radius;
+    margin: 4px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat_list_item:hover {
+    transition: $transition;
+    background-color: $chat-list-item-color-hover;
+}
+
+.chat_list_item__active {
+    background-color: $white;
+}
+
+.chat_list_item__active:hover {
+    transition: $transition;
+    background-color: $white;
+}
+
+.chat_name {
+    width: 100%;
+}
+
+.three_dots {
+    text-align: right;
+}
+
+.modal {
+    position: relative;
+    background-color: $aside-color;
+    border-radius: $border-radius;
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
+}

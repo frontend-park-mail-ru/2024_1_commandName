@@ -1,3 +1,5 @@
+@import '../../styles/index.scss';
+
 .center-container {
     display: flex;
     flex-direction: column;
@@ -10,9 +12,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--aside-color);
+    background-color: $aside-color;
     padding: 20px;
-    border-radius: var(--border-radius);
+    border-radius: $border-radius;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -21,7 +23,7 @@
     padding: 5px;
     font-weight: bold;
     font-size: 1.1em;
-    border-bottom: 1px solid var(--blue);
+    border-bottom: 1px solid $blue;
 }
 
 .profile_description {
