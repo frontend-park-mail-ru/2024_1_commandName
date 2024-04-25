@@ -1,5 +1,6 @@
 const CACHE_NAME = 'my-cache-v1';
 const urlsToCache = [
+    '/index.html',
     '/Pages/ChangePasswordPage.js',
     '/Pages/ChatPage.js',
     '/Pages/ContactsPage.js',
@@ -13,7 +14,6 @@ const urlsToCache = [
     '/Pages/ChatPage.js',
     '/Pages/BasePage.js',
     '/styles/index.css',
-    '/index.html',
     '/index.js',
     '/favicon.ico',
     '/utils/router',

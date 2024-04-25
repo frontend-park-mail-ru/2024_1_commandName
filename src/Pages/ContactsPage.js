@@ -10,7 +10,7 @@ import { goToPage } from '../utils/router.js';
  */
 export default class ContactsPage extends BasePage {
     #parent;
-    #contacts;
+    #contacts = [];
     #contactsList;
 
     constructor(parent) {
@@ -29,6 +29,12 @@ export default class ContactsPage extends BasePage {
                 throw new Error('Пришел не 200 статус');
             }
             this.#contacts = contactsResponse.body.contacts;
+            caches.open('my-cache-v1').then(function (cache) {
+                cache.put(
+                    '/contacts',
+                    new Response(JSON.stringify(contactsResponse)),
+                );
+            });
 
             return {
                 contacts: this.#contacts,
@@ -36,8 +42,20 @@ export default class ContactsPage extends BasePage {
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
             alert('Похоже, вы не подключены к интернету');
-            this.render();
-            throw error;
+            try {
+                const cache = await caches.open('my-cache-v1');
+                const contactsResponse = await cache.match('/contacts');
+
+                if (!contactsResponse) {
+                    return null;
+                }
+
+                const contacts = await contactsResponse.json();
+                this.#contacts = contacts.body.contacts;
+            } catch (error) {
+                console.error('Ошибка при получении данных из кэша:', error);
+                throw error;
+            }
         }
     };
 
