@@ -80,7 +80,6 @@ export default class LoginPage extends BasePage {
                     console.log(error);
                     alert('Что-то пошло не так');
                     console.error('Edit avatar failed:', error);
-                    return;
                 });
         }
 
@@ -161,16 +160,34 @@ export default class LoginPage extends BasePage {
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
-
             this.#profile = profileResponse.body.user;
+
+            caches.open('my-cache-v1').then(function (cache) {
+                cache.put(
+                    '/profile',
+                    new Response(JSON.stringify(profileResponse)),
+                );
+            });
             return {
                 profile: this.#profile,
             };
         } catch (error) {
-            console.error('Ошибка при получении данных:', error);
+            console.error('Ошибка при получении данных с сервера:', error);
             alert('Похоже, вы не подключены к интернету');
-            this.render();
-            throw error;
+            try {
+                const cache = await caches.open('my-cache-v1');
+                const profileResponse = await cache.match('/profile');
+
+                if (!profileResponse) {
+                    return null;
+                }
+
+                const profile = await profileResponse.json();
+                this.#profile = profile.body.user;
+            } catch (error) {
+                console.error('Ошибка при получении данных из кэша:', error);
+                throw error;
+            }
         }
     };
 }

@@ -54,32 +54,6 @@ export default class ProfilePage extends BasePage {
             }
         }
     };
-    // getData = async () => {
-    //     try {
-    //         const profileAPI = new ProfileAPI();
-    //
-    //         const profileResponse = await profileAPI.getProfile();
-    //
-    //         if (profileResponse.status !== 200) {
-    //             throw new Error('Пришел не 200 статус');
-    //         }
-    //
-    //         this.#profile = profileResponse.body.user;
-    //
-    //         if (this.#profile.avatar === '') {
-    //             this.#profile.avatar = './img/avatar.jpg';
-    //         }
-    //
-    //         return {
-    //             profile: this.#profile,
-    //         };
-    //     } catch (error) {
-    //         console.error('Ошибка при получении данных:', error);
-    //         alert('Похоже, вы не подключены к интернету');
-    //         this.render();
-    //         throw error;
-    //     }
-    // };
 
     render() {
         const profile = new Profile(this.#parent, this.#profile);
