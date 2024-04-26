@@ -16,7 +16,7 @@ const dataToCache = new Set([
     '/styles/index.css',
     '/index.js',
     '/favicon.ico',
-    '/utils/router',
+    '/utils/router.js',
     '/config/config.js',
     '/Components/Chat/Chat.css',
     '/Components/Chat/Chat.hbs',
