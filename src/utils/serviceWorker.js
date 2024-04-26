@@ -1,5 +1,5 @@
-const CACHE_NAME = 'my-cache-v1';
-const urlsToCache = [
+const CACHE_NAME = 'cache-v1';
+const dataToCache = new Set([
     '/index.html',
     '/Pages/ChangePasswordPage.js',
     '/Pages/ChatPage.js',
@@ -50,25 +50,43 @@ const urlsToCache = [
     '/Components/Profile/Profile.hbs',
     '/Components/Profile/Profile.js',
     '/Components/Profile/Profile.precompiled.js',
-];
+]);
 
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
             console.log('Opened cache');
-            return cache.addAll(urlsToCache);
+            return cache.addAll(dataToCache);
         }),
     );
 });
 
 self.addEventListener('fetch', function (event) {
+    console.log('пойман fetch');
     event.respondWith(
-        caches.match(event.request).then(function (response) {
-            if (response) {
+        // Проверяем наличие интернета
+        fetch(event.request)
+            .then(function (response) {
+                // Если есть ответ от сети, кладем его в кэш
+                if (
+                    response &&
+                    response.status === 200 &&
+                    response.type === 'basic'
+                ) {
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then(function (cache) {
+                        cache.put(event.request, responseToCache);
+                    });
+                }
                 return response;
-            }
-
-            return fetch(event.request);
-        }),
+            })
+            .catch(function () {
+                // Если нет ответа от сети, ищем в кэше
+                return caches.match(event.request);
+            }),
     );
+});
+
+self.addEventListener('activate', () => {
+    console.log('Активирован');
 });

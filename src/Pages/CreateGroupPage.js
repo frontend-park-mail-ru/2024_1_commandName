@@ -33,12 +33,6 @@ export default class CreateGroupPage extends BasePage {
                 id: contact.id,
                 label: `${contact.surname} ${contact.name} @${contact.username}`,
             }));
-            caches.open('my-cache-v1').then(function (cache) {
-                cache.put(
-                    '/contacts',
-                    new Response(JSON.stringify(contactsResponse)),
-                );
-            });
 
             return {
                 contacts: this.#contacts,
@@ -46,25 +40,7 @@ export default class CreateGroupPage extends BasePage {
             };
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
-            alert('Похоже, вы не подключены к интернету');
-            try {
-                const cache = await caches.open('my-cache-v1');
-                const contactsResponse = await cache.match('/contacts');
-
-                if (!contactsResponse) {
-                    return null;
-                }
-
-                const contacts = await contactsResponse.json();
-                this.#contacts = contacts.body.contacts;
-                this.#userListItems = this.#contacts.map((contact) => ({
-                    id: contact.id,
-                    label: `${contact.surname} ${contact.name} @${contact.username}`,
-                }));
-            } catch (error) {
-                console.error('Ошибка при получении данных из кэша:', error);
-                throw error;
-            }
+            throw error;
         }
     };
 

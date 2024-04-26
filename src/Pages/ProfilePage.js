@@ -25,33 +25,12 @@ export default class ProfilePage extends BasePage {
                 throw new Error('Пришел не 200 статус');
             }
             this.#profile = profileResponse.body.user;
-
-            caches.open('my-cache-v1').then(function (cache) {
-                cache.put(
-                    '/profile',
-                    new Response(JSON.stringify(profileResponse)),
-                );
-            });
             return {
                 profile: this.#profile,
             };
         } catch (error) {
             console.error('Ошибка при получении данных с сервера:', error);
-            alert('Похоже, вы не подключены к интернету');
-            try {
-                const cache = await caches.open('my-cache-v1');
-                const profileResponse = await cache.match('/profile');
-
-                if (!profileResponse) {
-                    return null;
-                }
-
-                const profile = await profileResponse.json();
-                this.#profile = profile.body.user;
-            } catch (error) {
-                console.error('Ошибка при получении данных из кэша:', error);
-                throw error;
-            }
+            throw error;
         }
     };
 

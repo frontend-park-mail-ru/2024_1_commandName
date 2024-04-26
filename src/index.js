@@ -25,12 +25,26 @@ Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
         navigator.serviceWorker
-            .register('../utils/serviceWorker.js')
-            .then(function (registration) {
-                console.log('Service Worker зарегистрирован:', registration);
-            })
-            .catch(function (err) {
-                console.log('Ошибка при регистрации Service Worker:', err);
+            .getRegistrations()
+            .then(function (registrations) {
+                if (registrations && registrations.length > 0) {
+                    console.log('Уже зарегистрирован сервис-воркер');
+                } else {
+                    navigator.serviceWorker
+                        .register('../utils/serviceWorker.js')
+                        .then(function (registration) {
+                            console.log(
+                                'Service Worker зарегистрирован:',
+                                registration,
+                            );
+                        })
+                        .catch(function (err) {
+                            console.log(
+                                'Ошибка при регистрации Service Worker:',
+                                err,
+                            );
+                        });
+                }
             });
     });
 }

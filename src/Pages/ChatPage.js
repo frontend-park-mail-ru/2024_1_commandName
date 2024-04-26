@@ -47,41 +47,13 @@ export default class ChatPage extends BasePage {
             }
             this.#profile = profileResponse.body.user;
 
-            caches.open('my-cache-v1').then(function (cache) {
-                cache.put(
-                    '/chats',
-                    new Response(JSON.stringify(chatsResponse)),
-                );
-                cache.put(
-                    '/profile',
-                    new Response(JSON.stringify(profileResponse)),
-                );
-            });
-
             return {
                 chats: this.#chats,
                 profile: this.#profile,
             };
         } catch (error) {
             console.error('Ошибка при получении данных с сервера:', error);
-            alert('Похоже, вы не подключены к интернету');
-            try {
-                const cache = await caches.open('my-cache-v1');
-                const chatsResponse = await cache.match('/chats');
-                const profileResponse = await cache.match('/profile');
-
-                if (!chatsResponse || !profileResponse) {
-                    return null;
-                }
-
-                const chats = await chatsResponse.json();
-                const profile = await profileResponse.json();
-                this.#chats = chats.body.chats;
-                this.#profile = profile.body.user;
-            } catch (error) {
-                console.error('Ошибка при получении данных из кэша:', error);
-                throw error;
-            }
+            throw error;
         }
     };
 
