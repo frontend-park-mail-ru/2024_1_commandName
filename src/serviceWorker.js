@@ -17,6 +17,7 @@ const dataToCache = new Set([
     '/index.js',
     '/favicon.ico',
     '/utils/router.js',
+    '/utils/API/common.js',
     '/config/config.js',
     '/Components/Chat/Chat.css',
     '/Components/Chat/Chat.hbs',
@@ -61,7 +62,7 @@ self.addEventListener('install', function (event) {
     );
 });
 
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', (event) => {
     console.log('пойман fetch');
     event.respondWith(
         // Проверяем наличие интернета

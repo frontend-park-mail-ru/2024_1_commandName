@@ -1,5 +1,34 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
 
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker
+            .getRegistrations()
+            .then(function (registrations) {
+                Promise.all(
+                    registrations.map(function (registration) {
+                        return registration.unregister();
+                    }),
+                ).then(function () {
+                    navigator.serviceWorker
+                        .register('/serviceWorker.js')
+                        .then(function (registration) {
+                            console.log(
+                                'Новый Service Worker зарегистрирован:',
+                                registration,
+                            );
+                        })
+                        .catch(function (err) {
+                            console.log(
+                                'Ошибка при регистрации нового Service Worker:',
+                                err,
+                            );
+                        });
+                });
+            });
+    });
+}
+
 const api = new AuthAPI();
 api.checkAuth()
     .then((data) => {
@@ -21,32 +50,3 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-        navigator.serviceWorker
-            .getRegistrations()
-            .then(function (registrations) {
-                Promise.all(
-                    registrations.map(function (registration) {
-                        return registration.unregister();
-                    }),
-                ).then(function () {
-                    navigator.serviceWorker
-                        .register('../utils/serviceWorker.js')
-                        .then(function (registration) {
-                            console.log(
-                                'Новый Service Worker зарегистрирован:',
-                                registration,
-                            );
-                        })
-                        .catch(function (err) {
-                            console.log(
-                                'Ошибка при регистрации нового Service Worker:',
-                                err,
-                            );
-                        });
-                });
-            });
-    });
-}
