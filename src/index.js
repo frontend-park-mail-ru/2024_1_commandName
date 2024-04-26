@@ -27,24 +27,26 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                if (registrations && registrations.length > 0) {
-                    console.log('Уже зарегистрирован сервис-воркер');
-                } else {
+                Promise.all(
+                    registrations.map(function (registration) {
+                        return registration.unregister();
+                    }),
+                ).then(function () {
                     navigator.serviceWorker
                         .register('../utils/serviceWorker.js')
                         .then(function (registration) {
                             console.log(
-                                'Service Worker зарегистрирован:',
+                                'Новый Service Worker зарегистрирован:',
                                 registration,
                             );
                         })
                         .catch(function (err) {
                             console.log(
-                                'Ошибка при регистрации Service Worker:',
+                                'Ошибка при регистрации нового Service Worker:',
                                 err,
                             );
                         });
-                }
+                });
             });
     });
 }
