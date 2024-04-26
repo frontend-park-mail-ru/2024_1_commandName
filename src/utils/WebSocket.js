@@ -19,9 +19,7 @@ class WebSocketManager {
         this.socket = new WebSocket(
             `${this.protocol}://${baseUrl}${this.ws_way}/sendMessage`,
         );
-        this.socket.onopen = () => {
-            console.log('WebSocket connection established.');
-        };
+        this.socket.onopen;
         this.socket.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
@@ -37,7 +35,6 @@ class WebSocketManager {
     close() {
         if (this.socket) {
             this.socket.close();
-            console.log('WebSocket connection closed.');
         }
     }
 

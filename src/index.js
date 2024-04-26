@@ -12,12 +12,7 @@ if ('serviceWorker' in navigator) {
                 ).then(function () {
                     navigator.serviceWorker
                         .register('/serviceWorker.js')
-                        .then(function (registration) {
-                            console.log(
-                                'Новый Service Worker зарегистрирован:',
-                                registration,
-                            );
-                        })
+                        .then()
                         .catch(function (err) {
                             console.log(
                                 'Ошибка при регистрации нового Service Worker:',

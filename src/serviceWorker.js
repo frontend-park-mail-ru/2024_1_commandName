@@ -56,29 +56,21 @@ const dataToCache = new Set([
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
-            console.log('Opened cache');
             return cache.addAll(dataToCache);
         }),
     );
 });
 
 self.addEventListener('fetch', (event) => {
-    console.log('пойман fetch');
     event.respondWith(
         // Проверяем наличие интернета
         fetch(event.request)
             .then(function (response) {
                 // Если есть ответ от сети, кладем его в кэш
-                if (
-                    response &&
-                    response.status === 200 &&
-                    response.type === 'basic'
-                ) {
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then(function (cache) {
-                        cache.put(event.request, responseToCache);
-                    });
-                }
+                const responseToCache = response.clone();
+                caches.open(CACHE_NAME).then(function (cache) {
+                    cache.put(event.request, responseToCache);
+                });
                 return response;
             })
             .catch(function () {
@@ -89,5 +81,5 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('activate', () => {
-    console.log('Активирован');
+    //console.log('Активирован');
 });
