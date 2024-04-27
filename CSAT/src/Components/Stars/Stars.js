@@ -11,7 +11,6 @@ export default class Stars extends BaseComponent {
 
         const stars = document.querySelectorAll('.csat__star');
 
-        console.log(this.getConfig());
         stars.forEach((star, index) => {
             star.addEventListener('click', () => {
                 // Устанавливаем рейтинг
