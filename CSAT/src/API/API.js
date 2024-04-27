@@ -5,7 +5,7 @@ import { CSATbaseUrl, protocol } from '../config.js';
  * API для работы с опросами
  * @class CsatAPI
  */
-export class CsatAPI {
+export class CSATAPI {
     async getQuestions() {
         try {
             return makeBaseRequest(
