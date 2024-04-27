@@ -12,6 +12,7 @@
         "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
         "compile:templates": "bash ../scripts/handlebars.sh"
     },
+    "proxy": "http://localhost:8080",
     "author": "",
     "license": "ISC"
 }
