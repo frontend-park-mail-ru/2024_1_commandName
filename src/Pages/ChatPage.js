@@ -5,7 +5,6 @@ import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
-// import { CsatAPI } from '../utils/API/CsatAPI.js';
 import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
@@ -38,7 +37,6 @@ export default class ChatPage extends BasePage {
         try {
             const chatAPI = new ChatAPI();
             const profileAPI = new ProfileAPI();
-            // const csatApi = new CsatAPI();
 
             const [chatsResponse, profileResponse] = await Promise.all([
                 chatAPI.getChats(),
