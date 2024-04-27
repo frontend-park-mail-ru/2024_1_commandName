@@ -1,7 +1,8 @@
 export const protocol = 'http';
+export let baseUrl = 'localhost:8080';
 export let CSATbaseUrl = 'localhost:8081';
-export const baseUrl = 'localhost:8080';
 
 if (protocol === 'https') {
-    CSATbaseUrl = '';
+    baseUrl = 'chatme.site/api/v1';
+    CSATbaseUrl = 'chatme.site/api/v2';
 }
