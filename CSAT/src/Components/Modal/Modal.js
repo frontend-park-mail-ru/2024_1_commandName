@@ -22,11 +22,13 @@ export default class Modal extends BaseComponent {
         this.getParent().querySelector('#csat__input').innerHTML = '';
 
         // TODO:
-        // if (quetion.type === 'stars') {
+        if (quetion.type === 'CSAT') {
+            new Stars(this.getParent().querySelector('#csat__modal'), {
+                clickHandler: this.getConfig().setAnswerCSATHandler,
+            }).render();
+        }
+        // else if (quetion.type === 'NPS') {
         //     ...
         // }
-
-        console.log(this.getParent().querySelector('#csat__modal'));
-        new Stars(this.getParent().querySelector('#csat__modal')).render();
     }
 }
