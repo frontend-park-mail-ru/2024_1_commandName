@@ -10,10 +10,9 @@ export default class Modal extends BaseComponent {
 
     render() {
         super.render();
-        const exitButton = this.getParent().querySelector(`#csat__exit`);
-        exitButton.addEventListener('click', () => {
-            document.getElementById(`csat__modal`).style.display = 'none';
-        });
+        this.getParent()
+            .querySelector(`#csat__exit`)
+            .addEventListener('click', this.getConfig().exitHandler);
     }
 
     setQuetions(quetion) {
@@ -23,7 +22,7 @@ export default class Modal extends BaseComponent {
 
         // TODO:
         if (quetion.type === 'CSAT') {
-            new Stars(this.getParent().querySelector('#csat__modal'), {
+            new Stars(this.getParent().querySelector('#csat__input'), {
                 clickHandler: this.getConfig().setAnswerCSATHandler,
             }).render();
         }
