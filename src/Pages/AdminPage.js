@@ -26,7 +26,7 @@ export default class AdminPage extends BasePage {
             this.#statistics = adminResponse.body;
 
             return {
-                profile: this.#statistics,
+                statistics: this.#statistics,
             };
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
