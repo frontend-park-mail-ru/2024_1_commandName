@@ -25,7 +25,7 @@ export default class AdminPage extends BasePage {
                 throw new Error('Пришел не 200 статус');
             }
 
-            this.#statistics = adminResponse.body;
+            this.#statistics = adminResponse.body.AllQuestionStatistic;
 
             return {
                 statistics: this.#statistics,
@@ -39,30 +39,30 @@ export default class AdminPage extends BasePage {
         this.#statisticsList = new Admin(this.#parent, {});
         this.#statisticsList.render();
         // Предположим, что у вас есть массив с данными о вопросах
-        const questionsData = [
-            {
-                name: 'Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1Вопрос 1Вопрос 1Вопрос 1Вопрос 1Вопрос 1ммВопрос 1',
-                type: 'CSAT',
-                rating: [10, 20, 30, 25, 15],
-            },
-            {
-                name: 'Вопрос 2',
-                type: 'NSP',
-                rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-            },
-            {
-                name: 'Вопрос 2',
-                type: 'NSP',
-                rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-            },
-            {
-                name: 'Вопрос 2',
-                type: 'NSP',
-                rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-            },
-            // Добавьте другие данные по необходимости
-        ];
-        questionsData.forEach((statisticConfig) => {
+        // const questionsData = [
+        //     {
+        //         name: 'Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1 Вопрос 1Вопрос 1Вопрос 1Вопрос 1Вопрос 1Вопрос 1ммВопрос 1',
+        //         type: 'CSAT',
+        //         rating: [10, 20, 30, 25, 15],
+        //     },
+        //     {
+        //         name: 'Вопрос 2',
+        //         type: 'NSP',
+        //         rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+        //     },
+        //     {
+        //         name: 'Вопрос 2',
+        //         type: 'NSP',
+        //         rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+        //     },
+        //     {
+        //         name: 'Вопрос 2',
+        //         type: 'NSP',
+        //         rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+        //     },
+        //     // Добавьте другие данные по необходимости
+        // ];
+        this.#statistics.forEach((statisticConfig) => {
             this.#statisticsList.addStatistic(statisticConfig);
         });
         console.log(this.#statistics);
