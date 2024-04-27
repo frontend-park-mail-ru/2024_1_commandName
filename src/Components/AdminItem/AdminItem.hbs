@@ -1,0 +1,10 @@
+<div class='admin_item'>
+    <div class='question_info'>
+        <p>Вопрос: {{name}}, Тип: {{type}}</p>
+    </div>
+    <div class='rating_chart'>
+        {{#each rating}}
+            <div class='bar' style='width: {{this}}px;'>{{this}}</div>
+        {{/each}}
+    </div>
+</div>

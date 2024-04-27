@@ -36,8 +36,25 @@ export default class AdminPage extends BasePage {
         }
     };
     render() {
-        this.#statisticsList = new Admin(this.#parent, this.#statistics);
+        this.#statisticsList = new Admin(this.#parent, {});
         this.#statisticsList.render();
+        // Предположим, что у вас есть массив с данными о вопросах
+        const questionsData = [
+            {
+                name: 'Вопрос 1',
+                type: 'CSAT',
+                rating: [10, 20, 30, 25, 15],
+            },
+            {
+                name: 'Вопрос 2',
+                type: 'NSP',
+                rating: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+            },
+            // Добавьте другие данные по необходимости
+        ];
+        questionsData.forEach((statisticConfig) => {
+            this.#statisticsList.addStatistic(statisticConfig);
+        });
         console.log(this.#statistics);
     }
 }

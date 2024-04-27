@@ -1,0 +1,5 @@
+.admin_item {
+    border-top: 1px solid var(--blue);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

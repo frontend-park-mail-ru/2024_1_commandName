@@ -1,8 +1,9 @@
 import { goToPage } from '../../utils/router.js';
 import { BaseComponent } from '../BaseComponent.js';
+import AdminItem from '../AdminItem/AdminItem.js';
 
 export default class Admin extends BaseComponent {
-    templateName = 'Statistics';
+    templateName = 'Admin';
 
     render() {
         super.render();
@@ -15,10 +16,10 @@ export default class Admin extends BaseComponent {
             });
     }
 
-    // addContact(contactConfig, handler) {
-    //     const contactList = this.getParent().querySelector('#contact_list');
-    //     contactConfig.handler = handler;
-    //     const contact = new ContactItem(contactList, contactConfig);
-    //     contact.render();
-    // }
+    addStatistic(statisticConfig) {
+        const statisticsList =
+            this.getParent().querySelector('#statistics_list');
+        const contact = new AdminItem(statisticsList, statisticConfig);
+        contact.render();
+    }
 }
