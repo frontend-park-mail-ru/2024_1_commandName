@@ -21,3 +21,7 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
+
+function closeCSATIFrame() {
+    document.getElementById('CSAT_iframe').remove();
+}

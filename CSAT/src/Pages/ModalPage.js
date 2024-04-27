@@ -24,7 +24,7 @@ export default class ModalPage extends BasePage {
         this.#quetions = csatResponse.body.questions;
     };
 
-    setAnswerCSATHandler = async (answer) => {
+    setAnswerHandler = async (answer) => {
         const csatAPI = new CSATAPI();
         await csatAPI.setAnswer(this.#currentQuetion.question_id, answer);
 
@@ -47,14 +47,19 @@ export default class ModalPage extends BasePage {
         }
     }
 
+    openModal() {
+        document.getElementById('csat').style.display = 'block';
+    }
     closeModal() {
-        console.log(document.getElementById('csat'));
         document.getElementById('csat').style.display = 'none';
     }
 
     render() {
+        if (this.#quetions) {
+            this.openModal();
+        }
         this.#modal = new Modal(this.#parent, {
-            setAnswerCSATHandler: this.setAnswerCSATHandler,
+            setAnswerHandler: this.setAnswerHandler,
             exitHandler: this.closeModal,
         });
         this.#modal.render();

@@ -1,5 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import Stars from '../Stars/Stars.js';
+import Numbers from '../Numbers/Numbers.js';
 
 /**
  * Рендерит TODO
@@ -20,14 +21,14 @@ export default class Modal extends BaseComponent {
             quetion.title;
         this.getParent().querySelector('#csat__input').innerHTML = '';
 
-        // TODO:
         if (quetion.type === 'CSAT') {
             new Stars(this.getParent().querySelector('#csat__input'), {
-                clickHandler: this.getConfig().setAnswerCSATHandler,
+                clickHandler: this.getConfig().setAnswerHandler,
+            }).render();
+        } else if (quetion.type === 'NPS') {
+            new Numbers(this.getParent().querySelector('#csat__input'), {
+                clickHandler: this.getConfig().setAnswerHandler,
             }).render();
         }
-        // else if (quetion.type === 'NPS') {
-        //     ...
-        // }
     }
 }
