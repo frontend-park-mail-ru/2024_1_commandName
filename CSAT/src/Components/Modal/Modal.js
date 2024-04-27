@@ -1,4 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
+import Stars from '../Stars/Stars.js';
 
 /**
  * Рендерит TODO
@@ -18,5 +19,14 @@ export default class Modal extends BaseComponent {
     setQuetions(quetion) {
         this.getParent().querySelector(`#csat__modal__title`).innerHTML =
             quetion.title;
+        this.getParent().querySelector('#csat__input').innerHTML = '';
+
+        // TODO:
+        // if (quetion.type === 'stars') {
+        //     ...
+        // }
+
+        console.log(this.getParent().querySelector('#csat__modal'));
+        new Stars(this.getParent().querySelector('#csat__modal')).render();
     }
 }
