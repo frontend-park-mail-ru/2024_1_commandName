@@ -98,6 +98,11 @@ export default class ChatPage extends BasePage {
             .addEventListener('click', () => {
                 goToPage('/create_group', true);
             });
+
+        wrapper.insertAdjacentHTML(
+            'beforeend',
+            '<iframe id="CSAT__iframe" src="http://localhost:8081"></iframe>',
+        );
     }
 
     messageDraftHandler = (event) => {
