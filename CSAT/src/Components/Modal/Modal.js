@@ -9,15 +9,14 @@ export default class Modal extends BaseComponent {
 
     render() {
         super.render();
-        this.getParent()
-            .querySelector('#csat__exit')
-            .addEventListener('click', function () {
-                document.getElementById('csat__modal').style.display = 'none';
-            });
+        const exitButton = this.getParent().querySelector(`#csat__exit`);
+        exitButton.addEventListener('click', () => {
+            document.getElementById(`csat__modal`).style.display = 'none';
+        });
     }
 
     setQuetions(quetion) {
-        this.getParent().querySelector('#csat__modal__title').innerHTML =
+        this.getParent().querySelector(`#csat__modal__title`).innerHTML =
             quetion.title;
     }
 }

@@ -1,6 +1,6 @@
 import { BasePage } from './BasePage.js';
 import Modal from '../Components/Modal/Modal.js';
-import { CSATAPI } from '../API/API.js';
+// import { CSATAPI } from '../API/API.js';
 
 /**
  * Рендерит TODO
@@ -30,6 +30,6 @@ export default class ModalPage extends BasePage {
             title: 'Тестовый вопроc: Вам нравится наш сервис?',
             type: 'CSAT',
         });
-        new CSATAPI().getQuestions().then(() => console.log('test'));
+        // new CSATAPI().getQuestions().then(() => console.log('test'));
     }
 }
