@@ -1,12 +1,12 @@
 <!-- admin_item_template.hbs -->
 <div class='admin_item'>
     <div class='question_info'>
-        <p>Вопрос: {{title}}, Тип: {{question_type}}</p>
+        <p>Вопрос: {{title}} Тип: {{question_type}}</p>
     </div>
     <div class='rating_chart'>
         {{#each grades}}
             <div class='bar'>
-                <div class='bar_fill' style='height: {{this}}px;'></div>
+                <div class='bar_fill' style='height: {{this}}pc;'></div>
                 <div class='bar_label'>{{@index}}</div> <!-- Числовая метка -->
             </div>
         {{/each}}
