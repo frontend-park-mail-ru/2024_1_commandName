@@ -6,6 +6,15 @@ import { BaseComponent } from '../BaseComponent.js';
 export default class Modal extends BaseComponent {
     templateName = 'Modal';
 
+    render() {
+        super.render();
+        this.getParent()
+            .querySelector('.exit')
+            .addEventListener('click', function () {
+                document.getElementById('csat__modal').style.display = 'none';
+            });
+    }
+
     setQuetions(quetion) {
         this.getParent().querySelector('#csat__modal__title').innerHTML =
             quetion.title;
