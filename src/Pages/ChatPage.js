@@ -8,7 +8,7 @@ import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
-import { CSATbaseUrl } from '../utils/API/config.js';
+import { protocol, CSATbaseUrl } from '../utils/API/config.js';
 
 /*
  * Рендерит страницу чатов
@@ -104,7 +104,7 @@ export default class ChatPage extends BasePage {
             () =>
                 wrapper.insertAdjacentHTML(
                     'beforeend',
-                    `<iframe id="CSAT__iframe" src="${CSATbaseUrl}"></iframe>`,
+                    `<iframe id="CSAT__iframe" src="${protocol}://${CSATbaseUrl}"></iframe>`,
                 ),
             1000,
         );
