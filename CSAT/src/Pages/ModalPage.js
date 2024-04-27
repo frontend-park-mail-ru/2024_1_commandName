@@ -1,6 +1,6 @@
 import { BasePage } from './BasePage.js';
 import Modal from '../Components/Modal/Modal.js';
-// import { CSATAPI } from '../API/API.js';
+import { CSATAPI } from '../API/API.js';
 
 /**
  * Рендерит TODO
@@ -8,7 +8,7 @@ import Modal from '../Components/Modal/Modal.js';
  */
 export default class ModalPage extends BasePage {
     #parent;
-    #quetions;
+    #quetions = [];
 
     constructor(parent) {
         super(parent);
@@ -17,19 +17,20 @@ export default class ModalPage extends BasePage {
     }
 
     getData = async () => {
-        // const csatAPI = new CsatAPI();
-        //
-        // const csatResponse = await csatAPI.getQuestions();
-        //
+        const csatAPI = new CSATAPI();
+        const csatResponse = await csatAPI.getQuestions();
+        this.#quetions = csatResponse.body.questions;
     };
 
     render() {
         const modal = new Modal(this.#parent, {});
         modal.render();
-        modal.setQuetions({
-            title: 'Тестовый вопроc: Вам нравится наш сервис?',
-            type: 'CSAT',
-        });
-        // new CSATAPI().getQuestions().then(() => console.log('test'));
+        if (this.#quetions.length > 0) {
+            const question = this.#quetions[0];
+            modal.setQuetions({
+                title: question.question_text,
+                type: question.question_type,
+            });
+        }
     }
 }
