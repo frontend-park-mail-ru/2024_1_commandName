@@ -28,7 +28,9 @@ export default class ChatPage extends BasePage {
         this.#currentChatId = parseInt(urlParams.get('id'));
         websocketManager.connect();
         websocketManager.setMessageHandler(this.handleWebSocketMessage);
-        this.getData().then(() => this.render());
+        this.getData().then(() => {
+            this.render();
+        });
     }
 
     getData = async () => {
