@@ -1,5 +1,5 @@
 import { makeBaseRequest } from './common.js';
-import { baseUrl, protocol } from '../config.js';
+import { CSATbaseUrl, protocol } from '../config.js';
 
 /**
  * API для работы с опросами
@@ -9,7 +9,7 @@ export class CsatAPI {
     async checkAccess() {
         try {
             return makeBaseRequest(
-                `${protocol}://${baseUrl}/checkAccess`,
+                `${protocol}://${CSATbaseUrl}/checkAccess`,
                 'GET',
             );
         } catch (error) {
@@ -24,7 +24,7 @@ export class CsatAPI {
     async getQuestions() {
         try {
             return makeBaseRequest(
-                `${protocol}://${baseUrl}/getQuestions`,
+                `${protocol}://${CSATbaseUrl}/getQuestions`,
                 'GET',
             );
         } catch (error) {
@@ -39,7 +39,7 @@ export class CsatAPI {
     async setAnswer(QuestionId, Answer) {
         try {
             return makeBaseRequest(
-                `${protocol}://${baseUrl}/setAnswer`,
+                `${protocol}://${CSATbaseUrl}/setAnswer`,
                 'POST',
                 {
                     question_id: QuestionId,
