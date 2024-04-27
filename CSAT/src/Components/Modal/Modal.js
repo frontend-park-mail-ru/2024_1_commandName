@@ -10,7 +10,7 @@ export default class Modal extends BaseComponent {
     render() {
         super.render();
         this.getParent()
-            .querySelector('.exit')
+            .querySelector('#csat__exit')
             .addEventListener('click', function () {
                 document.getElementById('csat__modal').style.display = 'none';
             });
