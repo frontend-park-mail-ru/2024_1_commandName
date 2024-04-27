@@ -26,3 +26,9 @@
 body {
     font-family: "Roboto", serif;
 }
+
+#csat {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
