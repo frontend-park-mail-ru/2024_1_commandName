@@ -28,7 +28,6 @@ export default class ModalPage extends BasePage {
         const csatAPI = new CSATAPI();
         await csatAPI.setAnswer(this.#currentQuetion.question_id, answer);
 
-        // TODO: next quetions
         this.setNextQuetion();
     };
 
