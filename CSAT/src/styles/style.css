@@ -2,3 +2,21 @@
     padding: 0;
     margin: 0;
 }
+
+:root {
+    --border-radius: 10px;
+    --transition: all 0.3s;
+
+    --white: #F8F8F8;
+    --green-light: #5abe48;
+    --gray: #c2c2c2;
+    --blue-light: #D4DFE6;
+    --blue-light-hover: #c9d6de;
+    --blue-dark: #3f708f;
+    --blue: #AFC5D3;
+    --blue-hover: #a9bfcc;
+
+    --aside-color: var(--blue-light);
+    --input-color: var(--blue);
+    --btn-color: var(--blue);
+}
