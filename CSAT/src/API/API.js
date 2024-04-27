@@ -6,21 +6,6 @@ import { CSATbaseUrl, protocol } from '../config.js';
  * @class CsatAPI
  */
 export class CsatAPI {
-    async checkAccess() {
-        try {
-            return makeBaseRequest(
-                `${protocol}://${CSATbaseUrl}/checkAccess`,
-                'GET',
-            );
-        } catch (error) {
-            console.error(
-                'There was a problem with the fetch operation:',
-                error,
-            );
-            throw error;
-        }
-    }
-
     async getQuestions() {
         try {
             return makeBaseRequest(
