@@ -24,11 +24,11 @@ export class CSATAPI {
     async setAnswer(QuestionId, Answer) {
         try {
             return makeBaseRequest(
-                `${protocol}://${CSATbaseUrl}/setAnswer`,
+                `${protocol}://${baseUrl}/setAnswer`,
                 'POST',
                 {
                     question_id: QuestionId,
-                    answer: Answer,
+                    grade: Answer,
                 },
             );
         } catch (error) {
