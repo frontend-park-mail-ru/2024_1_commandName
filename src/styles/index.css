@@ -108,4 +108,6 @@ iframe {
     right: 20px;
     z-index: 9998;
     border: none;
+    width: 250px;
+    height: 150px;
 }
