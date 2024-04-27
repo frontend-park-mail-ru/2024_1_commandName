@@ -1,15 +1,15 @@
 import { makeBaseRequest } from './common.js';
-import { CSATbaseUrl, protocol } from './config.js';
+import { baseUrl, protocol } from './config.js';
 
 /**
  * API для работы с админкой
  * @class AdminAPI
  */
 export class AdminAPI {
-    async getAllQuestions() {
+    async getStatistic() {
         try {
             return makeBaseRequest(
-                `${protocol}://${CSATbaseUrl}/getAllQuestions`,
+                `${protocol}://${baseUrl}/getStatistic`,
                 'GET',
             );
         } catch (error) {
