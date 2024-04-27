@@ -1,10 +1,14 @@
+<!-- admin_item_template.hbs -->
 <div class='admin_item'>
     <div class='question_info'>
         <p>Вопрос: {{name}}, Тип: {{type}}</p>
     </div>
     <div class='rating_chart'>
         {{#each rating}}
-            <div class='bar' style='width: {{this}}px;'>{{this}}</div>
+            <div class='bar'>
+                <div class='bar_fill' style='height: {{this}}px;'></div>
+                <div class='bar_label'>{{@index}}</div> <!-- Числовая метка -->
+            </div>
         {{/each}}
     </div>
 </div>

@@ -1,5 +1,25 @@
 .admin_item {
     border-top: 1px solid var(--blue);
     padding-top: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 20px;
+}
+
+.bar_fill {
+    background-color: var(--blue); /* Цвет заполнения столбца */
+}
+
+.bar {
+    display: inline-block;
+    width: 20px; /* Ширина каждого столбца */
+    margin-right: 5px; /* Расстояние между столбцами */
+    position: relative; /* Позволяет позиционировать label относительно bar */
+}
+
+.bar_label {
+    position: absolute;
+    bottom: -20px; /* Расположение числовой метки над столбцом */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
 }
