@@ -1,5 +1,6 @@
 import { BasePage } from './BasePage.js';
 import { AdminAPI } from '../utils/API/AdminAPI.js';
+import Admin from '../Components/Admin/Admin.js';
 /**
  * Рендерит страницу админки
  * @class Класс страницы админки
@@ -7,10 +8,11 @@ import { AdminAPI } from '../utils/API/AdminAPI.js';
 export default class AdminPage extends BasePage {
     #parent;
     #statistics;
+    #statisticsList;
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        this.render();
+        this.getData().then(() => this.render());
     }
 
     getData = async () => {
@@ -34,7 +36,8 @@ export default class AdminPage extends BasePage {
         }
     };
     render() {
-        this.#parent.innerHTML = 'Admin Page';
+        this.#statisticsList = new Admin(this.#parent, this.#statistics);
+        this.#statisticsList.render();
         console.log(this.#statistics);
     }
 }

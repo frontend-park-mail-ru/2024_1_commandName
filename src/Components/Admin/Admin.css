@@ -1,0 +1,38 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fullscreen-container {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--aside-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.statistics_back_btn {
+    position: absolute;
+    height: 100%;
+}
+
+.statistics_header {
+    display: flex;
+    width: 100%;
+
+}
+
+.statistics_title {
+    width: 100%;
+}
+
+#statistics_list {
+    max-height: 500px;
+    overflow: auto;
+}
