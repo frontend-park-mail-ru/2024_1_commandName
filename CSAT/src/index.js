@@ -1,5 +1,3 @@
-import Modal from './Components/Modal/Modal.js';
+import ModalPage from './Pages/ModalPage.js';
 
-console.log(document.getElementById('csat'));
-const modal = new Modal(document.getElementById('csat'), {});
-modal.render();
+new ModalPage(document.getElementById('csat'));
