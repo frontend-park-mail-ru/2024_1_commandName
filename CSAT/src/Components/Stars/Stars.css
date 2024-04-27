@@ -1,0 +1,11 @@
+#csat__stars {
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.csat__star {
+    margin-right: 10px;
+    margin-left: 10px;
+}
