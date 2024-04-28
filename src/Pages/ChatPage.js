@@ -18,6 +18,7 @@ export default class ChatPage extends BasePage {
     #chat;
     #chatList;
     #messageDrafts = {};
+    #searchDraft;
     #currentChatId;
     #profile;
     #chats;
@@ -64,7 +65,10 @@ export default class ChatPage extends BasePage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        this.#chatList = new ChatList(wrapper, {});
+        this.#chatList = new ChatList(wrapper, {
+            inputSearchHandler: this.searchDraftHandler,
+            sendSearchHandler: this.searchSendHandler,
+        });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
@@ -105,6 +109,10 @@ export default class ChatPage extends BasePage {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
 
+    searchDraftHandler = (event) => {
+        this.#searchDraft = event.target.value;
+    };
+
     messageSendHandler = () => {
         // Контейнер активного чата
         const inputMessage = this.#parent
@@ -123,6 +131,24 @@ export default class ChatPage extends BasePage {
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
+        }
+    };
+
+    searchSendHandler = () => {
+        // Контейнер активного чата
+        const inputSearch = this.#parent
+            .querySelector(`#search_input`)
+            .value.trim();
+        if (inputSearch) {
+            const sanitizedInputSearch = sanitizer(inputSearch);
+            const search = {
+                type: 'chat',
+                word: sanitizedInputSearch,
+            };
+            websocketManager.sendMessage('searchChats', search);
+            document.querySelector(`#search_input`).value = '';
+        } else {
+            console.error('Нет текста для поиска');
         }
     };
 

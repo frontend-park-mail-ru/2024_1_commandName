@@ -11,6 +11,18 @@ export default class ChatList extends BaseComponent {
 
     render() {
         super.render();
+        this.getParent()
+            .querySelector('#search_input')
+            .addEventListener('input', this.getConfig().inputSearchHandler);
+
+        this.getParent()
+            .querySelector('#search_input')
+            .addEventListener('keydown', (event) => {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    this.getConfig().sendSearchHandler();
+                }
+            });
     }
 
     /*
@@ -24,6 +36,10 @@ export default class ChatList extends BaseComponent {
         chatConfig.handler = handler;
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
+    }
+
+    setInputSearchValue(value) {
+        this.getParent().querySelector(`#search_input`).value = value;
     }
 
     setActiveChat(chatId) {
