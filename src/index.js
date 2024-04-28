@@ -1,28 +1,35 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                Promise.all(
-                    registrations.map(function (registration) {
-                        return registration.unregister();
-                    }),
-                ).then(function () {
-                    navigator.serviceWorker
-                        .register('/serviceWorker.js')
-                        .then()
-                        .catch(function (err) {
-                            console.log(
-                                'Ошибка при регистрации нового Service Worker:',
-                                err,
-                            );
-                        });
-                });
+                if (registrations.length === 0) {
+                    return navigator.serviceWorker.register(
+                        '/serviceWorker.js',
+                    );
+                } else {
+                    const serviceWorker = registrations[0];
+                    if (serviceWorker.active) {
+                        return Promise.resolve();
+                    } else {
+                        return serviceWorker.activate();
+                    }
+                }
+            })
+            .catch(function (err) {
+                console.log(
+                    'Ошибка при регистрации/активации Service Worker:',
+                    err,
+                );
             });
-    });
+    }
 }
+
+window.addEventListener('load', function () {
+    registerServiceWorker();
+});
 
 const api = new AuthAPI();
 api.checkAuth()
