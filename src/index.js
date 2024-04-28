@@ -11,9 +11,7 @@ function registerServiceWorker() {
                     );
                 } else {
                     const serviceWorker = registrations[0];
-                    if (serviceWorker.active) {
-                        return Promise.resolve();
-                    } else {
+                    if (!serviceWorker.active) {
                         return serviceWorker.activate();
                     }
                 }
