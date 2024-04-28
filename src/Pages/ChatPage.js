@@ -26,8 +26,11 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
-        websocketManager.connect();
-        websocketManager.setMessageHandler(this.handleWebSocketMessage);
+        websocketManager.connect(['sendMessage']);
+        websocketManager.setMessageHandler(
+            'sendMessage',
+            this.handleWebSocketMessage,
+        );
         this.getData().then(() => this.render());
     }
 
@@ -112,7 +115,11 @@ export default class ChatPage extends BasePage {
         if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
             const sanitizedInputMessage = sanitizer(inputMessage);
-            websocketManager.sendMessage(chatId, sanitizedInputMessage);
+            const message = {
+                chat_id: chatId,
+                message_text: sanitizedInputMessage,
+            };
+            websocketManager.sendMessage('sendMessage', message);
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
