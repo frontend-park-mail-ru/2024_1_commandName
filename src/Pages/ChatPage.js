@@ -27,10 +27,14 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
-        websocketManager.connect(['sendMessage']);
+        websocketManager.connect(['sendMessage', 'search']);
         websocketManager.setMessageHandler(
             'sendMessage',
             this.handleWebSocketMessage,
+        );
+        websocketManager.setMessageHandler(
+            'search',
+            this.handleWebSocketSearch,
         );
         this.getData().then(() => this.render());
     }
@@ -142,10 +146,10 @@ export default class ChatPage extends BasePage {
         if (inputSearch) {
             const sanitizedInputSearch = sanitizer(inputSearch);
             const search = {
-                type: 'chat',
                 word: sanitizedInputSearch,
+                search_type: 'chat',
             };
-            websocketManager.sendMessage('searchChats', search);
+            websocketManager.sendMessage('search', search);
             document.querySelector(`#search_input`).value = '';
         } else {
             console.error('Нет текста для поиска');
@@ -172,6 +176,10 @@ export default class ChatPage extends BasePage {
             this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
             this.displayChats(this.#chats); // Обновляем отображение чатов
         }
+    };
+
+    handleWebSocketSearch = (response) => {
+        this.displayChats(response.body.chats);
     };
 
     displayChats(chats) {
