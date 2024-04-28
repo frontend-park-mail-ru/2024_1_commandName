@@ -10,7 +10,7 @@ import { goToPage } from '../utils/router.js';
  */
 export default class ContactsPage extends BasePage {
     #parent;
-    #contacts;
+    #contacts = [];
     #contactsList;
 
     constructor(parent) {
