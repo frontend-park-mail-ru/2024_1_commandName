@@ -72,7 +72,7 @@ export default class ContactsPage extends BasePage {
             const sanitizedInputSearch = sanitizer(inputSearch);
             const search = {
                 word: sanitizedInputSearch,
-                search_type: 'contacts',
+                search_type: 'contact',
             };
             websocketManager.sendMessage('search', search);
             document.querySelector(`#search_input`).value = '';
