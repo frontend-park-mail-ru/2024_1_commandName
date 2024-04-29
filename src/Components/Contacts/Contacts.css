@@ -32,6 +32,12 @@
     width: 100%;
 }
 
+.search_input {
+    margin-top: 0;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
 #contact_list {
     max-height: 500px;
     overflow: auto;

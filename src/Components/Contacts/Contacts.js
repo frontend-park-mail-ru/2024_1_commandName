@@ -15,8 +15,20 @@ export default class Contacts extends BaseComponent {
         this.getParent()
             .querySelector('#backButton')
             .addEventListener('click', () => {
-                // TODO: Возврат назад
                 goToPage('/chat', true);
+            });
+
+        this.getParent()
+            .querySelector('#search_input')
+            .addEventListener('input', this.getConfig().inputSearchHandler);
+
+        this.getParent()
+            .querySelector('#search_input')
+            .addEventListener('keydown', (event) => {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    this.getConfig().sendSearchHandler();
+                }
             });
     }
 

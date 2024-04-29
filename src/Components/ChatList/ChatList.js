@@ -38,10 +38,6 @@ export default class ChatList extends BaseComponent {
         chat.render();
     }
 
-    setInputSearchValue(value) {
-        this.getParent().querySelector(`#search_input`).value = value;
-    }
-
     setActiveChat(chatId) {
         if (this.#currentActiveChatId) {
             this.getParent()
