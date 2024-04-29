@@ -77,7 +77,7 @@ export default class ContactsPage extends BasePage {
             websocketManager.sendMessage('search', search);
             document.querySelector(`#search_input`).value = '';
         } else {
-            console.error('Нет текста для поиска');
+            this.displayContacts(this.#contacts);
         }
     };
 
