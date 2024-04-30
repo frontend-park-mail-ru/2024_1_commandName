@@ -178,7 +178,6 @@ export default class ChatPage extends BasePage {
     };
 
     getWebSocketSearch = (response) => {
-        console.log(response);
         if ('chats' in response.body) {
             this.displayChats(response.body.chats || []);
         } else {
