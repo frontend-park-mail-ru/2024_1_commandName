@@ -16,7 +16,6 @@ export default class ChatList extends BaseComponent {
 
         const searchContainer =
             this.getParent().querySelector('.search_container');
-        console.log(searchContainer);
 
         this.#searchChats = new Search(searchContainer, {
             type: 'chat',

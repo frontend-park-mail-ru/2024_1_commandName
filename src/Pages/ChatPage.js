@@ -73,7 +73,6 @@ export default class ChatPage extends BasePage {
             sendMessage: this.messageSendHandler,
             getMessage: this.getWebSocketMessage,
         });
-        console.log(this.#chat);
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);
@@ -172,7 +171,6 @@ export default class ChatPage extends BasePage {
     };
 
     getWebSocketSearch = (response) => {
-        console.log(response);
         if ('chats' in response.body) {
             this.displayChats(response.body.chats || []);
         } else {
