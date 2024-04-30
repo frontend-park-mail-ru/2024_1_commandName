@@ -2,8 +2,8 @@ import { BaseComponent } from '../BaseComponent.js';
 import { WebSocketManager } from '../../utils/WebSocket.js';
 
 /**
- * Рендерит сообщение
- * @class Класс компонента сообщения
+ * Рендерит поиск
+ * @class Класс компонента поиска
  */
 export default class Search extends BaseComponent {
     templateName = 'Search';
