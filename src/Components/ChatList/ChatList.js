@@ -1,5 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
+import { WebSocketManager } from '../../utils/WebSocket.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -11,16 +12,22 @@ export default class ChatList extends BaseComponent {
 
     render() {
         super.render();
+
+        this.ws_sendSearch = new WebSocketManager(
+            'search',
+            this.getConfig().getSearch,
+        );
+
         this.getParent()
             .querySelector('#search_input')
-            .addEventListener('input', this.getConfig().inputSearchHandler);
+            .addEventListener('input', this.getConfig().inputSearch);
 
         this.getParent()
             .querySelector('#search_input')
             .addEventListener('keydown', (event) => {
                 if (event.keyCode === 13) {
                     event.preventDefault();
-                    this.getConfig().sendSearchHandler();
+                    this.getConfig().sendSearch();
                 }
             });
     }
@@ -52,5 +59,9 @@ export default class ChatList extends BaseComponent {
 
     setUserName(user) {
         this.getParent().querySelector('#profile_btn').innerHTML = user;
+    }
+
+    getSearchSocket() {
+        return this.ws_sendSearch;
     }
 }

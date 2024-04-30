@@ -60,17 +60,17 @@ export default class ChatPage extends BasePage {
         wrapper.classList = 'full-screen';
 
         this.#chatList = new ChatList(wrapper, {
-            // inputSearchHandler: this.searchDraftHandler,
-            // sendSearchHandler: this.searchSendHandler,
+            inputSearch: this.searchDraftHandler,
+            sendSearch: this.searchSendHandler,
+            getSearch: this.getWebSocketSearch,
         });
-        console.log(this.#chatList);
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
-            getMessage: this.getWebSocketMessage,
             inputMessage: this.messageDraftHandler,
             sendMessage: this.messageSendHandler,
+            getMessage: this.getWebSocketMessage,
         });
         console.log(this.#chat);
         this.#chat.render();
@@ -131,23 +131,22 @@ export default class ChatPage extends BasePage {
         }
     };
 
-    // searchSendHandler = () => {
-    //     // Контейнер активного чата
-    //     const inputSearch = this.#parent
-    //         .querySelector(`#search_input`)
-    //         .value.trim();
-    //     if (inputSearch) {
-    //         const sanitizedInputSearch = sanitizer(inputSearch);
-    //         const search = {
-    //             word: sanitizedInputSearch,
-    //             search_type: 'chat',
-    //         };
-    //         websocketManager.sendMessage('search', search);
-    //         document.querySelector(`#search_input`).value = '';
-    //     } else {
-    //         this.displayChats(this.#chats);
-    //     }
-    // };
+    searchSendHandler = () => {
+        // Контейнер активного чата
+        const inputSearch = this.#parent
+            .querySelector(`#search_input`)
+            .value.trim();
+        if (inputSearch) {
+            const sanitizedInputSearch = sanitizer(inputSearch);
+            const search = {
+                word: sanitizedInputSearch,
+                search_type: 'chat',
+            };
+            this.#chatList.getSearchSocket().sendRequest(search);
+        } else {
+            this.displayChats(this.#chats);
+        }
+    };
 
     getWebSocketMessage = (message) => {
         const chatIndex = this.#chats.findIndex(
@@ -171,7 +170,7 @@ export default class ChatPage extends BasePage {
         }
     };
 
-    handleWebSocketSearch = (response) => {
+    getWebSocketSearch = (response) => {
         this.displayChats(response.body.chats);
     };
 
