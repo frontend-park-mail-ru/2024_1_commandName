@@ -18,11 +18,6 @@ export default class ContactsPage extends BasePage {
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        // websocketManager.connect(['search']);
-        // websocketManager.setMessageHandler(
-        //     'search',
-        //     this.handleWebSocketSearch,
-        // );
         this.getData().then(() => this.render());
     }
 
@@ -48,24 +43,25 @@ export default class ContactsPage extends BasePage {
 
     render() {
         this.#contactsList = new Contacts(this.#parent, {
-            inputSearchHandler: this.searchDraftHandler,
-            sendSearchHandler: this.searchSendHandler,
+            inputSearchContacts: this.searchDraftHandler,
+            sendSearchContacts: this.searchSendHandler,
+            getSearchContacts: this.getWebSocketSearch,
         });
         this.#contactsList.render();
         this.displayContacts(this.#contacts);
     }
-    handleWebSocketSearch = (response) => {
-        this.displayContacts(response.body.contacts);
+    getWebSocketSearch = (response) => {
+        this.displayContacts(response.body.contacts || []);
     };
 
     searchDraftHandler = (event) => {
         this.#searchDraft = event.target.value;
     };
 
-    searchSendHandler = () => {
+    searchSendHandler = (type) => {
         // Контейнер активного чата
         const inputSearch = this.#parent
-            .querySelector(`#search_input`)
+            .querySelector(`#input_search_${type}`)
             .value.trim();
         if (inputSearch) {
             const sanitizedInputSearch = sanitizer(inputSearch);
@@ -73,8 +69,7 @@ export default class ContactsPage extends BasePage {
                 word: sanitizedInputSearch,
                 search_type: 'contact',
             };
-            websocketManager.sendMessage('search', search);
-            document.querySelector(`#search_input`).value = '';
+            this.#contactsList.getSearcher().getSocket().sendRequest(search);
         } else {
             this.displayContacts(this.#contacts);
         }
