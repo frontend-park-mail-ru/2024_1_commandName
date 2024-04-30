@@ -63,6 +63,7 @@ export default class ChatPage extends BasePage {
             // inputSearchHandler: this.searchDraftHandler,
             // sendSearchHandler: this.searchSendHandler,
         });
+        console.log(this.#chatList);
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
@@ -71,6 +72,7 @@ export default class ChatPage extends BasePage {
             inputMessage: this.messageDraftHandler,
             sendMessage: this.messageSendHandler,
         });
+        console.log(this.#chat);
         this.#chat.render();
 
         this.#parent.appendChild(wrapper);

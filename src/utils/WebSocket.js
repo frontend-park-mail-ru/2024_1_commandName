@@ -1,6 +1,7 @@
 import { baseUrl } from './API/config.js';
+
 export class WebSocketManager {
-    constructor(method) {
+    constructor(method, responsehandler) {
         this.ws_way = '';
         if (baseUrl === 'chatme.site/api/v1') {
             this.protocol = 'wss';
@@ -11,6 +12,8 @@ export class WebSocketManager {
         this.socket = new WebSocket(
             `${this.protocol}://${baseUrl}${this.ws_way}/${method}`,
         );
+        this.responseHandler = responsehandler;
+        this.connect();
     }
 
     connect() {

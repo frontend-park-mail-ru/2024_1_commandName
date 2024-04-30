@@ -4,18 +4,15 @@ import { WebSocketManager } from '../../utils/WebSocket.js';
 export default class Chat extends BaseComponent {
     templateName = 'Chat';
 
-    constructor() {
-        super();
-        this.ws_sendMesasge = new WebSocketManager('sendMessage');
+    render() {
+        this.ws_sendMesasge = new WebSocketManager(
+            'sendMessage',
+            this.getConfig().getMessage,
+        );
         // this.ws_sendSearch = new WebSocketManager(
         //     'sendSearch',
         //     this.getConfig().getSearch,
         // );
-    }
-    render() {
-        // this.ws_sendMesasge.setRequestHandler(this.getConfig().getMessage);
-        // this.ws_sendMesasge.connect();
-        // console.log(this.getConfig());
         super.render();
         this.getParent()
             .querySelector('#input_message')
@@ -32,7 +29,7 @@ export default class Chat extends BaseComponent {
 
         this.getParent()
             .querySelector('.input_send')
-            .addEventListener('click', this.getConfig().sendMessage());
+            .addEventListener('click', this.getConfig().sendMessage);
     }
 
     // sendMessage() {
