@@ -178,6 +178,7 @@ export default class ChatPage extends BasePage {
     };
 
     getWebSocketSearch = (response) => {
+        console.log(response);
         if ('chats' in response.body) {
             this.displayChats(response.body.chats || []);
         } else {
@@ -253,6 +254,7 @@ export default class ChatPage extends BasePage {
         const activeChatContainer = document.getElementById(
             'active-chat-container',
         );
+        activeChatContainer.innerHTML = '';
         messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
