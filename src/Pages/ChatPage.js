@@ -17,6 +17,7 @@ export default class ChatPage extends BasePage {
     #chat;
     #chatList;
     #messageDrafts = {};
+    #searchDrafts = {};
     #searchDraft;
     #currentChatId;
     #profile;
@@ -60,9 +61,9 @@ export default class ChatPage extends BasePage {
         wrapper.classList = 'full-screen';
 
         this.#chatList = new ChatList(wrapper, {
-            inputSearch: this.searchDraftHandler,
-            sendSearch: this.searchSendHandler,
-            getSearch: this.getWebSocketSearch,
+            inputSearchChats: this.searchChatsDraftHandler,
+            sendSearchChats: this.searchSendHandler,
+            getSearchChats: this.getWebSocketSearch,
         });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
@@ -106,7 +107,7 @@ export default class ChatPage extends BasePage {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
 
-    searchDraftHandler = (event) => {
+    searchChatsDraftHandler = (event) => {
         this.#searchDraft = event.target.value;
     };
 
@@ -131,18 +132,18 @@ export default class ChatPage extends BasePage {
         }
     };
 
-    searchSendHandler = () => {
+    searchSendHandler = (type) => {
         // Контейнер активного чата
         const inputSearch = this.#parent
-            .querySelector(`#search_input`)
+            .querySelector(`#input_search_${type}`)
             .value.trim();
         if (inputSearch) {
             const sanitizedInputSearch = sanitizer(inputSearch);
             const search = {
                 word: sanitizedInputSearch,
-                search_type: 'chat',
+                search_type: type,
             };
-            this.#chatList.getSearchSocket().sendRequest(search);
+            this.#chatList.getSearcher().getSocket().sendRequest(search);
         } else {
             this.displayChats(this.#chats);
         }
@@ -171,7 +172,12 @@ export default class ChatPage extends BasePage {
     };
 
     getWebSocketSearch = (response) => {
-        this.displayChats(response.body.chats);
+        console.log(response);
+        if ('chats' in response.body) {
+            this.displayChats(response.body.chats || []);
+        } else {
+            this.displayMessages(response.body.messages || []);
+        }
     };
 
     displayChats(chats) {
@@ -232,9 +238,17 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
+        this.displayMessages(chat.messages);
+        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
 
-        // Отображаем сообщения в чате
-        chat.messages.forEach((message) => {
+        this.#chatList.setActiveChat(chat.id);
+    }
+
+    displayMessages(messages) {
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
+        messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
             const timeString =
@@ -252,10 +266,6 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
-
-        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-
-        this.#chatList.setActiveChat(chat.id);
     }
 
     handleLogout(event) {

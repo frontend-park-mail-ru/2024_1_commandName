@@ -1,6 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
-import { WebSocketManager } from '../../utils/WebSocket.js';
+import Search from '../Search/Search.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -9,27 +9,22 @@ import { WebSocketManager } from '../../utils/WebSocket.js';
 export default class ChatList extends BaseComponent {
     templateName = 'ChatList';
     #currentActiveChatId;
+    #searchChats;
 
     render() {
         super.render();
 
-        this.ws_sendSearch = new WebSocketManager(
-            'search',
-            this.getConfig().getSearch,
-        );
+        const searchContainer =
+            this.getParent().querySelector('.search_container');
+        console.log(searchContainer);
 
-        this.getParent()
-            .querySelector('#search_input')
-            .addEventListener('input', this.getConfig().inputSearch);
-
-        this.getParent()
-            .querySelector('#search_input')
-            .addEventListener('keydown', (event) => {
-                if (event.keyCode === 13) {
-                    event.preventDefault();
-                    this.getConfig().sendSearch();
-                }
-            });
+        this.#searchChats = new Search(searchContainer, {
+            type: 'chat',
+            inputSearch: this.getConfig().inputSearchChats,
+            sendSearch: this.getConfig().sendSearchChats,
+            getSearch: this.getConfig().getSearchChats,
+        });
+        this.#searchChats.render();
     }
 
     /*
@@ -61,7 +56,7 @@ export default class ChatList extends BaseComponent {
         this.getParent().querySelector('#profile_btn').innerHTML = user;
     }
 
-    getSearchSocket() {
-        return this.ws_sendSearch;
+    getSearcher() {
+        return this.#searchChats;
     }
 }
