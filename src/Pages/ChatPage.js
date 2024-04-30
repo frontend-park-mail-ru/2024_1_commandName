@@ -72,6 +72,9 @@ export default class ChatPage extends BasePage {
             inputMessage: this.messageDraftHandler,
             sendMessage: this.messageSendHandler,
             getMessage: this.getWebSocketMessage,
+            inputSearchMessages: this.searchMessagesDraftsHandler,
+            sendSearchMessages: this.searchSendHandler,
+            getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
 
@@ -108,6 +111,10 @@ export default class ChatPage extends BasePage {
 
     searchChatsDraftHandler = (event) => {
         this.#searchDraft = event.target.value;
+    };
+
+    searchMessagesDraftsHandler = (event) => {
+        this.#searchDrafts[this.#currentChatId] = event.target.value;
     };
 
     messageSendHandler = () => {

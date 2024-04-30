@@ -1,19 +1,30 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { WebSocketManager } from '../../utils/WebSocket.js';
+import Search from '../Search/Search.js';
 
 export default class Chat extends BaseComponent {
     templateName = 'Chat';
+    #searchMessages;
 
     render() {
         this.ws_sendMesasge = new WebSocketManager(
             'sendMessage',
             this.getConfig().getMessage,
         );
-        // this.ws_sendSearch = new WebSocketManager(
-        //     'sendSearch',
-        //     this.getConfig().getSearch,
-        // );
         super.render();
+
+        const searchContainer = this.getParent().querySelector(
+            `#search_container_message`,
+        );
+
+        this.#searchMessages = new Search(searchContainer, {
+            type: 'message',
+            inputSearch: this.getConfig().inputSearchMessages,
+            sendSearch: this.getConfig().sendSearchMessages,
+            getSearch: this.getConfig().getSearchMessages,
+        });
+        this.#searchMessages.render();
+
         this.getParent()
             .querySelector('#input_message')
             .addEventListener('input', this.getConfig().inputMessage);
@@ -36,9 +47,6 @@ export default class Chat extends BaseComponent {
         return this.ws_sendMesasge;
     }
 
-    getSearchSocket() {
-        return this.ws_sendSearch;
-    }
     setInputMessageValue(value) {
         this.getParent().querySelector('#input_message').value = value;
     }
