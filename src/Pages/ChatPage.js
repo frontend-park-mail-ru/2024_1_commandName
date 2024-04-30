@@ -5,7 +5,6 @@ import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
-import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
 
@@ -27,15 +26,6 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
-        websocketManager.connect(['sendMessage', 'search']);
-        websocketManager.setMessageHandler(
-            'sendMessage',
-            this.handleWebSocketMessage,
-        );
-        websocketManager.setMessageHandler(
-            'search',
-            this.handleWebSocketSearch,
-        );
         this.getData().then(() => this.render());
     }
 
@@ -70,15 +60,16 @@ export default class ChatPage extends BasePage {
         wrapper.classList = 'full-screen';
 
         this.#chatList = new ChatList(wrapper, {
-            inputSearchHandler: this.searchDraftHandler,
-            sendSearchHandler: this.searchSendHandler,
+            // inputSearchHandler: this.searchDraftHandler,
+            // sendSearchHandler: this.searchSendHandler,
         });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
-            inputMessageHandler: this.messageDraftHandler,
-            sendMessageHandler: this.messageSendHandler,
+            getMessage: this.getWebSocketMessage,
+            inputMessage: this.messageDraftHandler,
+            sendMessage: this.messageSendHandler,
         });
         this.#chat.render();
 
@@ -131,32 +122,32 @@ export default class ChatPage extends BasePage {
                 chat_id: chatId,
                 message_text: sanitizedInputMessage,
             };
-            websocketManager.sendMessage('sendMessage', message);
+            this.#chat.getMessageSocket().sendRequest(message);
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
         }
     };
 
-    searchSendHandler = () => {
-        // Контейнер активного чата
-        const inputSearch = this.#parent
-            .querySelector(`#search_input`)
-            .value.trim();
-        if (inputSearch) {
-            const sanitizedInputSearch = sanitizer(inputSearch);
-            const search = {
-                word: sanitizedInputSearch,
-                search_type: 'chat',
-            };
-            websocketManager.sendMessage('search', search);
-            document.querySelector(`#search_input`).value = '';
-        } else {
-            this.displayChats(this.#chats);
-        }
-    };
+    // searchSendHandler = () => {
+    //     // Контейнер активного чата
+    //     const inputSearch = this.#parent
+    //         .querySelector(`#search_input`)
+    //         .value.trim();
+    //     if (inputSearch) {
+    //         const sanitizedInputSearch = sanitizer(inputSearch);
+    //         const search = {
+    //             word: sanitizedInputSearch,
+    //             search_type: 'chat',
+    //         };
+    //         websocketManager.sendMessage('search', search);
+    //         document.querySelector(`#search_input`).value = '';
+    //     } else {
+    //         this.displayChats(this.#chats);
+    //     }
+    // };
 
-    handleWebSocketMessage = (message) => {
+    getWebSocketMessage = (message) => {
         const chatIndex = this.#chats.findIndex(
             (chat) => chat.id === message.chat_id,
         );
@@ -275,7 +266,7 @@ export default class ChatPage extends BasePage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    websocketManager.close();
+                    //websocketManager.close();
                     goToPage('/login', true);
                 } else {
                     console.log('Error logged out');

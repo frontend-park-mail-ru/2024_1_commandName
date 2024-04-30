@@ -1,7 +1,6 @@
 import { baseUrl } from './API/config.js';
-class WebSocketManager {
-    constructor() {
-        this.sockets = {};
+export class WebSocketManager {
+    constructor(method) {
         this.ws_way = '';
         if (baseUrl === 'chatme.site/api/v1') {
             this.protocol = 'wss';
@@ -9,52 +8,43 @@ class WebSocketManager {
         } else {
             this.protocol = 'ws';
         }
-        this.messageHandlers = {};
+        this.socket = new WebSocket(
+            `${this.protocol}://${baseUrl}${this.ws_way}/${method}`,
+        );
     }
 
-    connect(methods) {
-        methods.forEach((method) => {
-            const socket = new WebSocket(
-                `${this.protocol}://${baseUrl}${this.ws_way}/${method}`,
-            );
-            socket.onopen;
-            socket.onerror = (error) => {
-                console.error(`WebSocket ${method} error:`, error);
-            };
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (this.messageHandlers[method]) {
-                    this.messageHandlers[method](data);
-                }
-            };
-            this.sockets[method] = socket;
-        });
+    connect() {
+        this.socket.onopen;
+        this.socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+        // Добавляем прослушивание входящих сообщений
+        this.socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (this.responseHandler) {
+                this.responseHandler(data);
+            }
+        };
     }
 
-    sendMessage(method, message) {
-        const socket = this.sockets[method];
-        if (!socket) {
-            console.error(`WebSocket for method ${method} not found.`);
-            return;
-        }
-        if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify(message));
+    sendRequest(data) {
+        if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify(data));
         } else {
             console.error('WebSocket is not open.');
         }
     }
-    setMessageHandler(method, handler) {
-        this.messageHandlers[method] = handler;
-    }
 
+    setRequestHandler(handler) {
+        this.messageHandler = handler;
+    }
     close() {
-        Object.values(this.sockets).forEach((socket, index) => {
-            socket.close();
-            console.log(`WebSocket ${index} connection closed.`);
-        });
+        if (this.socket) {
+            this.socket.close();
+        }
     }
 }
 
-const websocketManager = new WebSocketManager();
-
-export { websocketManager };
+// const websocketManager = new WebSocketManager();
+//
+// export { websocketManager };

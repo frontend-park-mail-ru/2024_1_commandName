@@ -3,7 +3,6 @@ import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
 import { goToPage } from '../utils/router.js';
-import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
 
 /**
@@ -19,11 +18,11 @@ export default class ContactsPage extends BasePage {
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        websocketManager.connect(['search']);
-        websocketManager.setMessageHandler(
-            'search',
-            this.handleWebSocketSearch,
-        );
+        // websocketManager.connect(['search']);
+        // websocketManager.setMessageHandler(
+        //     'search',
+        //     this.handleWebSocketSearch,
+        // );
         this.getData().then(() => this.render());
     }
 
