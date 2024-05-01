@@ -124,7 +124,7 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
             this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
-            this.#chatsCache[message.id].push(message);
+            this.#chatsCache[message.chat_id].messages.push(message); // и в кеш
             this.displayChats(this.#chats); // Обновляем отображение чатов
         }
     };
