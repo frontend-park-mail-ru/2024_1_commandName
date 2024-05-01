@@ -78,24 +78,6 @@ export default class ChatPage extends BasePage {
             .getParent()
             .querySelector('#logout_btn')
             .addEventListener('click', this.handleLogout);
-        this.#chatList
-            .getParent()
-            .querySelector('#profile_btn')
-            .addEventListener('click', () => {
-                goToPage('/profile', true);
-            });
-        this.#chatList
-            .getParent()
-            .querySelector('#contacts_btn')
-            .addEventListener('click', () => {
-                goToPage('/contacts', true);
-            });
-        this.#chatList
-            .getParent()
-            .querySelector('#create_group_btn')
-            .addEventListener('click', () => {
-                goToPage('/create_group', true);
-            });
     }
 
     messageDraftHandler = (event) => {

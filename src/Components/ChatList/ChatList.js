@@ -1,5 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
+import { goToPage } from '../../utils/router.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -11,6 +12,24 @@ export default class ChatList extends BaseComponent {
 
     render() {
         super.render();
+
+        this.getParent()
+            .querySelector('#contacts_btn')
+            .addEventListener('click', () => {
+                goToPage('/contacts', true);
+            });
+
+        this.getParent()
+            .querySelector('#profile_btn')
+            .addEventListener('click', () => {
+                goToPage('/profile', true);
+            });
+
+        this.getParent()
+            .querySelector('#create_group_btn')
+            .addEventListener('click', () => {
+                goToPage('/create_group', true);
+            });
     }
 
     /*
