@@ -52,12 +52,12 @@ export default class Message extends BaseComponent {
                 editButton.textContent = '→';
                 editButton.addEventListener('click', () => {
                     const newMessageText = this.#editMessageInput.value;
-                    const sanitizednewMessageText = sanitizer(newMessageText);
+                    const sanitizedNewMessageText = sanitizer(newMessageText);
                     const chatAPI = new ChatAPI();
                     chatAPI
                         .editMessage(
                             this.getConfig().message_id,
-                            sanitizednewMessageText,
+                            sanitizedNewMessageText,
                         )
                         .then(() => {
                             this.#editMessageInput.style.display = 'none';
