@@ -5,6 +5,7 @@ export default class Message extends BaseComponent {
     templateName = 'Message';
     #messageElement;
     #ContextMenu;
+    #editMessageInput;
 
     render() {
         super.render();
@@ -18,11 +19,15 @@ export default class Message extends BaseComponent {
         }
 
         this.#ContextMenu = this.#messageElement.querySelector(`#ContextMenu`);
+        this.#editMessageInput = this.#messageElement.querySelector(
+            '.edit_message_input',
+        );
 
         this.#messageElement.addEventListener('contextmenu', (event) => {
             event.preventDefault();
             this.#ContextMenu.style.display = 'block';
         });
+
         this.#ContextMenu
             .querySelector('.delete-button')
             .addEventListener('click', () => {
@@ -30,6 +35,29 @@ export default class Message extends BaseComponent {
                 chatAPI.deleteMessage(this.getConfig().message_id).then(() => {
                     this.#messageElement.style.display = 'none';
                 });
+            });
+
+        this.#ContextMenu
+            .querySelector('.edit-button')
+            .addEventListener('click', () => {
+                this.#editMessageInput.style.display = 'inline-block';
+                this.#editMessageInput.value = this.getConfig().message_text;
+                this.#messageElement.querySelector(
+                    '.message_text',
+                ).style.display = 'none';
+                this.#ContextMenu.style.display = 'none';
+
+                const editButton = document.createElement('button');
+                editButton.textContent = '→';
+                editButton.addEventListener('click', () => {
+                    // Здесь добавьте логику для редактирования сообщения
+                    // const newMessageText = this.#editMessageInput.value;
+                    //тут логика редактирования
+                });
+
+                this.#messageElement
+                    .querySelector('.message_data')
+                    .appendChild(editButton);
             });
 
         document.addEventListener('click', () => {
