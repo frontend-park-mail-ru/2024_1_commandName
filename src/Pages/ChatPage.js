@@ -183,15 +183,17 @@ export default class ChatPage extends BasePage {
         document.getElementById('chat_header').textContent = chatName;
         // console.log(this.#chatsCache[chat.id]);
         const chatAPI = new ChatAPI();
+        let messages = this.#chatsCache[chat.id].messages;
         chatAPI
             .getMessages(this.#chatsCache[chat.id].id)
             .then((response) => {
-                // console.log(response.body.messages);
-                this.displayMessages(response.body.messages);
+                messages = response.body.messages;
+                this.#chatsCache[chat.id].messages = messages;
+                this.displayMessages(messages);
             })
-            .catch((error) => {
-                console.log('проблемы с соединением', error);
-                this.displayMessages(this.#chatsCache[chat.id].messages);
+            .catch(() => {
+                console.log('нет интернета');
+                this.displayMessages(messages);
             });
         this.#chatList.setActiveChat(chat.id);
     }
