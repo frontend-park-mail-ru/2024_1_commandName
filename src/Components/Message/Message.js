@@ -1,4 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
+import { ChatAPI } from '../../utils/API/ChatAPI.js';
 
 export default class Message extends BaseComponent {
     templateName = 'Message';
@@ -25,8 +26,10 @@ export default class Message extends BaseComponent {
         this.#ContextMenu
             .querySelector('.delete-button')
             .addEventListener('click', () => {
-                this.#messageElement.style.display = 'none';
-                // TODO: отправка запроса на удаление
+                const chatAPI = new ChatAPI();
+                chatAPI.deleteMessage(this.getConfig().message_id).then(() => {
+                    this.#messageElement.style.display = 'none';
+                });
             });
 
         document.addEventListener('click', () => {
