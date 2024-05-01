@@ -21,6 +21,7 @@ export default class ChatPage extends BasePage {
     #currentChatId;
     #profile;
     #chats = [];
+    #chatsCache = {};
 
     constructor(parent, urlParams) {
         super(parent);
@@ -42,6 +43,9 @@ export default class ChatPage extends BasePage {
             ]);
 
             this.#chats = chatsResponse.body.chats;
+            chatsResponse.body.chats.forEach((chat) => {
+                this.#chatsCache[chat.id] = chat;
+            });
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
@@ -176,7 +180,16 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
-        this.displayMessages(chat.messages);
+        const chatAPI = new ChatAPI();
+        chatAPI
+            .getChatMessages(chat.id)
+            .then((response) => {
+                this.displayMessages(response.body.messages);
+            })
+            .catch((error) => {
+                console.log('проблемы с соединением', error);
+                this.displayMessages(this.#chatsCache[chat.id].messages);
+            });
         this.#chatList.setActiveChat(chat.id);
     }
 
