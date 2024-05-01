@@ -5,7 +5,6 @@ import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
-import { websocketManager } from '../utils/WebSocket.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
 
@@ -18,6 +17,8 @@ export default class ChatPage extends BasePage {
     #chat;
     #chatList;
     #messageDrafts = {};
+    #searchDrafts = {};
+    #searchDraft;
     #currentChatId;
     #profile;
     #chats = [];
@@ -26,8 +27,6 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
-        websocketManager.connect();
-        websocketManager.setMessageHandler(this.handleWebSocketMessage);
         this.getData().then(() => this.render());
     }
 
@@ -61,13 +60,21 @@ export default class ChatPage extends BasePage {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
 
-        this.#chatList = new ChatList(wrapper, {});
+        this.#chatList = new ChatList(wrapper, {
+            inputSearchChats: this.searchChatsDraftHandler,
+            sendSearchChats: this.searchSendHandler,
+            getSearchChats: this.getWebSocketSearch,
+        });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
-            inputMessageHandler: this.messageDraftHandler,
-            sendMessageHandler: this.messageSendHandler,
+            inputMessage: this.messageDraftHandler,
+            sendMessage: this.messageSendHandler,
+            getMessage: this.getWebSocketMessage,
+            inputSearchMessages: this.searchMessagesDraftsHandler,
+            sendSearchMessages: this.searchSendHandler,
+            getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
 
@@ -102,6 +109,14 @@ export default class ChatPage extends BasePage {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
 
+    searchChatsDraftHandler = (event) => {
+        this.#searchDraft = event.target.value;
+    };
+
+    searchMessagesDraftsHandler = (event) => {
+        this.#searchDrafts[this.#currentChatId] = event.target.value;
+    };
+
     messageSendHandler = () => {
         // Контейнер активного чата
         const inputMessage = this.#parent
@@ -112,14 +127,35 @@ export default class ChatPage extends BasePage {
         if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
             const sanitizedInputMessage = sanitizer(inputMessage);
-            websocketManager.sendMessage(chatId, sanitizedInputMessage);
+            const message = {
+                chat_id: chatId,
+                message_text: sanitizedInputMessage,
+            };
+            this.#chat.getMessageSocket().sendRequest(message);
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
         }
     };
 
-    handleWebSocketMessage = (message) => {
+    searchSendHandler = (type) => {
+        // Контейнер активного чата
+        const inputSearch = this.#parent
+            .querySelector(`#input_search_${type}`)
+            .value.trim();
+        if (inputSearch) {
+            const sanitizedInputSearch = sanitizer(inputSearch);
+            const search = {
+                word: sanitizedInputSearch,
+                search_type: type,
+            };
+            this.#chatList.getSearcher().getSocket().sendRequest(search);
+        } else {
+            this.displayChats(this.#chats);
+        }
+    };
+
+    getWebSocketMessage = (message) => {
         const chatIndex = this.#chats.findIndex(
             (chat) => chat.id === message.chat_id,
         );
@@ -138,6 +174,14 @@ export default class ChatPage extends BasePage {
             messageElement.render();
             this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
             this.displayChats(this.#chats); // Обновляем отображение чатов
+        }
+    };
+
+    getWebSocketSearch = (response) => {
+        if ('chats' in response.body) {
+            this.displayChats(response.body.chats || []);
+        } else {
+            this.displayMessages(response.body.messages || []);
         }
     };
 
@@ -199,9 +243,18 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
+        this.displayMessages(chat.messages);
+        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
 
-        // Отображаем сообщения в чате
-        chat.messages.forEach((message) => {
+        this.#chatList.setActiveChat(chat.id);
+    }
+
+    displayMessages(messages) {
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
+        activeChatContainer.innerHTML = '';
+        messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
             const timeString =
@@ -219,10 +272,6 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
-
-        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-
-        this.#chatList.setActiveChat(chat.id);
     }
 
     handleLogout(event) {
@@ -234,7 +283,7 @@ export default class ChatPage extends BasePage {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
                     console.log('Successfully logged out');
-                    websocketManager.close();
+                    //websocketManager.close();
                     goToPage('/login', true);
                 } else {
                     console.log('Error logged out');

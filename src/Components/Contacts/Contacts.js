@@ -1,6 +1,7 @@
 import { goToPage } from '../../utils/router.js';
 import { BaseComponent } from '../BaseComponent.js';
 import ContactItem from '../ContactItem/ContactItem.js';
+import Search from '../Search/Search.js';
 
 /**
  * Рендерит список контактов
@@ -8,6 +9,7 @@ import ContactItem from '../ContactItem/ContactItem.js';
  */
 export default class Contacts extends BaseComponent {
     templateName = 'Contacts';
+    #searchContacts;
 
     render() {
         super.render();
@@ -15,9 +17,19 @@ export default class Contacts extends BaseComponent {
         this.getParent()
             .querySelector('#backButton')
             .addEventListener('click', () => {
-                // TODO: Возврат назад
                 goToPage('/chat', true);
             });
+
+        const searchContainer =
+            this.getParent().querySelector('.search_container');
+
+        this.#searchContacts = new Search(searchContainer, {
+            type: 'contact',
+            inputSearch: this.getConfig().inputSearchContacts,
+            sendSearch: this.getConfig().sendSearchContacts,
+            getSearch: this.getConfig().getSearchContacts,
+        });
+        this.#searchContacts.render();
     }
 
     addContact(contactConfig, handler) {
@@ -25,5 +37,9 @@ export default class Contacts extends BaseComponent {
         contactConfig.handler = handler;
         const contact = new ContactItem(contactList, contactConfig);
         contact.render();
+    }
+
+    getSearcher() {
+        return this.#searchContacts;
     }
 }
