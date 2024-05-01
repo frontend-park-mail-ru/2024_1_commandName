@@ -157,12 +157,6 @@ export default class ChatPage extends BasePage {
     }
 
     displayActiveChat(chat) {
-        // Очищаем контейнер активного чата
-        const activeChatContainer = document.getElementById(
-            'active-chat-container',
-        );
-        activeChatContainer.innerHTML = '';
-
         const chatInput = this.#parent.querySelector('#chat_input_block');
 
         let chatName = `${chat.name} `;
@@ -182,9 +176,17 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
+        this.displayMessages(chat.messages);
+        this.#chatList.setActiveChat(chat.id);
+    }
 
-        // Отображаем сообщения в чате
-        chat.messages.forEach((message) => {
+    displayMessages(messages) {
+        // Очищаем контейнер активного чата
+        const activeChatContainer = document.getElementById(
+            'active-chat-container',
+        );
+        activeChatContainer.innerHTML = '';
+        messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
             const timeString =
@@ -203,10 +205,7 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
-
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-
-        this.#chatList.setActiveChat(chat.id);
     }
 
     handleLogout(event) {
