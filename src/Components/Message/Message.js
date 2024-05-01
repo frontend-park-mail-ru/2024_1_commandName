@@ -1,5 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { ChatAPI } from '../../utils/API/ChatAPI.js';
+import { sanitizer } from '../../utils/valid.js';
 
 export default class Message extends BaseComponent {
     templateName = 'Message';
@@ -51,8 +52,24 @@ export default class Message extends BaseComponent {
                 editButton.textContent = '→';
                 editButton.addEventListener('click', () => {
                     // Здесь добавьте логику для редактирования сообщения
-                    // const newMessageText = this.#editMessageInput.value;
-                    //тут логика редактирования
+                    const newMessageText = this.#editMessageInput.value;
+                    const sanitizednewMessageText = sanitizer(newMessageText);
+                    const chatAPI = new ChatAPI();
+                    chatAPI
+                        .editMessage(
+                            this.getConfig().message_id,
+                            sanitizednewMessageText,
+                        )
+                        .then(() => {
+                            this.#editMessageInput.style.display = 'none';
+                            this.#messageElement.querySelector(
+                                '.message_text',
+                            ).textContent = newMessageText;
+                            this.#messageElement.querySelector(
+                                '.message_text',
+                            ).style.display = 'inline-block';
+                            editButton.style.display = 'none';
+                        });
                 });
 
                 this.#messageElement
