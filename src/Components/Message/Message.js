@@ -51,7 +51,6 @@ export default class Message extends BaseComponent {
                 const editButton = document.createElement('button');
                 editButton.textContent = '→';
                 editButton.addEventListener('click', () => {
-                    // Здесь добавьте логику для редактирования сообщения
                     const newMessageText = this.#editMessageInput.value;
                     const sanitizednewMessageText = sanitizer(newMessageText);
                     const chatAPI = new ChatAPI();
