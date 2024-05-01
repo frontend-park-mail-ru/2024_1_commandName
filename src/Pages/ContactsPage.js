@@ -11,7 +11,7 @@ import { sanitizer } from '../utils/valid.js';
  */
 export default class ContactsPage extends BasePage {
     #parent;
-    #contacts;
+    #contacts = [];
     #contactsList;
     #searchDraft;
 

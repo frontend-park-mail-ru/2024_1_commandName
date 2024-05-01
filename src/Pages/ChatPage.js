@@ -21,7 +21,7 @@ export default class ChatPage extends BasePage {
     #searchDraft;
     #currentChatId;
     #profile;
-    #chats;
+    #chats = [];
 
     constructor(parent, urlParams) {
         super(parent);
@@ -51,7 +51,7 @@ export default class ChatPage extends BasePage {
                 profile: this.#profile,
             };
         } catch (error) {
-            console.error('Ошибка при получении данных:', error);
+            console.error('Ошибка при получении данных с сервера:', error);
             throw error;
         }
     };
