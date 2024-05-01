@@ -23,13 +23,13 @@ export class ChatAPI {
         }
     }
 
-    async getChatMessages(ChatId) {
+    async getMessages(ChatId) {
         try {
             return makeBaseRequest(
-                `${protocol}://${baseUrl}/getChatMessages`,
+                `${protocol}://${baseUrl}/getMessages`,
                 'POST',
                 {
-                    chatID: ChatId,
+                    chat_id: ChatId,
                 },
             );
         } catch (error) {

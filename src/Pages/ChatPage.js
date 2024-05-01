@@ -124,6 +124,7 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
             this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
+            this.#chatsCache[message.id].push(message);
             this.displayChats(this.#chats); // Обновляем отображение чатов
         }
     };
@@ -180,10 +181,12 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
+        // console.log(this.#chatsCache[chat.id]);
         const chatAPI = new ChatAPI();
         chatAPI
-            .getChatMessages(chat.id)
+            .getMessages(this.#chatsCache[chat.id].id)
             .then((response) => {
+                // console.log(response.body.messages);
                 this.displayMessages(response.body.messages);
             })
             .catch((error) => {
