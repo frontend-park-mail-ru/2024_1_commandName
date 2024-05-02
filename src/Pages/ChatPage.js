@@ -1,5 +1,4 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
-import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { goToPage } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
@@ -87,11 +86,6 @@ export default class ChatPage extends BasePage {
 
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
-
-        this.#chatList
-            .getParent()
-            .querySelector('#logout_btn')
-            .addEventListener('click', this.handleLogout);
     }
 
     messageDraftHandler = (event) => {
@@ -268,25 +262,5 @@ export default class ChatPage extends BasePage {
             messageElement.render();
         });
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-    }
-
-    handleLogout(event) {
-        event.preventDefault();
-        // Отправка данных на сервер
-        const api = new AuthAPI();
-        api.logout()
-            .then((data) => {
-                if (data.status === 200) {
-                    // Обработка успешной авторизации
-                    console.log('Successfully logged out');
-                    //websocketManager.close();
-                    goToPage('/login', true);
-                } else {
-                    console.log('Error logged out');
-                }
-            })
-            .catch((error) => {
-                console.error('Logout failed:', error);
-            });
     }
 }

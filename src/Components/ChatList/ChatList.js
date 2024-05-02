@@ -2,6 +2,7 @@ import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
 import { goToPage } from '../../utils/router.js';
 import Search from '../Search/Search.js';
+import { AuthAPI } from '../../utils/API/AuthAPI.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -64,6 +65,27 @@ export default class ChatList extends BaseComponent {
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
                 goToPage('/profile', true);
+            });
+
+        this.getParent()
+            .querySelector('#logout_btn')
+            .addEventListener('click', () => {
+                this.#searchChats.getSocket().close();
+                // Отправка данных на сервер
+                const api = new AuthAPI();
+                api.logout()
+                    .then((data) => {
+                        if (data.status === 200) {
+                            // Обработка успешной авторизации
+                            console.log('Successfully logged out');
+                            goToPage('/login', true);
+                        } else {
+                            console.log('Error logged out');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Logout failed:', error);
+                    });
             });
 
         const searchContainer =
