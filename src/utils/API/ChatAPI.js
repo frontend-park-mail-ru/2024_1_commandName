@@ -196,4 +196,23 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async createChannel(ChannelName, ChannelDescription) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/createChannel`,
+                'POST',
+                {
+                    name: ChannelName,
+                    description: ChannelDescription,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
