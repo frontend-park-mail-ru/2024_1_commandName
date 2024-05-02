@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "parcel src/index.html --port 3000",
-        "build": "parcel build --no-minify src/index.html",
+        "build": "parcel build src/index.html",
         "prestart": "npm run compile:templates",
         "style:all": "npm run style:lint && npm run style:prettier",
         "style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
