@@ -14,6 +14,8 @@ aside.chat {
     align-items: center;
     padding-left: 25px;
     flex: 0 0 10%;
+    padding-right: 25px;
+    justify-content: space-between;
 }
 
 .chat_list {

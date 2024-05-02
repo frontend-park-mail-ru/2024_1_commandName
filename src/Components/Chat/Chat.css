@@ -32,6 +32,8 @@ main {
     flex: 0 0 10%;
     align-items: center;
     padding-left: 25px;
+    padding-right: 25px;
+    justify-content: space-between;
 }
 
 .chat_width {

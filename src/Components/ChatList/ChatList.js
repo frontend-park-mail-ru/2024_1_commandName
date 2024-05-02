@@ -1,6 +1,7 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
 import { goToPage } from '../../utils/router.js';
+import Search from '../Search/Search.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -9,6 +10,7 @@ import { goToPage } from '../../utils/router.js';
 export default class ChatList extends BaseComponent {
     templateName = 'ChatList';
     #currentActiveChatId;
+    #searchChats;
 
     render() {
         super.render();
@@ -30,6 +32,16 @@ export default class ChatList extends BaseComponent {
             .addEventListener('click', () => {
                 goToPage('/create_group', true);
             });
+        const searchContainer =
+            this.getParent().querySelector('.search_container');
+
+        this.#searchChats = new Search(searchContainer, {
+            type: 'chat',
+            inputSearch: this.getConfig().inputSearchChats,
+            sendSearch: this.getConfig().sendSearchChats,
+            getSearch: this.getConfig().getSearchChats,
+        });
+        this.#searchChats.render();
     }
 
     /*
@@ -59,5 +71,9 @@ export default class ChatList extends BaseComponent {
 
     setUserName(user) {
         this.getParent().querySelector('#profile_btn').innerHTML = user;
+    }
+
+    getSearcher() {
+        return this.#searchChats;
     }
 }
