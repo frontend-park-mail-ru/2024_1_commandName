@@ -22,6 +22,7 @@ export const ROUTES = {
     '/password': ChangePasswordPage,
     '/contacts': ContactsPage,
     '/create_group': CreateGroupPage,
+    '/create_channel': CreateGroupPage,
     '/edit_group': EditGroupPage,
     '*': Page404,
 };

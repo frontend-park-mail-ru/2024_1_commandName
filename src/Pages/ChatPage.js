@@ -241,7 +241,6 @@ export default class ChatPage extends BasePage {
         let chatName = `${chat.name} `;
         this.#parent.querySelector(`#leave_channel`).style.display = 'none';
         this.#parent.querySelector(`#join_channel`).style.display = 'none';
-        console.log(chat);
         if (!chat.type) {
             chat.type = '3';
         }

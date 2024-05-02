@@ -25,7 +25,7 @@ export default class ChatList extends BaseComponent {
             createChannelBtn.style.display = 'block';
             createChannelBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/create_group', true);
+                goToPage('/create_channel', true);
             });
 
             const pageChatsBtn =
@@ -92,7 +92,7 @@ export default class ChatList extends BaseComponent {
             this.getParent().querySelector('.search_container');
 
         this.#searchChats = new Search(searchContainer, {
-            type: 'chat',
+            type: this.getConfig().type.slice(1),
             inputSearch: this.getConfig().inputSearchChats,
             sendSearch: this.getConfig().sendSearchChats,
             getSearch: this.getConfig().getSearchChats,
