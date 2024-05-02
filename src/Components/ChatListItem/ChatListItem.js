@@ -8,8 +8,10 @@ import { goToPage } from '../../utils/router.js';
  */
 export default class ChatListItem extends BaseComponent {
     templateName = 'ChatListItem';
+    type;
 
     render() {
+        this.type = window.location.pathname;
         super.render();
         const chatAPI = new ChatAPI();
         const id = this.getConfig().id;
@@ -35,7 +37,7 @@ export default class ChatListItem extends BaseComponent {
                     .then((data) => {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
-                            goToPage('/chat', true);
+                            goToPage(this.type, true);
                         } else {
                             throw new Error('Пришел не 200 статус');
                         }

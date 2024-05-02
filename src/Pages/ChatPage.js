@@ -36,16 +36,27 @@ export default class ChatPage extends BasePage {
         try {
             const chatAPI = new ChatAPI();
             const profileAPI = new ProfileAPI();
+            let chatsResponse, profileResponse;
+            if (this.#type === '/chat') {
+                [chatsResponse, profileResponse] = await Promise.all([
+                    chatAPI.getChats(),
+                    profileAPI.getProfile(),
+                ]);
+                this.#chats = chatsResponse.body.chats;
+                chatsResponse.body.chats.forEach((chat) => {
+                    this.#chatsCache[chat.id] = chat;
+                });
+            } else {
+                [chatsResponse, profileResponse] = await Promise.all([
+                    chatAPI.getPopularChannels(),
+                    profileAPI.getProfile(),
+                ]);
+                this.#chats = chatsResponse.body.channels;
+                chatsResponse.body.channels.forEach((chat) => {
+                    this.#chatsCache[chat.id] = chat;
+                });
+            }
 
-            const [chatsResponse, profileResponse] = await Promise.all([
-                chatAPI.getChats(),
-                profileAPI.getProfile(),
-            ]);
-
-            this.#chats = chatsResponse.body.chats;
-            chatsResponse.body.chats.forEach((chat) => {
-                this.#chatsCache[chat.id] = chat;
-            });
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
@@ -176,6 +187,7 @@ export default class ChatPage extends BasePage {
         chatListContainer.innerHTML = '';
         let checkChatId = false;
         let checkChatConfig = null;
+        chats = chats || [];
         chats.forEach((chatConfig) => {
             if (chatConfig.id === this.#currentChatId) {
                 checkChatConfig = chatConfig;
@@ -188,7 +200,7 @@ export default class ChatPage extends BasePage {
                 );
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
-                goToPage('/chat?id=' + chatConfig.id, false);
+                goToPage(this.#type + '?id=' + chatConfig.id, false);
             });
         });
         this.#messageDrafts[this.#currentChatId] = '';
@@ -203,21 +215,11 @@ export default class ChatPage extends BasePage {
 
     displayActiveChat(chat) {
         const chatInput = this.#parent.querySelector('#chat_input_block');
-
+        chatInput.style.display = 'flex';
         let chatName = `${chat.name} `;
-        switch (chat.type) {
-            case 'person':
-                chatName += '(Личное)';
-                chatInput.style.display = 'flex';
-                break;
-            case 'channel':
-                chatName += '(Канал)';
-                chatInput.style.display = 'none';
-                break;
-            case 'group':
-                chatName += '(Группа)';
-                chatInput.style.display = 'flex';
-                break;
+        if (chat.type === '3' && chat.creator !== this.#profile.id) {
+            chatName = 'Канал: ' + chatName;
+            chatInput.style.display = 'none';
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
@@ -242,6 +244,7 @@ export default class ChatPage extends BasePage {
             'active-chat-container',
         );
         activeChatContainer.innerHTML = '';
+        messages = messages || [];
         messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
