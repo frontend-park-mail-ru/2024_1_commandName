@@ -163,4 +163,19 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async getPopularChannels() {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getPopularChannels`,
+                'GET',
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
