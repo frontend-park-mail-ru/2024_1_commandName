@@ -22,6 +22,7 @@ export default class ChatPage extends BasePage {
     #currentChatId;
     #profile;
     #chats = [];
+    #chatsCache = {};
 
     constructor(parent, urlParams) {
         super(parent);
@@ -41,6 +42,9 @@ export default class ChatPage extends BasePage {
             ]);
 
             this.#chats = chatsResponse.body.chats;
+            chatsResponse.body.chats.forEach((chat) => {
+                this.#chatsCache[chat.id] = chat;
+            });
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
@@ -85,24 +89,6 @@ export default class ChatPage extends BasePage {
             .getParent()
             .querySelector('#logout_btn')
             .addEventListener('click', this.handleLogout);
-        this.#chatList
-            .getParent()
-            .querySelector('#profile_btn')
-            .addEventListener('click', () => {
-                goToPage('/profile', true);
-            });
-        this.#chatList
-            .getParent()
-            .querySelector('#contacts_btn')
-            .addEventListener('click', () => {
-                goToPage('/contacts', true);
-            });
-        this.#chatList
-            .getParent()
-            .querySelector('#create_group_btn')
-            .addEventListener('click', () => {
-                goToPage('/create_group', true);
-            });
     }
 
     messageDraftHandler = (event) => {
@@ -169,10 +155,11 @@ export default class ChatPage extends BasePage {
                 message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
+                message_id: message.id,
                 message_text: message.message_text,
             });
             messageElement.render();
-            this.#chats[0].messages.push(message); // Добавляем сообщение в начало массива сообщений
+            this.#chatsCache[message.chat_id].messages.push(message); // Добавляем сообщение в кеш
             this.displayChats(this.#chats); // Обновляем отображение чатов
         }
     };
@@ -218,12 +205,6 @@ export default class ChatPage extends BasePage {
     }
 
     displayActiveChat(chat) {
-        // Очищаем контейнер активного чата
-        const activeChatContainer = document.getElementById(
-            'active-chat-container',
-        );
-        activeChatContainer.innerHTML = '';
-
         const chatInput = this.#parent.querySelector('#chat_input_block');
 
         let chatName = `${chat.name} `;
@@ -243,9 +224,19 @@ export default class ChatPage extends BasePage {
         }
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
-        this.displayMessages(chat.messages);
-        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-
+        const chatAPI = new ChatAPI();
+        let messages = this.#chatsCache[chat.id].messages;
+        chatAPI
+            .getMessages(this.#chatsCache[chat.id].id)
+            .then((response) => {
+                messages = response.body.messages;
+                this.#chatsCache[chat.id].messages = messages;
+                this.displayMessages(messages);
+            })
+            .catch(() => {
+                console.log('нет интернета');
+                this.displayMessages(messages);
+            });
         this.#chatList.setActiveChat(chat.id);
     }
 
@@ -266,12 +257,14 @@ export default class ChatPage extends BasePage {
                 message.user_id === this.#profile.id ? 'my_message' : 'message';
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
+                message_id: message.id,
                 message_text: message.message_text,
                 username: message.username,
                 sent_at: timeString,
             });
             messageElement.render();
         });
+        activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
     }
 
     handleLogout(event) {

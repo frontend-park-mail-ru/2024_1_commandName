@@ -23,6 +23,61 @@ export class ChatAPI {
         }
     }
 
+    async getMessages(ChatId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getMessages`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async deleteMessage(MessageId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/deleteMessage`,
+                'POST',
+                {
+                    message_id: MessageId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async editMessage(MessageId, NewMessageText) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/editMessage`,
+                'POST',
+                {
+                    message_id: MessageId,
+                    new_message_text: NewMessageText,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
     async chatByUserId(UserId) {
         try {
             return makeBaseRequest(

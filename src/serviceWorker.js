@@ -1,6 +1,9 @@
 const CACHE_NAME = 'cache-v1';
 
 self.addEventListener('fetch', (event) => {
+    if (event.request.method === 'POST') {
+        return;
+    }
     event.respondWith(
         // Проверяем наличие интернета
         fetch(event.request)
