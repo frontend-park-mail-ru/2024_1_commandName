@@ -18,18 +18,21 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/contacts', true);
             });
 
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/profile', true);
             });
 
         this.getParent()
             .querySelector('#create_group_btn')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/create_group', true);
             });
         const searchContainer =

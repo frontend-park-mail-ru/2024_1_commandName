@@ -13,6 +13,7 @@ import { BasePage } from './BasePage.js';
  * @class Класс страницы чатов
  */
 export default class ChatPage extends BasePage {
+    #type;
     #parent;
     #chat;
     #chatList;
@@ -28,6 +29,7 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
+        this.#type = window.location.pathname;
         this.getData().then(() => this.render());
     }
 
