@@ -94,8 +94,30 @@ export default class ChatPage extends BasePage {
             getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
-
         this.#parent.appendChild(wrapper);
+
+        this.#parent
+            .querySelector(`#join_channel`)
+            .addEventListener('click', () => {
+                const chatAPI = new ChatAPI();
+                chatAPI.joinChannel(this.#currentChatId).then(() => {
+                    this.#parent.querySelector(`#join_channel`).style.display =
+                        'none';
+                    this.#parent.querySelector(`#leave_channel`).style.display =
+                        'flex';
+                });
+            });
+        this.#parent
+            .querySelector(`#leave_channel`)
+            .addEventListener('click', () => {
+                const chatAPI = new ChatAPI();
+                chatAPI.deleteChatById(this.#currentChatId).then(() => {
+                    this.#parent.querySelector(`#leave_channel`).style.display =
+                        'none';
+                    this.#parent.querySelector(`#join_channel`).style.display =
+                        'flex';
+                });
+            });
         this.displayChats(this.#chats);
     }
 
