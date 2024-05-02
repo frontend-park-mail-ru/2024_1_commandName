@@ -1,7 +1,12 @@
 <aside class='chat'>
     <div class='chat_list_header'>
-        <h2> Чаты </h2>
-        <button id='create_group_btn' class='chat-list-button inline_button'>Создать группу</button>
+        <h2> {{header}} </h2>
+        <div class='chat_list_header_buttons'>
+            <button id='create_group_btn' class='chat-list-button inline_button' style="display: none;">Создать группу</button>
+            <button id='page_channel_btn' class='chat-list-button inline_button' style="display: none;">Каналы</button>
+            <button id='create_channel_btn' class='chat-list-button inline_button' style="display: none;">Создать канал</button>
+            <button id='page_chats_btn' class='chat-list-button inline_button' style="display: none;">Чаты</button>
+        </div>
     </div>
     <div class='search_container'>
     </div>

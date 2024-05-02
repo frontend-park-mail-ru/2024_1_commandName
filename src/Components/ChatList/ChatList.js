@@ -13,7 +13,44 @@ export default class ChatList extends BaseComponent {
     #searchChats;
 
     render() {
+        this.getConfig().header = 'Чаты';
+        if (this.getConfig().type === '/channel') {
+            this.getConfig().header = 'Каналы';
+        }
         super.render();
+        if (this.getConfig().type === '/channel') {
+            const createChannelBtn =
+                this.getParent().querySelector(`#create_channel_btn`);
+            createChannelBtn.style.display = 'block';
+            createChannelBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/create_group', true);
+            });
+
+            const pageChatsBtn =
+                this.getParent().querySelector(`#page_chats_btn`);
+            pageChatsBtn.style.display = 'block';
+            pageChatsBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/chat', true);
+            });
+        } else {
+            const createGroupBtn =
+                this.getParent().querySelector(`#create_group_btn`);
+            createGroupBtn.style.display = 'block';
+            createGroupBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/create_group', true);
+            });
+
+            const pageChannelsBtn =
+                this.getParent().querySelector(`#page_channel_btn`);
+            pageChannelsBtn.style.display = 'block';
+            pageChannelsBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/channel', true);
+            });
+        }
 
         this.getParent()
             .querySelector('#contacts_btn')
@@ -29,12 +66,6 @@ export default class ChatList extends BaseComponent {
                 goToPage('/profile', true);
             });
 
-        this.getParent()
-            .querySelector('#create_group_btn')
-            .addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
-                goToPage('/create_group', true);
-            });
         const searchContainer =
             this.getParent().querySelector('.search_container');
 

@@ -11,6 +11,11 @@ export default class Chat extends BaseComponent {
             'sendMessage',
             this.getConfig().getMessage,
         );
+
+        this.getConfig().header = 'Выберите чат';
+        if (this.getConfig().type === '/channel') {
+            this.getConfig().header = 'Выберите канал';
+        }
         super.render();
 
         const searchContainer = this.getParent().querySelector(

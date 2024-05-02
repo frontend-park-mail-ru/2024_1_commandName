@@ -65,8 +65,8 @@ export default class ChatPage extends BasePage {
     render() {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
-
         this.#chatList = new ChatList(wrapper, {
+            type: this.#type,
             inputSearchChats: this.searchChatsDraftHandler,
             sendSearchChats: this.searchSendHandler,
             getSearchChats: this.getWebSocketSearch,
@@ -75,6 +75,7 @@ export default class ChatPage extends BasePage {
         this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
+            type: this.#type,
             inputMessage: this.messageDraftHandler,
             sendMessage: this.messageSendHandler,
             getMessage: this.getWebSocketMessage,
