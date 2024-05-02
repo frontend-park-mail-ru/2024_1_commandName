@@ -217,15 +217,28 @@ export default class ChatPage extends BasePage {
         const chatInput = this.#parent.querySelector('#chat_input_block');
         chatInput.style.display = 'flex';
         let chatName = `${chat.name} `;
+        this.#parent.querySelector(`#leave_channel`).style.display = 'none';
+        this.#parent.querySelector(`#join_channel`).style.display = 'none';
         console.log(chat);
         if (!chat.type) {
             chat.type = '3';
         }
-        if (chat.type === '3' && chat.creator !== this.#profile.id) {
+        // Если чат - канал
+        if (chat.type === '3') {
             chatName = 'Канал: ' + chatName;
-            chatInput.style.display = 'none';
+            // если пользователь не создатель
+            if (chat.creator !== this.#profile.id) {
+                chatInput.style.display = 'none';
+                // если пользователь не подписан на канал
+                if (chat.is_member || chat.is_member === undefined) {
+                    this.#parent.querySelector(`#leave_channel`).style.display =
+                        'flex';
+                } else {
+                    this.#parent.querySelector(`#join_channel`).style.display =
+                        'flex';
+                }
+            }
         }
-        // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
         const chatAPI = new ChatAPI();
         let messages = this.#chatsCache[chat.id].messages || [];
