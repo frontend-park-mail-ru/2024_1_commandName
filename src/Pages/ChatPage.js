@@ -217,6 +217,10 @@ export default class ChatPage extends BasePage {
         const chatInput = this.#parent.querySelector('#chat_input_block');
         chatInput.style.display = 'flex';
         let chatName = `${chat.name} `;
+        console.log(chat);
+        if (!chat.type) {
+            chat.type = '3';
+        }
         if (chat.type === '3' && chat.creator !== this.#profile.id) {
             chatName = 'Канал: ' + chatName;
             chatInput.style.display = 'none';
@@ -224,7 +228,7 @@ export default class ChatPage extends BasePage {
         // Отображаем содержимое выбранного чата
         document.getElementById('chat_header').textContent = chatName;
         const chatAPI = new ChatAPI();
-        let messages = this.#chatsCache[chat.id].messages;
+        let messages = this.#chatsCache[chat.id].messages || [];
         chatAPI
             .getMessages(this.#chatsCache[chat.id].id)
             .then((response) => {
