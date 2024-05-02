@@ -7,6 +7,7 @@ export default class Message extends BaseComponent {
     #messageElement;
     #ContextMenu;
     #editMessageInput;
+    #editingMode = false;
 
     render() {
         super.render();
@@ -26,7 +27,26 @@ export default class Message extends BaseComponent {
 
         this.#messageElement.addEventListener('contextmenu', (event) => {
             event.preventDefault();
-            this.#ContextMenu.style.display = 'block';
+            if (!this.#editingMode) {
+                this.#ContextMenu.style.display = 'block';
+                this.#messageElement.querySelector('.overlay').style.display =
+                    'block';
+            }
+        });
+
+        this.#messageElement
+            .querySelector('.overlay')
+            .addEventListener('click', () => {
+                if (!this.#editingMode) {
+                    this.#ContextMenu.style.display = 'none';
+                    this.#messageElement.querySelector(
+                        '.overlay',
+                    ).style.display = 'none';
+                }
+            });
+
+        this.#ContextMenu.addEventListener('click', (event) => {
+            event.stopPropagation();
         });
 
         this.#ContextMenu
@@ -41,43 +61,51 @@ export default class Message extends BaseComponent {
         this.#ContextMenu
             .querySelector('.edit-button')
             .addEventListener('click', () => {
-                this.#editMessageInput.style.display = 'inline-block';
-                this.#editMessageInput.value = this.getConfig().message_text;
-                this.#messageElement.querySelector(
-                    '.message_text',
-                ).style.display = 'none';
-                this.#ContextMenu.style.display = 'none';
+                if (!this.#editingMode) {
+                    this.#editingMode = true;
+                    this.#editMessageInput.style.display = 'inline-block';
+                    this.#editMessageInput.value =
+                        this.getConfig().message_text;
+                    this.#messageElement.querySelector(
+                        '.message_text',
+                    ).style.display = 'none';
+                    this.#ContextMenu.style.display = 'none';
 
-                const editButton = document.createElement('button');
-                editButton.textContent = '→';
-                editButton.addEventListener('click', () => {
-                    const newMessageText = this.#editMessageInput.value;
-                    const sanitizedNewMessageText = sanitizer(newMessageText);
-                    const chatAPI = new ChatAPI();
-                    chatAPI
-                        .editMessage(
-                            this.getConfig().message_id,
-                            sanitizedNewMessageText,
-                        )
-                        .then(() => {
-                            this.#editMessageInput.style.display = 'none';
-                            this.#messageElement.querySelector(
-                                '.message_text',
-                            ).textContent = newMessageText;
-                            this.#messageElement.querySelector(
-                                '.message_text',
-                            ).style.display = 'inline-block';
-                            editButton.style.display = 'none';
-                        });
-                });
+                    const editButton = document.createElement('button');
+                    editButton.textContent = '→';
+                    editButton.addEventListener('click', () => {
+                        const newMessageText = this.#editMessageInput.value;
+                        const sanitizedNewMessageText =
+                            sanitizer(newMessageText);
+                        const chatAPI = new ChatAPI();
+                        chatAPI
+                            .editMessage(
+                                this.getConfig().message_id,
+                                sanitizedNewMessageText,
+                            )
+                            .then(() => {
+                                this.#editMessageInput.style.display = 'none';
+                                this.#messageElement.querySelector(
+                                    '.message_text',
+                                ).textContent = newMessageText;
+                                this.#messageElement.querySelector(
+                                    '.message_text',
+                                ).style.display = 'inline-block';
+                                editButton.style.display = 'none';
+                                this.#editingMode = false;
+                            });
+                    });
 
-                this.#messageElement
-                    .querySelector('.message_data')
-                    .appendChild(editButton);
+                    this.#messageElement
+                        .querySelector('.message_data')
+                        .appendChild(editButton);
+                }
             });
 
         document.addEventListener('click', () => {
             this.#ContextMenu.style.display = 'none';
+            this.#messageElement.querySelector('.overlay').style.display =
+                'none';
         });
     }
 }
