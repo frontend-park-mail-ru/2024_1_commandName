@@ -178,4 +178,22 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async joinChannel(ChatId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/joinChannel`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }
