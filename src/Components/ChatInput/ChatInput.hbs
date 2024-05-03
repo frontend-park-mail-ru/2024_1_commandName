@@ -1,0 +1,34 @@
+{{#if TypeFlag}}
+    {{#if is_owner}}
+        <button class='input_attach chat-input' disabled>*скрепка*</button>
+        <input
+            id='input_message'
+            class='input_text chat-input'
+            type='text'
+            maxlength='512'
+            placeholder='Сообщение...'
+            autocomplete='off'
+            value='{{inputMessageValue}}'
+        />
+        <button class='input_send chat-input'>→</button>
+    {{else}}
+        {{#if is_member}}
+            <button class='chat-input chat-input-button' id='leave_channel'>Покинуть канал</button>
+        {{else}}
+            <button class='chat-input chat-input-button' id='join_channel'>Подписаться на канал</button>
+        {{/if}}
+    {{! TODO: добавить иконки }}
+    {{/if}}
+{{else}}
+    <button class='input_attach chat-input' disabled>*скрепка*</button>
+    <input
+        id='input_message'
+        class='input_text chat-input'
+        type='text'
+        maxlength='512'
+        placeholder='Сообщение...'
+        autocomplete='off'
+        value='{{inputMessageValue}}'
+    />
+    <button class='input_send chat-input'>→</button>
+{{/if}}

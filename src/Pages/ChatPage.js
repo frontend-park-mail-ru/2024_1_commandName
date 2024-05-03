@@ -6,6 +6,7 @@ import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
+import ChatInput from '../Components/ChatInput/ChatInput.js';
 
 /*
  * Рендерит страницу чатов
@@ -15,6 +16,7 @@ export default class ChatPage extends BasePage {
     #type;
     #parent;
     #chat;
+    #inputBlock;
     #chatList;
     #messageDrafts = {};
     #searchDrafts = {};
@@ -86,38 +88,15 @@ export default class ChatPage extends BasePage {
 
         this.#chat = new Chat(wrapper, {
             type: this.#type,
-            inputMessage: this.messageDraftHandler,
-            sendMessage: this.messageSendHandler,
-            getMessage: this.getWebSocketMessage,
+            // inputMessage: this.messageDraftHandler,
+            // sendMessage: this.messageSendHandler,
+            // getMessage: this.getWebSocketMessage,
             inputSearchMessages: this.searchMessagesDraftsHandler,
             sendSearchMessages: this.searchSendHandler,
             getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
         this.#parent.appendChild(wrapper);
-
-        this.#parent
-            .querySelector(`#join_channel`)
-            .addEventListener('click', () => {
-                const chatAPI = new ChatAPI();
-                chatAPI.joinChannel(this.#currentChatId).then(() => {
-                    this.#parent.querySelector(`#join_channel`).style.display =
-                        'none';
-                    this.#parent.querySelector(`#leave_channel`).style.display =
-                        'flex';
-                });
-            });
-        this.#parent
-            .querySelector(`#leave_channel`)
-            .addEventListener('click', () => {
-                const chatAPI = new ChatAPI();
-                chatAPI.deleteChatById(this.#currentChatId).then(() => {
-                    this.#parent.querySelector(`#leave_channel`).style.display =
-                        'none';
-                    this.#parent.querySelector(`#join_channel`).style.display =
-                        'flex';
-                });
-            });
         this.displayChats(this.#chats);
     }
 
@@ -147,7 +126,7 @@ export default class ChatPage extends BasePage {
                 chat_id: chatId,
                 message_text: sanitizedInputMessage,
             };
-            this.#chat.getMessageSocket().sendRequest(message);
+            this.#inputBlock.getMessageSocket().sendRequest(message);
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
@@ -217,9 +196,6 @@ export default class ChatPage extends BasePage {
             }
             this.#chatList.addChat(chatConfig, (event) => {
                 event.preventDefault();
-                this.#chat.setInputMessageValue(
-                    this.#messageDrafts[chatConfig.id] || '',
-                );
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
                 goToPage(this.#type + '?id=' + chatConfig.id, false);
@@ -236,11 +212,12 @@ export default class ChatPage extends BasePage {
     }
 
     displayActiveChat(chat) {
-        const chatInput = this.#parent.querySelector('#chat_input_block');
-        chatInput.style.display = 'flex';
+        const chatInputBlock = this.#parent.querySelector('#chat_input_block');
+        chatInputBlock.innerHTML = '';
+        // chatInput.style.display = 'flex';
         let chatName = `${chat.name} `;
-        this.#parent.querySelector(`#leave_channel`).style.display = 'none';
-        this.#parent.querySelector(`#join_channel`).style.display = 'none';
+        //this.#parent.querySelector(`#leave_channel`).style.display = 'none';
+        //this.#parent.querySelector(`#join_channel`).style.display = 'none';
         if (!chat.type) {
             chat.type = '3';
         }
@@ -249,17 +226,92 @@ export default class ChatPage extends BasePage {
             chatName = 'Канал: ' + chatName;
             // если пользователь не создатель
             if (chat.creator !== this.#profile.id) {
-                chatInput.style.display = 'none';
+                // chatInput.style.display = 'none';
                 // если пользователь не подписан на канал
+                chat.is_member = !!(
+                    chat.is_member || chat.is_member === undefined
+                );
+            }
+        }
+
+        this.#inputBlock = new ChatInput(chatInputBlock, {
+            inputMessage: this.messageDraftHandler,
+            sendMessage: this.messageSendHandler,
+            getMessage: this.getWebSocketMessage,
+            type: chat.type,
+            is_member: chat.is_member,
+            is_owner: chat.creator === this.#profile.id,
+        });
+        this.#inputBlock.render();
+
+        if (chat.type === '3') {
+            if (chat.creator !== this.#profile.id) {
                 if (chat.is_member || chat.is_member === undefined) {
-                    this.#parent.querySelector(`#leave_channel`).style.display =
-                        'flex';
+                    chat.is_member = true;
+                    this.#parent
+                        .querySelector(`#leave_channel`)
+                        .addEventListener('click', () => {
+                            const chatAPI = new ChatAPI();
+                            chatAPI
+                                .deleteChatById(this.#currentChatId)
+                                .then(() => {
+                                    chatInputBlock.innerHTML = '';
+                                    this.#inputBlock = new ChatInput(
+                                        chatInputBlock,
+                                        {
+                                            inputMessage:
+                                                this.messageDraftHandler,
+                                            sendMessage:
+                                                this.messageSendHandler,
+                                            getMessage:
+                                                this.getWebSocketMessage,
+                                            type: chat.type,
+                                            is_member: !chat.is_member,
+                                            is_owner:
+                                                chat.creator ===
+                                                this.#profile.id,
+                                        },
+                                    );
+                                    this.#inputBlock.render();
+                                });
+                        });
                 } else {
-                    this.#parent.querySelector(`#join_channel`).style.display =
-                        'flex';
+                    chat.is_member = false;
+                    this.#parent
+                        .querySelector(`#join_channel`)
+                        .addEventListener('click', () => {
+                            const chatAPI = new ChatAPI();
+                            chatAPI
+                                .joinChannel(this.#currentChatId)
+                                .then(() => {
+                                    chatInputBlock.innerHTML = '';
+                                    this.#inputBlock = new ChatInput(
+                                        chatInputBlock,
+                                        {
+                                            inputMessage:
+                                                this.messageDraftHandler,
+                                            sendMessage:
+                                                this.messageSendHandler,
+                                            getMessage:
+                                                this.getWebSocketMessage,
+                                            type: chat.type,
+                                            is_member: !chat.is_member,
+                                            is_owner:
+                                                chat.creator ===
+                                                this.#profile.id,
+                                        },
+                                    );
+                                    this.#inputBlock.render();
+                                });
+                        });
                 }
             }
         }
+        if (chat.type !== '3' || chat.creator === this.#profile.id) {
+            this.#parent.querySelector('#input_message').value =
+                this.#messageDrafts[chat.id] || '';
+        }
+
         document.getElementById('chat_header').textContent = chatName;
         const chatAPI = new ChatAPI();
         let messages = this.#chatsCache[chat.id].messages || [];
