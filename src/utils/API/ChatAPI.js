@@ -197,13 +197,14 @@ export class ChatAPI {
         }
     }
 
-    async createChannel(channel) {
+    async createChannel(channelName, channelDescription) {
         try {
             return makeBaseRequest(
                 `${protocol}://${baseUrl}/createChannel`,
                 'POST',
                 {
-                    channel,
+                    description: channelDescription,
+                    name: channelName,
                 },
             );
         } catch (error) {
