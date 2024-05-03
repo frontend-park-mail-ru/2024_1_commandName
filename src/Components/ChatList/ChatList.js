@@ -18,27 +18,11 @@ export default class ChatList extends BaseComponent {
         if (this.getConfig().type === '/channel') {
             this.getConfig().header = 'Каналы';
         }
+        this.getConfig().chatTypeFlag = this.getConfig().type === '/chat';
         super.render();
-        if (this.getConfig().type === '/channel') {
-            const createChannelBtn =
-                this.getParent().querySelector(`#create_channel_btn`);
-            createChannelBtn.style.display = 'block';
-            createChannelBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
-                goToPage('/create_channel', true);
-            });
-
-            const pageChatsBtn =
-                this.getParent().querySelector(`#page_chats_btn`);
-            pageChatsBtn.style.display = 'block';
-            pageChatsBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
-                goToPage('/chat', true);
-            });
-        } else {
+        if (this.getConfig().chatTypeFlag) {
             const createGroupBtn =
                 this.getParent().querySelector(`#create_group_btn`);
-            createGroupBtn.style.display = 'block';
             createGroupBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
                 goToPage('/create_group', true);
@@ -46,10 +30,23 @@ export default class ChatList extends BaseComponent {
 
             const pageChannelsBtn =
                 this.getParent().querySelector(`#page_channel_btn`);
-            pageChannelsBtn.style.display = 'block';
             pageChannelsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
                 goToPage('/channel', true);
+            });
+        } else {
+            const createChannelBtn =
+                this.getParent().querySelector(`#create_channel_btn`);
+            createChannelBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/create_channel', true);
+            });
+
+            const pageChatsBtn =
+                this.getParent().querySelector(`#page_chats_btn`);
+            pageChatsBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/chat', true);
             });
         }
 
