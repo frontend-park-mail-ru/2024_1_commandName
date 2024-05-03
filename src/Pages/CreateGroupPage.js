@@ -97,18 +97,17 @@ export default class CreateGroupPage extends BasePage {
                     console.error('createGroup failed:', error);
                 });
         } else {
-            const channel = {
-                description: event.target.querySelector('#description').value,
-                name: event.target.querySelector('#name').value,
-            };
-            if (channel.name.length === 0) {
+            const description =
+                event.target.querySelector('#description').value;
+            const name = event.target.querySelector('#name').value;
+
+            if (name.length === 0) {
                 error.textContent = 'Заполните поле Название';
                 return;
             }
             const chatAPI = new ChatAPI();
-            console.log(channel);
             chatAPI
-                .createChannel(channel)
+                .createChannel(name, description)
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
