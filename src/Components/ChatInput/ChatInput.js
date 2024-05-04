@@ -21,6 +21,7 @@ export default class ChatInput extends BaseComponent {
         this.getConfig().path = window.location.pathname;
         super.render();
         if (this.getConfig().is_owner || !this.getConfig().isChannel) {
+            this.getParent().querySelector('#input_message').focus();
             this.getParent()
                 .querySelector('#input_message')
                 .addEventListener('input', this.getConfig().inputMessage);
