@@ -1,5 +1,7 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { WebSocketManager } from '../../utils/WebSocket.js';
+import { ChatAPI } from '../../utils/API/ChatAPI.js';
+import { goToPage } from '../../utils/router.js';
 
 /**
  * Рендерит поиск
@@ -17,6 +19,7 @@ export default class ChatInput extends BaseComponent {
         if (this.getConfig().type !== '3') {
             this.getConfig().TypeFlag = false;
         }
+        this.getConfig().path = window.location.pathname;
         super.render();
         console.log(this.getConfig().TypeFlag);
         if (this.getConfig().is_owner || !this.getConfig().TypeFlag) {
@@ -37,13 +40,39 @@ export default class ChatInput extends BaseComponent {
                 .querySelector('.input_send')
                 .addEventListener('click', this.getConfig().sendMessage);
         }
+        if (this.getConfig().TypeFlag && !this.getConfig().is_owner) {
+            if (this.getConfig().is_member) {
+                this.getParent()
+                    .querySelector(`#leave_channel`)
+                    .addEventListener('click', () => {
+                        const chatAPI = new ChatAPI();
+                        chatAPI
+                            .deleteChatById(this.getConfig().chatId)
+                            .then(() => {
+                                goToPage(this.getConfig().path, true);
+                            });
+                    });
+            } else {
+                this.getParent()
+                    .querySelector(`#join_channel`)
+                    .addEventListener('click', () => {
+                        const chatAPI = new ChatAPI();
+                        chatAPI
+                            .joinChannel(this.getConfig().chatId)
+                            .then(() => {
+                                goToPage(
+                                    this.getConfig().path +
+                                        '?id=' +
+                                        this.getConfig().chatId,
+                                    true,
+                                );
+                            });
+                    });
+            }
+        }
     }
 
     getMessageSocket() {
         return this.ws_sendMesasge;
-    }
-
-    setInputMessageValue(value) {
-        this.getParent().querySelector('#input_message').value = value;
     }
 }
