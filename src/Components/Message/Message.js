@@ -93,6 +93,14 @@ export default class Message extends BaseComponent {
                                 ).style.display = 'inline-block';
                                 editButton.style.display = 'none';
                                 this.#editingMode = false;
+                                const messageData =
+                                    this.#messageElement.querySelector(
+                                        '.message_data',
+                                    );
+                                const status = document.createElement('text');
+                                status.className = 'time';
+                                status.textContent = 'изменено';
+                                messageData.appendChild(status);
                             });
                     });
 
