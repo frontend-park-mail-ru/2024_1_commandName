@@ -14,13 +14,13 @@ export default class ChatInput extends BaseComponent {
             'sendMessage',
             this.getConfig().getMessage,
         );
-        this.getConfig().TypeFlag = true; //является ли каналом
+        this.getConfig().isChannel = true; //является ли каналом
         if (this.getConfig().type !== '3') {
-            this.getConfig().TypeFlag = false;
+            this.getConfig().isChannel = false;
         }
         this.getConfig().path = window.location.pathname;
         super.render();
-        if (this.getConfig().is_owner || !this.getConfig().TypeFlag) {
+        if (this.getConfig().is_owner || !this.getConfig().isChannel) {
             this.getParent()
                 .querySelector('#input_message')
                 .addEventListener('input', this.getConfig().inputMessage);
@@ -38,7 +38,7 @@ export default class ChatInput extends BaseComponent {
                 .querySelector('.input_send')
                 .addEventListener('click', this.getConfig().sendMessage);
         }
-        if (this.getConfig().TypeFlag && !this.getConfig().is_owner) {
+        if (this.getConfig().isChannel && !this.getConfig().is_owner) {
             if (this.getConfig().is_member) {
                 this.getParent()
                     .querySelector(`#leave_channel`)
