@@ -82,6 +82,7 @@ export default class ChatPage extends BasePage {
             inputSearchChats: this.searchChatsDraftHandler,
             sendSearchChats: this.searchSendHandler,
             getSearchChats: this.getWebSocketSearch,
+            userId: this.#profile.id,
         });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);

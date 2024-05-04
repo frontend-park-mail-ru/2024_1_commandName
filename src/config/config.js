@@ -7,7 +7,7 @@ import ProfileEditPage from '../Pages/ProfileEditPage.js';
 import ChangePasswordPage from '../Pages/ChangePasswordPage.js';
 import ContactsPage from '../Pages/ContactsPage.js';
 import CreateGroupPage from '../Pages/CreateGroupPage.js';
-import EditGroupPage from '../Pages/EditGroupPage.js';
+import EditChatPage from '../Pages/EditChatPage.js';
 
 export const ROOT = document.getElementById('root');
 
@@ -23,6 +23,6 @@ export const ROUTES = {
     '/contacts': ContactsPage,
     '/create_group': CreateGroupPage,
     '/create_channel': CreateGroupPage,
-    '/edit_group': EditGroupPage,
+    '/edit_chat': EditChatPage,
     '*': Page404,
 };

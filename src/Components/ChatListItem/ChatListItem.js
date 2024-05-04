@@ -12,6 +12,13 @@ export default class ChatListItem extends BaseComponent {
 
     render() {
         this.type = window.location.pathname;
+        this.getConfig().editEnable = false;
+        if (
+            (this.getConfig().type === '2' || this.getConfig().type === '3') &&
+            this.getConfig().creator === this.getConfig().userId
+        ) {
+            this.getConfig().editEnable = true;
+        }
         super.render();
         const chatAPI = new ChatAPI();
         const id = this.getConfig().id;
@@ -47,27 +54,28 @@ export default class ChatListItem extends BaseComponent {
                         console.error('delete chat failed:', error);
                     });
             });
-        this.getParent()
-            .querySelector(`#edit-button_${id}`)
-            .addEventListener('click', () => {
-                chatAPI
-                    .chatById(id)
-                    .then((data) => {
-                        if (data.status === 200) {
-                            if (data.body.chat.type === '2') {
+        if (this.getConfig().editEnable) {
+            this.getParent()
+                .querySelector(`#edit-button_${id}`)
+                .addEventListener('click', () => {
+                    console.log('идем редачить');
+                    chatAPI
+                        .chatById(id)
+                        .then((data) => {
+                            if (data.status === 200) {
                                 goToPage(
-                                    '/edit_group?id=' + data.body.chat.id,
+                                    '/edit_chat?id=' + data.body.chat.id,
                                     true,
                                 );
+                            } else {
+                                throw new Error('Пришел не 200 статус');
                             }
-                        } else {
-                            throw new Error('Пришел не 200 статус');
-                        }
-                    })
-                    .catch((error) => {
-                        alert('Что-то пошло не так');
-                        console.error('delete chat failed:', error);
-                    });
-            });
+                        })
+                        .catch((error) => {
+                            alert('Что-то пошло не так');
+                            console.error('delete chat failed:', error);
+                        });
+                });
+        }
     }
 }

@@ -15,13 +15,11 @@ export default class ChatInput extends BaseComponent {
             this.getConfig().getMessage,
         );
         this.getConfig().TypeFlag = true; //является ли каналом
-        console.log(this.getConfig().type);
         if (this.getConfig().type !== '3') {
             this.getConfig().TypeFlag = false;
         }
         this.getConfig().path = window.location.pathname;
         super.render();
-        console.log(this.getConfig().TypeFlag);
         if (this.getConfig().is_owner || !this.getConfig().TypeFlag) {
             this.getParent()
                 .querySelector('#input_message')

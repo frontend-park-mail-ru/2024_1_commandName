@@ -106,6 +106,7 @@ export default class ChatList extends BaseComponent {
         );
 
         chatConfig.handler = handler;
+        chatConfig.userId = this.getConfig().userId;
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
     }
