@@ -37,6 +37,11 @@ export default class EditChatPage extends BasePage {
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
 
+        if (groupName.length === 0) {
+            error.textContent = 'Заполните поле Название';
+            return;
+        }
+
         // Отправка данных на сервер для редактирования группы
         const urlParams = new URLSearchParams(window.location.search);
         const chatId = parseInt(urlParams.get('id'));
