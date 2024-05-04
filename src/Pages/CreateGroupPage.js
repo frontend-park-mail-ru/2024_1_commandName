@@ -53,7 +53,6 @@ export default class CreateGroupPage extends BasePage {
         event.preventDefault();
         const error = event.target.querySelector('#error-message');
         const type = window.location.pathname;
-        console.log(type);
 
         if (type === '/create_group') {
             const userList = event.target.querySelectorAll(
@@ -141,7 +140,7 @@ export default class CreateGroupPage extends BasePage {
                 required: true,
             },
         ];
-        if (type === '/create_chat') {
+        if (type === '/create_group') {
             header = 'Создать чат';
             page = '/chat';
             inputs.push({
