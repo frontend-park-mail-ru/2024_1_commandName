@@ -1,24 +1,26 @@
 <main>
     <div class='chat_header'>
-        <h2 id='chat_header'>Выберите чат</h2>
+        <h2 id='chat_header'>{{header}}</h2>
         <div class='search_container' id='search_container_message'>
         </div>
     </div>
     <div class='chat'>
         <div class='chat_width message_list' id='active-chat-container'></div>
         <div id='chat_input_block' class='chat_width input_block'>
-            {{! TODO: добавить иконки }}
-            <button class='input_attach chat-input' disabled>*скрепка*</button>
-            <input
-                id='input_message'
-                class='input_text chat-input'
-                type='text'
-                maxlength='512'
-                placeholder='Сообщение...'
-                autocomplete='off'
-                value='{{inputMessageValue}}'
-            />
-            <button class='input_send chat-input'>→</button>
+<!--            <button class='chat_width chat-input' id='join_channel' style="display: none;">Подписаться на канал</button>-->
+<!--            <button class='chat_width chat-input' id='leave_channel' style="display: none;">Покинуть канал</button>-->
+<!--            {{! TODO: добавить иконки }}-->
+<!--            <button class='input_attach chat-input' disabled>*скрепка*</button>-->
+<!--            <input-->
+<!--                id='input_message'-->
+<!--                class='input_text chat-input'-->
+<!--                type='text'-->
+<!--                maxlength='512'-->
+<!--                placeholder='Сообщение...'-->
+<!--                autocomplete='off'-->
+<!--                value='{{inputMessageValue}}'-->
+<!--            />-->
+<!--            <button class='input_send chat-input'>→</button>-->
         </div>
     </div>
 </main>

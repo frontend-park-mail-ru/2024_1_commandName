@@ -37,10 +37,6 @@ export class WebSocketManager {
             console.error('WebSocket is not open.');
         }
     }
-
-    setRequestHandler(handler) {
-        this.messageHandler = handler;
-    }
     close() {
         if (this.socket) {
             this.socket.close();

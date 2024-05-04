@@ -17,6 +17,7 @@ export default class Contacts extends BaseComponent {
         this.getParent()
             .querySelector('#backButton')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/chat', true);
             });
 

@@ -163,4 +163,56 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async getPopularChannels() {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getPopularChannels`,
+                'GET',
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async joinChannel(ChatId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/joinChannel`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async createChannel(channelName, channelDescription) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/createChannel`,
+                'POST',
+                {
+                    description: channelDescription,
+                    name: channelName,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

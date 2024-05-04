@@ -4,10 +4,10 @@ import { goToPage } from '../utils/router.js';
 import { BasePage } from './BasePage.js';
 
 /**
- * Рендерит страницу изменения пароля
- * @class Класс страницы изменения пароля
+ * Рендерит страницу изменения чата
+ * @class Класс страницы изменения чата
  */
-export default class EditGroupPage extends BasePage {
+export default class EditChatPage extends BasePage {
     #parent;
     #currentChatId;
 
@@ -21,8 +21,7 @@ export default class EditGroupPage extends BasePage {
         }
         const chatAPI = new ChatAPI();
         chatAPI.chatById(this.#currentChatId).then((response) => {
-            console.log(response);
-            if (response.status !== 200 || response.body.chat.type !== '2') {
+            if (response.status !== 200) {
                 goToPage('/chat', true);
                 return;
             }
@@ -53,13 +52,13 @@ export default class EditGroupPage extends BasePage {
             })
             .catch((error) => {
                 alert('Что-то пошло не так');
-                console.error('Ошибка при редактировании группы:', error);
+                console.error('Ошибка при редактировании:', error);
             });
     }
 
     render() {
         const form = new Form(this.#parent, {
-            header: 'Изменение группы',
+            header: 'Изменение чата',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
                 goToPage('/chat', true);
@@ -68,14 +67,14 @@ export default class EditGroupPage extends BasePage {
                 {
                     id: 'groupName',
                     type: 'text',
-                    placeholder: 'Название группы',
+                    placeholder: 'Название',
                     autocomplete: 'current-name',
                     required: true,
                 },
                 {
                     id: 'groupDescription',
                     type: 'text',
-                    placeholder: 'Описание группы',
+                    placeholder: 'Описание',
                     autocomplete: 'current-description',
                     required: true,
                 },
