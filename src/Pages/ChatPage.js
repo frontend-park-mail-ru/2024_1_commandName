@@ -1,5 +1,4 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
-import { AuthAPI } from '../utils/API/AuthAPI.js';
 import { goToPage } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
@@ -7,14 +6,17 @@ import Message from '../Components/Message/Message.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
+import ChatInput from '../Components/ChatInput/ChatInput.js';
 
 /*
  * Рендерит страницу чатов
  * @class Класс страницы чатов
  */
 export default class ChatPage extends BasePage {
+    #type;
     #parent;
     #chat;
+    #inputBlock;
     #chatList;
     #messageDrafts = {};
     #searchDrafts = {};
@@ -28,6 +30,7 @@ export default class ChatPage extends BasePage {
         super(parent);
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
+        this.#type = window.location.pathname;
         this.getData().then(() => this.render());
     }
 
@@ -35,16 +38,27 @@ export default class ChatPage extends BasePage {
         try {
             const chatAPI = new ChatAPI();
             const profileAPI = new ProfileAPI();
+            let chatsResponse, profileResponse;
+            if (this.#type === '/chat') {
+                [chatsResponse, profileResponse] = await Promise.all([
+                    chatAPI.getChats(),
+                    profileAPI.getProfile(),
+                ]);
+                this.#chats = chatsResponse.body.chats;
+                chatsResponse.body.chats.forEach((chat) => {
+                    this.#chatsCache[chat.id] = chat;
+                });
+            } else {
+                [chatsResponse, profileResponse] = await Promise.all([
+                    chatAPI.getPopularChannels(),
+                    profileAPI.getProfile(),
+                ]);
+                this.#chats = chatsResponse.body.channels;
+                chatsResponse.body.channels.forEach((chat) => {
+                    this.#chatsCache[chat.id] = chat;
+                });
+            }
 
-            const [chatsResponse, profileResponse] = await Promise.all([
-                chatAPI.getChats(),
-                profileAPI.getProfile(),
-            ]);
-
-            this.#chats = chatsResponse.body.chats;
-            chatsResponse.body.chats.forEach((chat) => {
-                this.#chatsCache[chat.id] = chat;
-            });
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
@@ -63,32 +77,25 @@ export default class ChatPage extends BasePage {
     render() {
         const wrapper = document.createElement('div');
         wrapper.classList = 'full-screen';
-
         this.#chatList = new ChatList(wrapper, {
+            type: this.#type,
             inputSearchChats: this.searchChatsDraftHandler,
             sendSearchChats: this.searchSendHandler,
             getSearchChats: this.getWebSocketSearch,
+            userId: this.#profile.id,
         });
         this.#chatList.render();
         this.#chatList.setUserName(`${this.#profile.username}`);
 
         this.#chat = new Chat(wrapper, {
-            inputMessage: this.messageDraftHandler,
-            sendMessage: this.messageSendHandler,
-            getMessage: this.getWebSocketMessage,
+            type: this.#type,
             inputSearchMessages: this.searchMessagesDraftsHandler,
             sendSearchMessages: this.searchSendHandler,
             getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
-
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
-
-        this.#chatList
-            .getParent()
-            .querySelector('#logout_btn')
-            .addEventListener('click', this.handleLogout);
     }
 
     messageDraftHandler = (event) => {
@@ -117,7 +124,7 @@ export default class ChatPage extends BasePage {
                 chat_id: chatId,
                 message_text: sanitizedInputMessage,
             };
-            this.#chat.getMessageSocket().sendRequest(message);
+            this.#inputBlock.getMessageSocket().sendRequest(message);
             document.querySelector('#input_message').value = '';
         } else {
             console.error('Нет текста сообщения или ID чата.');
@@ -135,6 +142,9 @@ export default class ChatPage extends BasePage {
                 word: sanitizedInputSearch,
                 search_type: type,
             };
+            if (type === 'message') {
+                search.chatID = this.#currentChatId || '';
+            }
             this.#chatList.getSearcher().getSocket().sendRequest(search);
         } else {
             this.displayChats(this.#chats);
@@ -154,11 +164,14 @@ export default class ChatPage extends BasePage {
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
+                edited: message.edited,
                 message_owner: owner,
                 message_id: message.id,
                 message_text: message.message_text,
             });
             messageElement.render();
+            this.#chatsCache[message.chat_id].messages =
+                this.#chatsCache[message.chat_id].messages || [];
             this.#chatsCache[message.chat_id].messages.push(message); // Добавляем сообщение в кеш
             this.displayChats(this.#chats); // Обновляем отображение чатов
         }
@@ -179,6 +192,7 @@ export default class ChatPage extends BasePage {
         chatListContainer.innerHTML = '';
         let checkChatId = false;
         let checkChatConfig = null;
+        chats = chats || [];
         chats.forEach((chatConfig) => {
             if (chatConfig.id === this.#currentChatId) {
                 checkChatConfig = chatConfig;
@@ -186,12 +200,9 @@ export default class ChatPage extends BasePage {
             }
             this.#chatList.addChat(chatConfig, (event) => {
                 event.preventDefault();
-                this.#chat.setInputMessageValue(
-                    this.#messageDrafts[chatConfig.id] || '',
-                );
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
-                goToPage('/chat?id=' + chatConfig.id, false);
+                goToPage(this.#type + '?id=' + chatConfig.id, false);
             });
         });
         this.#messageDrafts[this.#currentChatId] = '';
@@ -205,27 +216,43 @@ export default class ChatPage extends BasePage {
     }
 
     displayActiveChat(chat) {
-        const chatInput = this.#parent.querySelector('#chat_input_block');
-
+        const chatInputBlock = this.#parent.querySelector('#chat_input_block');
+        chatInputBlock.innerHTML = '';
         let chatName = `${chat.name} `;
-        switch (chat.type) {
-            case 'person':
-                chatName += '(Личное)';
-                chatInput.style.display = 'flex';
-                break;
-            case 'channel':
-                chatName += '(Канал)';
-                chatInput.style.display = 'none';
-                break;
-            case 'group':
-                chatName += '(Группа)';
-                chatInput.style.display = 'flex';
-                break;
+        if (!chat.type) {
+            chat.type = '3';
         }
-        // Отображаем содержимое выбранного чата
+        // Если чат - канал
+        if (chat.type === '3') {
+            chatName = 'Канал: ' + chatName;
+            // если пользователь не создатель
+            if (chat.creator !== this.#profile.id) {
+                // если пользователь не подписан на канал
+                chat.is_member = !!(
+                    chat.is_member || chat.is_member === undefined
+                );
+            }
+        }
+
+        this.#inputBlock = new ChatInput(chatInputBlock, {
+            inputMessage: this.messageDraftHandler,
+            sendMessage: this.messageSendHandler,
+            getMessage: this.getWebSocketMessage,
+            type: chat.type,
+            is_member: chat.is_member,
+            is_owner: chat.creator === this.#profile.id,
+            chatId: chat.id,
+        });
+        this.#inputBlock.render();
+
+        if (chat.type !== '3' || chat.creator === this.#profile.id) {
+            this.#parent.querySelector('#input_message').value =
+                this.#messageDrafts[chat.id] || '';
+        }
+
         document.getElementById('chat_header').textContent = chatName;
         const chatAPI = new ChatAPI();
-        let messages = this.#chatsCache[chat.id].messages;
+        let messages = this.#chatsCache[chat.id].messages || [];
         chatAPI
             .getMessages(this.#chatsCache[chat.id].id)
             .then((response) => {
@@ -245,6 +272,7 @@ export default class ChatPage extends BasePage {
             'active-chat-container',
         );
         activeChatContainer.innerHTML = '';
+        messages = messages || [];
         messages.forEach((message) => {
             // Форматируем время отправки сообщения
             const sentAt = new Date(message.sent_at);
@@ -261,29 +289,10 @@ export default class ChatPage extends BasePage {
                 message_text: message.message_text,
                 username: message.username,
                 sent_at: timeString,
+                edited: message.edited,
             });
             messageElement.render();
         });
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
-    }
-
-    handleLogout(event) {
-        event.preventDefault();
-        // Отправка данных на сервер
-        const api = new AuthAPI();
-        api.logout()
-            .then((data) => {
-                if (data.status === 200) {
-                    // Обработка успешной авторизации
-                    console.log('Successfully logged out');
-                    //websocketManager.close();
-                    goToPage('/login', true);
-                } else {
-                    console.log('Error logged out');
-                }
-            })
-            .catch((error) => {
-                console.error('Logout failed:', error);
-            });
     }
 }

@@ -8,6 +8,9 @@
             <input type="text" class="edit_message_input" style="display: none;">
         </div>
         <text class="time">{{sent_at}}</text>
+        {{#if edited}}
+            <text class="time">изменено</text>
+        {{/if}}
     </div>
     <div id="ContextMenu" style="display: none;">
         <button class='delete-button' id='delete-message-button_{{message_id}}'>

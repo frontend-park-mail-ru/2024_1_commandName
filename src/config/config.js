@@ -7,7 +7,7 @@ import ProfileEditPage from '../Pages/ProfileEditPage.js';
 import ChangePasswordPage from '../Pages/ChangePasswordPage.js';
 import ContactsPage from '../Pages/ContactsPage.js';
 import CreateGroupPage from '../Pages/CreateGroupPage.js';
-import EditGroupPage from '../Pages/EditGroupPage.js';
+import EditChatPage from '../Pages/EditChatPage.js';
 
 export const ROOT = document.getElementById('root');
 
@@ -16,11 +16,13 @@ export const ROUTES = {
     '/login': LoginPage,
     '/register': RegisterPage,
     '/chat': ChatPage,
+    '/channel': ChatPage,
     '/profile': ProfilePage,
     '/edit': ProfileEditPage,
     '/password': ChangePasswordPage,
     '/contacts': ContactsPage,
     '/create_group': CreateGroupPage,
-    '/edit_group': EditGroupPage,
+    '/create_channel': CreateGroupPage,
+    '/edit_chat': EditChatPage,
     '*': Page404,
 };

@@ -20,6 +20,13 @@ aside.chat {
     justify-content: space-between;
 }
 
+.chat_list_header_buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 .chat_list {
     background-color: $aside-color;
     overflow: auto;

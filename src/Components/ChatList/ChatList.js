@@ -2,6 +2,7 @@ import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
 import { goToPage } from '../../utils/router.js';
 import Search from '../Search/Search.js';
+import { AuthAPI } from '../../utils/API/AuthAPI.js';
 
 /**
  * Рендерит компоненты боковой панели: заголовок, поиск, список чатов, пользователь и выйти
@@ -13,30 +14,82 @@ export default class ChatList extends BaseComponent {
     #searchChats;
 
     render() {
+        this.getConfig().header = 'Чаты';
+        if (this.getConfig().type === '/channel') {
+            this.getConfig().header = 'Каналы';
+        }
+        this.getConfig().chatTypeFlag = this.getConfig().type === '/chat';
         super.render();
+        if (this.getConfig().chatTypeFlag) {
+            const createGroupBtn =
+                this.getParent().querySelector(`#create_group_btn`);
+            createGroupBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/create_group', true);
+            });
+
+            const pageChannelsBtn =
+                this.getParent().querySelector(`#page_channel_btn`);
+            pageChannelsBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/channel', true);
+            });
+        } else {
+            const createChannelBtn =
+                this.getParent().querySelector(`#create_channel_btn`);
+            createChannelBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/create_channel', true);
+            });
+
+            const pageChatsBtn =
+                this.getParent().querySelector(`#page_chats_btn`);
+            pageChatsBtn.addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
+                goToPage('/chat', true);
+            });
+        }
 
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/contacts', true);
             });
 
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
+                this.getSearcher().getSocket().close();
                 goToPage('/profile', true);
             });
 
         this.getParent()
-            .querySelector('#create_group_btn')
+            .querySelector('#logout_btn')
             .addEventListener('click', () => {
-                goToPage('/create_group', true);
+                this.#searchChats.getSocket().close();
+                // Отправка данных на сервер
+                const api = new AuthAPI();
+                api.logout()
+                    .then((data) => {
+                        if (data.status === 200) {
+                            // Обработка успешной авторизации
+                            console.log('Successfully logged out');
+                            goToPage('/login', true);
+                        } else {
+                            console.log('Error logged out');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Logout failed:', error);
+                    });
             });
+
         const searchContainer =
             this.getParent().querySelector('.search_container');
 
         this.#searchChats = new Search(searchContainer, {
-            type: 'chat',
+            type: this.getConfig().type.slice(1),
             inputSearch: this.getConfig().inputSearchChats,
             sendSearch: this.getConfig().sendSearchChats,
             getSearch: this.getConfig().getSearchChats,
@@ -53,6 +106,7 @@ export default class ChatList extends BaseComponent {
         );
 
         chatConfig.handler = handler;
+        chatConfig.userId = this.getConfig().userId;
         const chat = new ChatListItem(chatContainer, chatConfig);
         chat.render();
     }
