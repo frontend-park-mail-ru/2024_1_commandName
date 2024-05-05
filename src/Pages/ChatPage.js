@@ -143,7 +143,7 @@ export default class ChatPage extends BasePage {
                 search_type: type,
             };
             if (type === 'message') {
-                search.chatID = this.#currentChatId || '';
+                search.chat_id = this.#currentChatId || '';
             }
             this.#chatList.getSearcher().getSocket().sendRequest(search);
         } else {
