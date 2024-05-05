@@ -138,16 +138,12 @@ export default class ChatPage extends BasePage {
             .value.trim();
         if (inputSearch) {
             const sanitizedInputSearch = sanitizer(inputSearch);
-            let search = {
+            const search = {
                 word: sanitizedInputSearch,
                 search_type: type,
             };
             if (type === 'message') {
-                search = {
-                    word: sanitizedInputSearch,
-                    search_type: type,
-                    chatID: this.#currentChatId || '',
-                };
+                search.chatID = this.#currentChatId || '';
             }
             this.#chatList.getSearcher().getSocket().sendRequest(search);
         } else {
