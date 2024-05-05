@@ -142,6 +142,9 @@ export default class ChatPage extends BasePage {
                 word: sanitizedInputSearch,
                 search_type: type,
             };
+            if (type === 'message') {
+                search.chatID = this.#currentChatId || '';
+            }
             this.#chatList.getSearcher().getSocket().sendRequest(search);
         } else {
             this.displayChats(this.#chats);
