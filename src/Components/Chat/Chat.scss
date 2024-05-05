@@ -1,8 +1,8 @@
-:root {
-    --chat-bg-color: var(--blue);
-    --chat-input-color: var(--blue-light);
-    --chat-input-color-hover: var(--blue-light-hover);
-}
+@import '../../styles/constants.scss';
+
+$chat-bg-color: $blue;
+$chat-input-color: $blue-light;
+$chat-input-color-hover: $blue-light-hover;
 
 main {
     height: 100vh;
@@ -10,7 +10,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--chat-bg-color);
+    background-color: $chat-bg-color;
 }
 
 .chat {
@@ -18,16 +18,16 @@ main {
     flex-direction: column;
     flex: 1;
     overflow: auto;
-    justify-content: flex-end
+    justify-content: flex-end;
 }
 
 .chat_header {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    border-radius: 0 0 $border-radius $border-radius;
 
-    background-color: var(--blue-light);
+    background-color: $blue-light;
     display: flex;
     flex: 0 0 10%;
     align-items: center;
@@ -44,7 +44,6 @@ main {
     padding-left: 10px;
     padding-right: 10px;
 }
-
 
 .chat-container {
     display: flex;
@@ -66,7 +65,7 @@ main {
 }
 /*///*/
 .chat-input {
-    background-color: var(--chat-input-color);
+    background-color: $chat-input-color;
     margin-top: 7px;
     margin-bottom: 7px;
 }
@@ -82,8 +81,8 @@ main {
 
 .input_attach:hover,
 .input_send:hover {
-    background-color: var(--chat-input-color-hover);
-    transition: var(--transition);
+    background-color: $chat-input-color-hover;
+    transition: $transition;
 }
 
 .input_text {
@@ -92,7 +91,7 @@ main {
     width: 100%;
     padding: auto;
     padding-left: 15px;
-    border-radius: var(--border-radius);
+    border-radius: $border-radius;
     margin-right: 10px;
     margin-left: 10px;
 }

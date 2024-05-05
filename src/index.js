@@ -1,4 +1,5 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
+import { handleRouting } from './utils/router.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -41,6 +42,12 @@ api.checkAuth()
     .catch((error) => {
         console.error('Failed:', error);
     });
+
+// Обработка изменения URL
+window.addEventListener('popstate', handleRouting);
+
+// Вызываем функцию handleRouting при загрузке страницы
+window.addEventListener('load', handleRouting);
 
 // eslint-disable-next-line no-undef
 Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
