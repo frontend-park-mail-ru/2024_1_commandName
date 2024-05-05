@@ -161,6 +161,7 @@ export default class ChatPage extends BasePage {
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
+                edited: message.edited,
                 message_owner: owner,
                 message_id: message.id,
                 message_text: message.message_text,
@@ -285,6 +286,7 @@ export default class ChatPage extends BasePage {
                 message_text: message.message_text,
                 username: message.username,
                 sent_at: timeString,
+                edited: message.edited,
             });
             messageElement.render();
         });

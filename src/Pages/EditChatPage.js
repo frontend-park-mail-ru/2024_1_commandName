@@ -31,11 +31,16 @@ export default class EditChatPage extends BasePage {
 
     formCallback(event) {
         event.preventDefault();
-        const groupName = event.target.querySelector('#groupName').value;
+        const groupName = event.target.querySelector('#groupName').value.trim();
         const groupDescription =
             event.target.querySelector('#groupDescription').value;
         const error = event.target.querySelector('#error-message');
         error.textContent = '';
+
+        if (groupName.length === 0) {
+            error.textContent = 'Заполните поле Название';
+            return;
+        }
 
         // Отправка данных на сервер для редактирования группы
         const urlParams = new URLSearchParams(window.location.search);

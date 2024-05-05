@@ -66,8 +66,10 @@ export default class CreateGroupPage extends BasePage {
                     return Number(item.value.replace('user_list_', ''));
                 }, this);
             const group = {
-                description: event.target.querySelector('#description').value,
-                group_name: event.target.querySelector('#name').value,
+                description: event.target
+                    .querySelector('#description')
+                    .value.trim(),
+                group_name: event.target.querySelector('#name').value.trim(),
                 user_ids: userIds,
             };
             if (group.group_name.length === 0) {
@@ -96,9 +98,10 @@ export default class CreateGroupPage extends BasePage {
                     console.error('createGroup failed:', error);
                 });
         } else {
-            const description =
-                event.target.querySelector('#description').value;
-            const name = event.target.querySelector('#name').value;
+            const description = event.target
+                .querySelector('#description')
+                .value.trim();
+            const name = event.target.querySelector('#name').value.trim();
 
             if (name.length === 0) {
                 error.textContent = 'Заполните поле Название';
