@@ -31,7 +31,7 @@ export default class EditChatPage extends BasePage {
 
     formCallback(event) {
         event.preventDefault();
-        const groupName = event.target.querySelector('#groupName').value;
+        const groupName = event.target.querySelector('#groupName').value.trim();
         const groupDescription =
             event.target.querySelector('#groupDescription').value;
         const error = event.target.querySelector('#error-message');
