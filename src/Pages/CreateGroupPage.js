@@ -16,7 +16,12 @@ export default class CreateGroupPage extends BasePage {
     constructor(parent) {
         super(parent);
         this.#parent = parent;
-        this.getData().then(() => this.render());
+        const type = window.location.pathname;
+        if (type === '/create_group') {
+            this.getData().then(() => this.render());
+        } else {
+            this.render();
+        }
     }
 
     getData = async () => {
@@ -47,79 +52,115 @@ export default class CreateGroupPage extends BasePage {
     formCallback(event) {
         event.preventDefault();
         const error = event.target.querySelector('#error-message');
+        const type = window.location.pathname;
 
-        const userList = event.target.querySelectorAll(
-            '#user_list input[type=checkbox]',
-        );
-        const userIds = Array.from(userList)
-            .filter((item) => {
-                return item.checked;
-            })
-            .map((item) => {
-                return Number(item.value.replace('user_list_', ''));
-            }, this);
+        if (type === '/create_group') {
+            const userList = event.target.querySelectorAll(
+                '#user_list input[type=checkbox]',
+            );
+            const userIds = Array.from(userList)
+                .filter((item) => {
+                    return item.checked;
+                })
+                .map((item) => {
+                    return Number(item.value.replace('user_list_', ''));
+                }, this);
+            const group = {
+                description: event.target
+                    .querySelector('#description')
+                    .value.trim(),
+                group_name: event.target.querySelector('#name').value.trim(),
+                user_ids: userIds,
+            };
+            if (group.group_name.length === 0) {
+                error.textContent = 'Заполните поле Название';
+                return;
+            }
 
-        const group = {
-            description: event.target.querySelector('#group_description').value,
-            group_name: event.target.querySelector('#group_name').value,
-            user_ids: userIds,
-        };
+            if (group.user_ids.length === 0) {
+                error.textContent = 'Добавьте пользователей';
+                return;
+            }
 
-        if (group.group_name.length === 0) {
-            error.textContent = 'Заполните поле Название';
-            return;
+            const chatAPI = new ChatAPI();
+            chatAPI
+                .createGroup(group)
+                .then((data) => {
+                    if (data.status === 200) {
+                        // Обработка успешной авторизации
+                        goToPage('/chat?id=' + data.body.chat_id, true);
+                    } else {
+                        error.textContent = data.body.error;
+                    }
+                })
+                .catch((error) => {
+                    alert('Что-то пошло не так');
+                    console.error('createGroup failed:', error);
+                });
+        } else {
+            const description = event.target
+                .querySelector('#description')
+                .value.trim();
+            const name = event.target.querySelector('#name').value.trim();
+
+            if (name.length === 0) {
+                error.textContent = 'Заполните поле Название';
+                return;
+            }
+            const chatAPI = new ChatAPI();
+            chatAPI
+                .createChannel(name, description)
+                .then((data) => {
+                    if (data.status === 200) {
+                        // Обработка успешной авторизации
+                        goToPage('/channel?id=' + data.body.chat_id, true);
+                    } else {
+                        error.textContent = data.body.error;
+                    }
+                })
+                .catch((error) => {
+                    alert('Что-то пошло не так');
+                    console.error('createGroup failed:', error);
+                });
         }
-
-        if (group.user_ids.length === 0) {
-            error.textContent = 'Добавьте пользователей';
-            return;
-        }
-
-        const chatAPI = new ChatAPI();
-        chatAPI
-            .createGroup(group)
-            .then((data) => {
-                if (data.status === 200) {
-                    // Обработка успешной авторизации
-                    goToPage('/chat?id=' + data.body.chat_id, true);
-                } else {
-                    error.textContent = data.body.error;
-                }
-            })
-            .catch((error) => {
-                alert('Что-то пошло не так');
-                console.error('createGroup failed:', error);
-            });
     }
 
     render() {
+        const type = window.location.pathname;
+        let header = 'Создать канал';
+        let page = '/channel';
+        const inputs = [
+            {
+                id: 'name',
+                type: 'text',
+                placeholder: 'Название',
+                required: true,
+            },
+            {
+                id: 'description',
+                type: 'text',
+                placeholder: 'Описание',
+                required: true,
+            },
+        ];
+        if (type === '/create_group') {
+            header = 'Создать чат';
+            page = '/chat';
+            inputs.push({
+                id: 'user_list',
+                list_name: 'user_list',
+                type: 'checkbox_list',
+                placeholder: 'Участники',
+                items: this.#userListItems,
+            });
+        }
         const form = new Form(this.#parent, {
-            header: 'Создать группу',
+            header: header,
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/chat', true);
+                goToPage(page, true);
             },
-            inputs: [
-                {
-                    id: 'group_name',
-                    type: 'text',
-                    placeholder: 'Название',
-                    required: true,
-                },
-                {
-                    id: 'group_description',
-                    type: 'text',
-                    placeholder: 'Описание',
-                    required: true,
-                },
-                {
-                    id: 'user_list',
-                    list_name: 'user_list',
-                    type: 'checkbox_list',
-                    placeholder: 'Участники',
-                    items: this.#userListItems,
-                },
-            ],
+            inputs: inputs,
             submitButtonText: 'Создать',
             additionButtonText: 'Назад',
         });

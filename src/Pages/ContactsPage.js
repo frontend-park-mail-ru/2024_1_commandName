@@ -3,6 +3,7 @@ import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
 import { goToPage } from '../utils/router.js';
+import { sanitizer } from '../utils/valid.js';
 
 /**
  * Рендерит страницу чатов
@@ -10,8 +11,9 @@ import { goToPage } from '../utils/router.js';
  */
 export default class ContactsPage extends BasePage {
     #parent;
-    #contacts;
+    #contacts = [];
     #contactsList;
+    #searchDraft;
 
     constructor(parent) {
         super(parent);
@@ -40,10 +42,44 @@ export default class ContactsPage extends BasePage {
     };
 
     render() {
-        const chatAPI = new ChatAPI();
-        this.#contactsList = new Contacts(this.#parent, {});
+        this.#contactsList = new Contacts(this.#parent, {
+            inputSearchContacts: this.searchDraftHandler,
+            sendSearchContacts: this.searchSendHandler,
+            getSearchContacts: this.getWebSocketSearch,
+        });
         this.#contactsList.render();
-        this.#contacts.forEach((contactConfig) => {
+        this.displayContacts(this.#contacts);
+    }
+    getWebSocketSearch = (response) => {
+        this.displayContacts(response.body.contacts || []);
+    };
+
+    searchDraftHandler = (event) => {
+        this.#searchDraft = event.target.value;
+    };
+
+    searchSendHandler = (type) => {
+        // Контейнер активного чата
+        const inputSearch = this.#parent
+            .querySelector(`#input_search_${type}`)
+            .value.trim();
+        if (inputSearch) {
+            const sanitizedInputSearch = sanitizer(inputSearch);
+            const search = {
+                word: sanitizedInputSearch,
+                search_type: 'contact',
+            };
+            this.#contactsList.getSearcher().getSocket().sendRequest(search);
+        } else {
+            this.displayContacts(this.#contacts);
+        }
+    };
+
+    displayContacts(contacts) {
+        const contactsListContainer = document.getElementById('contact_list');
+        contactsListContainer.innerHTML = '';
+        const chatAPI = new ChatAPI();
+        contacts.forEach((contactConfig) => {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {

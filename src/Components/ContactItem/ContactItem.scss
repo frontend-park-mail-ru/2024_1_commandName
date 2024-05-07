@@ -1,11 +1,13 @@
+@import '../../styles/constants.scss';
+
 .contact_item {
-    border-top: 1px solid var(--blue);
+    border-top: 1px solid $blue;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .contact_item:last-child {
-    border-bottom: 1px solid var(--blue);
+    border-bottom: 1px solid $blue;
 }
 
 .contact_item__fullname {

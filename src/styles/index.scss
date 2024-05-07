@@ -1,25 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-:root {
-    --border-radius: 10px;
-    --transition: all 0.3s;
-
-    --white: #F8F8F8;
-    --green-light: #5abe48;
-    --gray: #c2c2c2;
-    --blue-light: #D4DFE6;
-    --blue-light-hover: #c9d6de;
-    --blue-dark: #3f708f;
-    --blue: #AFC5D3;
-    --blue-hover: #a9bfcc;
-
-    --aside-color: var(--blue-light);
-    --input-color: var(--blue);
-    --btn-color: var(--blue);
-}
+@import './constants.scss';
+@import '../Components/Chat/Chat.scss';
+@import '../Components/ChatInput/ChatInput.scss';
+@import '../Components/ChatList/ChatList.scss';
+@import '../Components/ChatListItem/ChatListItem.scss';
+@import '../Components/ContactItem/ContactItem.scss';
+@import '../Components/Contacts/Contacts.scss';
+@import '../Components/Form/Form.scss';
+@import '../Components/Message/Message.scss';
+@import '../Components/Profile/Profile.scss';
+@import '../Components/Search/Search.scss';
 
 body {
-    font-family: "Roboto", serif;
+    font-family: 'Roboto', serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,7 +22,7 @@ body {
     width: 100vw;
     overflow: hidden;
     margin: 0;
-    background-color: var(--white);
+    background-color: $white;
 }
 
 .full-screen {
@@ -38,23 +32,22 @@ body {
     overflow: hidden;
 }
 
-
 button {
     box-sizing: border-box;
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: $border-radius;
     border: 1px solid #ddd;
-    background-color: var(--btn-color);
+    background-color: $btn-color;
     color: black;
     cursor: pointer;
 }
 
 button:hover {
-    transition: var(--transition);
-    border: 1px solid var(--blue-hover);
-    background-color: var(--blue-hover);
+    transition: $transition;
+    border: 1px solid $blue-hover;
+    background-color: $blue-hover;
 }
 
 button.inline_button {
@@ -67,19 +60,18 @@ button.inline_button {
 button.inline_button:hover {
     text-decoration: underline;
     text-underline-offset: 3px;
-    transition: var(--hover-transition);
+    transition: $transition;
     color: rgb(50, 50, 50);
 }
-
 
 input {
     box-sizing: border-box;
     margin-bottom: 10px;
     margin-top: 10px;
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: $border-radius;
     border: 1px solid #ddd;
-    background-color: var(--input-color);
+    background-color: $input-color;
     color: black;
     cursor: pointer;
 }

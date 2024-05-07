@@ -1,0 +1,37 @@
+@import '../../styles/constants.scss';
+
+.chat-input {
+    background-color: $chat-input-color;
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.chat-input-button {
+    width: 100%;
+}
+
+.input_attach,
+.input_send {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    flex: 0 0 10%;
+    padding: auto;
+}
+
+.input_attach:hover,
+.input_send:hover {
+    background-color: $chat-input-color-hover;
+    transition: $transition;
+}
+
+.input_text {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    padding: auto;
+    padding-left: 15px;
+    border-radius: $border-radius;
+    margin-right: 10px;
+    margin-left: 10px;
+}

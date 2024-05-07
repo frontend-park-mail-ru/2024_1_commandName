@@ -2,3 +2,6 @@
 .vscode
 /node_modules
 src/Components/**/*.precompiled.js
+dist
+.cache
+uploads

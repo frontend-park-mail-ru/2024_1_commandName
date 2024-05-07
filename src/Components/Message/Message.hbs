@@ -1,9 +1,24 @@
-<div class="message {{message_owner}}">
+<div class="message {{message_owner}}" id="message_id_{{message_id}}">
     <div class="author">
         <strong>{{username}}</strong>
     </div>
     <div class="message_data">
-        {{message_text}}
+        <div class="message_text_wrapper">
+            <span class="message_text">{{message_text}}</span>
+            <input type="text" class="edit_message_input" style="display: none;">
+        </div>
         <text class="time">{{sent_at}}</text>
+        {{#if edited}}
+            <text class="time">изменено</text>
+        {{/if}}
     </div>
+    <div id="ContextMenu" style="display: none;">
+        <button class='delete-button' id='delete-message-button_{{message_id}}'>
+            Удалить
+        </button>
+        <button class='edit-button' id='edit-message-button_{{message_id}}'>
+            Изменить
+        </button>
+    </div>
+    <div class="overlay" style="display: none;"></div>
 </div>

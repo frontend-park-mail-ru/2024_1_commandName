@@ -23,6 +23,61 @@ export class ChatAPI {
         }
     }
 
+    async getMessages(ChatId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getMessages`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async deleteMessage(MessageId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/deleteMessage`,
+                'POST',
+                {
+                    message_id: MessageId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async editMessage(MessageId, NewMessageText) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/editMessage`,
+                'POST',
+                {
+                    message_id: MessageId,
+                    new_message_text: NewMessageText,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
     async chatByUserId(UserId) {
         try {
             return makeBaseRequest(
@@ -98,6 +153,58 @@ export class ChatAPI {
                     chat_id: ChatId,
                     new_description: newDescription,
                     new_name: newName,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async getPopularChannels() {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getPopularChannels`,
+                'GET',
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async joinChannel(ChatId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/joinChannel`,
+                'POST',
+                {
+                    chat_id: ChatId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async createChannel(channelName, channelDescription) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/createChannel`,
+                'POST',
+                {
+                    description: channelDescription,
+                    name: channelName,
                 },
             );
         } catch (error) {

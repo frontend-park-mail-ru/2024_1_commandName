@@ -1,3 +1,5 @@
+@import '../../styles/constants.scss';
+
 .center-container {
     display: flex;
     flex-direction: column;
@@ -10,9 +12,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--aside-color);
+    background-color: $aside-color;
     padding: 20px;
-    border-radius: var(--border-radius);
+    border-radius: $border-radius;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -29,6 +31,12 @@
 }
 
 .contacts_title {
+    width: 100%;
+}
+
+.search_input {
+    margin-top: 0;
+    margin-bottom: 4px;
     width: 100%;
 }
 

@@ -80,7 +80,6 @@ export default class LoginPage extends BasePage {
                     console.log(error);
                     alert('Что-то пошло не так');
                     console.error('Edit avatar failed:', error);
-                    return;
                 });
         }
 
@@ -161,13 +160,13 @@ export default class LoginPage extends BasePage {
             if (profileResponse.status !== 200) {
                 throw new Error('Пришел не 200 статус');
             }
-
             this.#profile = profileResponse.body.user;
+
             return {
                 profile: this.#profile,
             };
         } catch (error) {
-            console.error('Ошибка при получении данных:', error);
+            console.error('Ошибка при получении данных с сервера:', error);
             throw error;
         }
     };
