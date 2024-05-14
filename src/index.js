@@ -8,7 +8,7 @@ function registerServiceWorker() {
             .then(function (registrations) {
                 if (registrations.length === 0) {
                     return navigator.serviceWorker.register(
-                        '/serviceWorker.js',
+                        new URL('./serviceWorker.js', import.meta.url),
                     );
                 } else {
                     const serviceWorker = registrations[0];
