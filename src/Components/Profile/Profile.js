@@ -1,5 +1,4 @@
 import { BaseComponent } from '../BaseComponent.js';
-import { goToPage } from '../../utils/router.js';
 /**
  * Рендерит профиль
  * @class Класс компонента профиля
@@ -14,17 +13,20 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                goToPage('/chat', true);
+                history.push('/chat');
+                window.dispatchEvent(new Event('popstate'));
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                goToPage('/edit', true);
+                history.push('/edit');
+                window.dispatchEvent(new Event('popstate'));
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                goToPage('/password', true);
+                history.push('/password');
+                window.dispatchEvent(new Event('popstate'));
             });
     }
 }

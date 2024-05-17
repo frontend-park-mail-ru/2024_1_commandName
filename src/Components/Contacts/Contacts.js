@@ -1,4 +1,3 @@
-import { goToPage } from '../../utils/router.js';
 import { BaseComponent } from '../BaseComponent.js';
 import ContactItem from '../ContactItem/ContactItem.js';
 import Search from '../Search/Search.js';
@@ -18,7 +17,8 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/chat', true);
+                history.push('/chat');
+                window.dispatchEvent(new Event('popstate'));
             });
 
         const searchContainer =

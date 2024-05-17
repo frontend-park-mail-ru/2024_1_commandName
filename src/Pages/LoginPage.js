@@ -56,6 +56,7 @@ export default class LoginPage extends BasePage {
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
                 history.push('/register');
+                window.dispatchEvent(new Event('popstate'));
             },
             inputs: [
                 {

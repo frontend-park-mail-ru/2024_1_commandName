@@ -2,7 +2,6 @@ import { ContactsAPI } from '../utils/API/ContactsAPI.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
-import { goToPage } from '../utils/router.js';
 import { sanitizer } from '../utils/valid.js';
 
 /**
@@ -83,7 +82,8 @@ export default class ContactsPage extends BasePage {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {
-                        goToPage('/chat?id=' + response.body.chat_id, true);
+                        history.push('/chat?id=' + response.body.chat_id);
+                        window.dispatchEvent(new Event('popstate'));
                     }
                 });
             });

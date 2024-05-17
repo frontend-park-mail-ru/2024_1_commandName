@@ -1,5 +1,4 @@
 import { ChatAPI } from '../utils/API/ChatAPI.js';
-import { goToPage } from '../utils/router.js';
 import Chat from '../Components/Chat/Chat.js';
 import ChatList from '../Components/ChatList/ChatList.js';
 import Message from '../Components/Message/Message.js';
@@ -202,12 +201,12 @@ export default class ChatPage extends BasePage {
                 event.preventDefault();
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
-                goToPage(this.#type + '?id=' + chatConfig.id, false);
+                history.push(this.#type + '?id=' + chatConfig.id);
             });
         });
         this.#messageDrafts[this.#currentChatId] = '';
         if (!checkChatId && !isNaN(this.#currentChatId)) {
-            goToPage('/chat', false);
+            history.push('/chat');
             this.#currentChatId = null;
         }
         if (checkChatId) {

@@ -1,6 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { ChatAPI } from '../../utils/API/ChatAPI.js';
-import { goToPage } from '../../utils/router.js';
 
 /**
  * Рендерит компонент чата для боковой панели
@@ -44,7 +43,8 @@ export default class ChatListItem extends BaseComponent {
                     .then((data) => {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
-                            goToPage(this.type, true);
+                            history.push(this.type);
+                            window.dispatchEvent(new Event('popstate'));
                         } else {
                             throw new Error('Пришел не 200 статус');
                         }
@@ -63,10 +63,10 @@ export default class ChatListItem extends BaseComponent {
                         .chatById(id)
                         .then((data) => {
                             if (data.status === 200) {
-                                goToPage(
+                                history.push(
                                     '/edit_chat?id=' + data.body.chat.id,
-                                    true,
                                 );
+                                window.dispatchEvent(new Event('popstate'));
                             } else {
                                 throw new Error('Пришел не 200 статус');
                             }

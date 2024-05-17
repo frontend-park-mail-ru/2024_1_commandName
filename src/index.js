@@ -43,9 +43,6 @@ api.checkAuth()
         console.error('Failed:', error);
     });
 
-// Обработка изменения URL
-window.addEventListener('popstate', handleRouting);
-
 // Вызываем функцию handleRouting при загрузке страницы
 window.addEventListener('load', handleRouting);
 

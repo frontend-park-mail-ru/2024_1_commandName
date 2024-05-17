@@ -1,6 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ChatListItem from '../ChatListItem/ChatListItem.js';
-import { goToPage } from '../../utils/router.js';
 import Search from '../Search/Search.js';
 import { AuthAPI } from '../../utils/API/AuthAPI.js';
 
@@ -25,28 +24,32 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#create_group_btn`);
             createGroupBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/create_group', true);
+                history.push('/create_group');
+                window.dispatchEvent(new Event('popstate'));
             });
 
             const pageChannelsBtn =
                 this.getParent().querySelector(`#page_channel_btn`);
             pageChannelsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/channel', true);
+                history.push('/channel');
+                window.dispatchEvent(new Event('popstate'));
             });
         } else {
             const createChannelBtn =
                 this.getParent().querySelector(`#create_channel_btn`);
             createChannelBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/create_channel', true);
+                history.push('/create_channel');
+                window.dispatchEvent(new Event('popstate'));
             });
 
             const pageChatsBtn =
                 this.getParent().querySelector(`#page_chats_btn`);
             pageChatsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/chat', true);
+                history.push('/chat');
+                window.dispatchEvent(new Event('popstate'));
             });
         }
 
@@ -54,14 +57,16 @@ export default class ChatList extends BaseComponent {
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/contacts', true);
+                history.push('/contacts');
+                window.dispatchEvent(new Event('popstate'));
             });
 
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/profile', true);
+                history.push('/profile');
+                window.dispatchEvent(new Event('popstate'));
             });
 
         this.getParent()
@@ -75,7 +80,8 @@ export default class ChatList extends BaseComponent {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
                             console.log('Successfully logged out');
-                            goToPage('/login', true);
+                            history.push('/login');
+                            window.dispatchEvent(new Event('popstate'));
                         } else {
                             console.log('Error logged out');
                         }
