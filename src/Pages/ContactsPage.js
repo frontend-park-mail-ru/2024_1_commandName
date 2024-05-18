@@ -3,6 +3,7 @@ import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
 import { sanitizer } from '../utils/valid.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу чатов
@@ -82,10 +83,7 @@ export default class ContactsPage extends BasePage {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {
-                        window.history.push(
-                            '/chat?id=' + response.body.chat_id,
-                        );
-                        window.dispatchEvent(new Event('popstate'));
+                        changeUrl('/chat?id=' + response.body.chat_id);
                     }
                 });
             });

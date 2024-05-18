@@ -2,6 +2,7 @@ import Form from '../Components/Form/Form.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { validateUsername, validateEmail } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу редактирования профиля
@@ -70,8 +71,7 @@ export default class LoginPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        window.history.push('/profile');
-                        window.dispatchEvent(new Event('popstate'));
+                        changeUrl('/profile');
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -89,8 +89,7 @@ export default class LoginPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    window.history.push('/profile');
-                    window.dispatchEvent(new Event('popstate'));
+                    changeUrl('/profile');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -106,8 +105,7 @@ export default class LoginPage extends BasePage {
             header: 'Редактировать профиль',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                window.history.push('/profile');
-                window.dispatchEvent(new Event('popstate'));
+                changeUrl('/profile');
             },
             inputs: [
                 {

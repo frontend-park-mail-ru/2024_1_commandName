@@ -1,6 +1,7 @@
 import { BaseComponent } from '../BaseComponent.js';
 import ContactItem from '../ContactItem/ContactItem.js';
 import Search from '../Search/Search.js';
+import { changeUrl } from '../../utils/navigation.js';
 
 /**
  * Рендерит список контактов
@@ -17,8 +18,7 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                window.history.push('/chat');
-                window.dispatchEvent(new Event('popstate'));
+                changeUrl('/chat');
             });
 
         const searchContainer =

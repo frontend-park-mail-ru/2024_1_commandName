@@ -2,6 +2,7 @@ import { validatePassword, validateUsername } from '../utils/valid.js';
 import { AuthAPI } from '../utils/API/AuthAPI.js';
 import Form from '../Components/Form/Form.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу регистрации
@@ -49,8 +50,7 @@ export default class RegisterPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    window.history.push('/chat');
-                    window.dispatchEvent(new Event('popstate'));
+                    changeUrl('/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,8 +66,7 @@ export default class RegisterPage extends BasePage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                window.history.push('/login');
-                window.dispatchEvent(new Event('popstate'));
+                changeUrl('/login');
             },
             inputs: [
                 {

@@ -6,6 +6,7 @@ import { ProfileAPI } from '../utils/API/ProfileAPI.js';
 import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
 import ChatInput from '../Components/ChatInput/ChatInput.js';
+import { changeUrl } from '../utils/navigation.js';
 
 /*
  * Рендерит страницу чатов
@@ -44,18 +45,22 @@ export default class ChatPage extends BasePage {
                     profileAPI.getProfile(),
                 ]);
                 this.#chats = chatsResponse.body.chats;
-                chatsResponse.body.chats.forEach((chat) => {
-                    this.#chatsCache[chat.id] = chat;
-                });
+                if (chatsResponse.body.chats) {
+                    chatsResponse.body.chats.forEach((chat) => {
+                        this.#chatsCache[chat.id] = chat;
+                    });
+                }
             } else {
                 [chatsResponse, profileResponse] = await Promise.all([
                     chatAPI.getPopularChannels(),
                     profileAPI.getProfile(),
                 ]);
                 this.#chats = chatsResponse.body.channels;
-                chatsResponse.body.channels.forEach((chat) => {
-                    this.#chatsCache[chat.id] = chat;
-                });
+                if (chatsResponse.body.channels) {
+                    chatsResponse.body.channels.forEach((chat) => {
+                        this.#chatsCache[chat.id] = chat;
+                    });
+                }
             }
 
             if (profileResponse.status !== 200) {
@@ -201,12 +206,12 @@ export default class ChatPage extends BasePage {
                 event.preventDefault();
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
-                window.history.push(this.#type + '?id=' + chatConfig.id);
+                changeUrl(this.#type + '?id=' + chatConfig.id);
             });
         });
         this.#messageDrafts[this.#currentChatId] = '';
         if (!checkChatId && !isNaN(this.#currentChatId)) {
-            window.history.push('/chat');
+            changeUrl('/chat');
             this.#currentChatId = null;
         }
         if (checkChatId) {
