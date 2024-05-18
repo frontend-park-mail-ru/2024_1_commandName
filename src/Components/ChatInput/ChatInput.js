@@ -47,7 +47,7 @@ export default class ChatInput extends BaseComponent {
                         chatAPI
                             .deleteChatById(this.getConfig().chatId)
                             .then(() => {
-                                history.push(this.getConfig().path);
+                                window.history.push(this.getConfig().path);
                                 window.dispatchEvent(new Event('popstate'));
                             });
                     });
@@ -59,7 +59,7 @@ export default class ChatInput extends BaseComponent {
                         chatAPI
                             .joinChannel(this.getConfig().chatId)
                             .then(() => {
-                                history.push(
+                                window.history.push(
                                     this.getConfig().path +
                                         '?id=' +
                                         this.getConfig().chatId,

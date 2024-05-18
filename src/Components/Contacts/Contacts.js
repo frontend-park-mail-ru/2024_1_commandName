@@ -17,7 +17,7 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/chat');
+                window.history.push('/chat');
                 window.dispatchEvent(new Event('popstate'));
             });
 

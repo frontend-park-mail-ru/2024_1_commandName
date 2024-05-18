@@ -1,4 +1,3 @@
-// import { goToPage } from '../router.js';
 let redirectEnabled = true;
 
 /**
@@ -28,17 +27,18 @@ export async function makeBaseRequest(
 
     const response = await fetch(url, options);
     const json = await response.json();
-    // // Проверяем, разрешено ли перенаправление, и статус ответа
-    // if (
-    //     redirectEnabled &&
-    //     json.status === 401 &&
-    //     window.location.pathname !== '/register'
-    // ) {
-    //     goToPage('/login', true);
-    //     enableRedirect(false);
-    // } else if (!redirectEnabled && json.status === 401) {
-    //     throw new Error('Ошибка авторизации: необходимо перелогиниться.');
-    // }
+    // Проверяем, разрешено ли перенаправление, и статус ответа
+    if (
+        redirectEnabled &&
+        json.status === 401 &&
+        window.location.pathname !== '/register'
+    ) {
+        window.history.push('/login');
+        window.dispatchEvent(new Event('popstate'));
+        enableRedirect(false);
+    } else if (!redirectEnabled && json.status === 401) {
+        throw new Error('Ошибка авторизации: необходимо перелогиниться.');
+    }
     return json;
 }
 

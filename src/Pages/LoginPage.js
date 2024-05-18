@@ -39,7 +39,7 @@ export default class LoginPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    history.push('/chat');
+                    window.history.push('/chat');
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -55,7 +55,7 @@ export default class LoginPage extends BasePage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                history.push('/register');
+                window.history.push('/register');
                 window.dispatchEvent(new Event('popstate'));
             },
             inputs: [

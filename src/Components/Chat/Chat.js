@@ -1,5 +1,4 @@
 import { BaseComponent } from '../BaseComponent.js';
-//import { WebSocketManager } from '../../utils/WebSocket.js';
 import Search from '../Search/Search.js';
 
 export default class Chat extends BaseComponent {

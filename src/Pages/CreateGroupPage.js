@@ -87,7 +87,10 @@ export default class CreateGroupPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        history.push('/chat?id=' + data.body.chat_id, true);
+                        window.history.push(
+                            '/chat?id=' + data.body.chat_id,
+                            true,
+                        );
                         window.dispatchEvent(new Event('popstate'));
                     } else {
                         error.textContent = data.body.error;
@@ -113,7 +116,7 @@ export default class CreateGroupPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        history.push('/channel?id=' + data.body.chat_id);
+                        window.history.push('/channel?id=' + data.body.chat_id);
                         window.dispatchEvent(new Event('popstate'));
                     } else {
                         error.textContent = data.body.error;
@@ -159,7 +162,7 @@ export default class CreateGroupPage extends BasePage {
             header: header,
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                history.push(page);
+                window.history.push(page);
                 window.dispatchEvent(new Event('popstate'));
             },
             inputs: inputs,

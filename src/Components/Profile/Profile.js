@@ -13,19 +13,19 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                history.push('/chat');
+                window.history.push('/chat');
                 window.dispatchEvent(new Event('popstate'));
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                history.push('/edit');
+                window.history.push('/edit');
                 window.dispatchEvent(new Event('popstate'));
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                history.push('/password');
+                window.history.push('/password');
                 window.dispatchEvent(new Event('popstate'));
             });
     }

@@ -43,7 +43,7 @@ export default class ChatListItem extends BaseComponent {
                     .then((data) => {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
-                            history.push(this.type);
+                            window.history.push(this.type);
                             window.dispatchEvent(new Event('popstate'));
                         } else {
                             throw new Error('Пришел не 200 статус');
@@ -58,12 +58,11 @@ export default class ChatListItem extends BaseComponent {
             this.getParent()
                 .querySelector(`#edit-button_${id}`)
                 .addEventListener('click', () => {
-                    console.log('идем редачить');
                     chatAPI
                         .chatById(id)
                         .then((data) => {
                             if (data.status === 200) {
-                                history.push(
+                                window.history.push(
                                     '/edit_chat?id=' + data.body.chat.id,
                                 );
                                 window.dispatchEvent(new Event('popstate'));

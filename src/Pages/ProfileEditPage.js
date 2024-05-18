@@ -70,7 +70,7 @@ export default class LoginPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        history.push('/profile');
+                        window.history.push('/profile');
                         window.dispatchEvent(new Event('popstate'));
                     } else {
                         error.textContent = data.body.error;
@@ -89,7 +89,7 @@ export default class LoginPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    history.push('/profile');
+                    window.history.push('/profile');
                     window.dispatchEvent(new Event('popstate'));
                 } else {
                     error.textContent = data.body.error;
@@ -106,7 +106,7 @@ export default class LoginPage extends BasePage {
             header: 'Редактировать профиль',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                history.push('/profile');
+                window.history.push('/profile');
                 window.dispatchEvent(new Event('popstate'));
             },
             inputs: [

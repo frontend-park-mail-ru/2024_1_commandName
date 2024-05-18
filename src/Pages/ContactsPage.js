@@ -82,7 +82,9 @@ export default class ContactsPage extends BasePage {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {
-                        history.push('/chat?id=' + response.body.chat_id);
+                        window.history.push(
+                            '/chat?id=' + response.body.chat_id,
+                        );
                         window.dispatchEvent(new Event('popstate'));
                     }
                 });

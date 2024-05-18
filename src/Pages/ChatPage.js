@@ -201,12 +201,12 @@ export default class ChatPage extends BasePage {
                 event.preventDefault();
                 this.displayActiveChat(chatConfig);
                 this.#currentChatId = chatConfig.id;
-                history.push(this.#type + '?id=' + chatConfig.id);
+                window.history.push(this.#type + '?id=' + chatConfig.id);
             });
         });
         this.#messageDrafts[this.#currentChatId] = '';
         if (!checkChatId && !isNaN(this.#currentChatId)) {
-            history.push('/chat');
+            window.history.push('/chat');
             this.#currentChatId = null;
         }
         if (checkChatId) {

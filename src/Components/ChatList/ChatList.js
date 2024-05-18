@@ -24,7 +24,7 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#create_group_btn`);
             createGroupBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/create_group');
+                window.history.push('/create_group');
                 window.dispatchEvent(new Event('popstate'));
             });
 
@@ -32,7 +32,7 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#page_channel_btn`);
             pageChannelsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/channel');
+                window.history.push('/channel');
                 window.dispatchEvent(new Event('popstate'));
             });
         } else {
@@ -40,7 +40,7 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#create_channel_btn`);
             createChannelBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/create_channel');
+                window.history.push('/create_channel');
                 window.dispatchEvent(new Event('popstate'));
             });
 
@@ -48,7 +48,7 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#page_chats_btn`);
             pageChatsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/chat');
+                window.history.push('/chat');
                 window.dispatchEvent(new Event('popstate'));
             });
         }
@@ -57,7 +57,7 @@ export default class ChatList extends BaseComponent {
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/contacts');
+                window.history.push('/contacts');
                 window.dispatchEvent(new Event('popstate'));
             });
 
@@ -65,7 +65,7 @@ export default class ChatList extends BaseComponent {
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                history.push('/profile');
+                window.history.push('/profile');
                 window.dispatchEvent(new Event('popstate'));
             });
 
@@ -80,7 +80,7 @@ export default class ChatList extends BaseComponent {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
                             console.log('Successfully logged out');
-                            history.push('/login');
+                            window.history.push('/login');
                             window.dispatchEvent(new Event('popstate'));
                         } else {
                             console.log('Error logged out');
