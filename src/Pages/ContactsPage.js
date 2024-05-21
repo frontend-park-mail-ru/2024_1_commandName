@@ -83,7 +83,7 @@ export default class ContactsPage extends BasePage {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {
-                        changeUrl('/chat?id=' + response.body.chat_id);
+                        changeUrl('/chat?id=' + response.body.chat_id, true);
                     }
                 });
             });

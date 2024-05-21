@@ -113,7 +113,7 @@ export default class CreateGroupPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        changeUrl('/channel?id=' + data.body.chat_id);
+                        changeUrl('/channel?id=' + data.body.chat_id, true);
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -158,7 +158,7 @@ export default class CreateGroupPage extends BasePage {
             header: header,
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                changeUrl(page);
+                changeUrl(page, true);
             },
             inputs: inputs,
             submitButtonText: 'Создать',

@@ -48,7 +48,7 @@ export default class ChatInput extends BaseComponent {
                         chatAPI
                             .deleteChatById(this.getConfig().chatId)
                             .then(() => {
-                                changeUrl(this.getConfig().path);
+                                changeUrl(this.getConfig().path, true);
                             });
                     });
             } else {
@@ -63,6 +63,7 @@ export default class ChatInput extends BaseComponent {
                                     this.getConfig().path +
                                         '?id=' +
                                         this.getConfig().chatId,
+                                    true,
                                 );
                             });
                     });

@@ -29,7 +29,7 @@ export async function makeBaseRequest(
     const json = await response.json();
     // Проверяем, разрешено ли перенаправление, и статус ответа
     if (json.status === 401 && window.location.pathname !== '/register') {
-        changeUrl('/login');
+        changeUrl('/login', true);
     } else if (json.status === 401) {
         throw new Error('Ошибка авторизации: необходимо перелогиниться.');
     }

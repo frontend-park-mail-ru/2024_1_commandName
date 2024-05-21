@@ -16,14 +16,14 @@ export default class EditChatPage extends BasePage {
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
         if (!this.#currentChatId) {
-            changeUrl('/chat');
+            changeUrl('/chat', true);
 
             return;
         }
         const chatAPI = new ChatAPI();
         chatAPI.chatById(this.#currentChatId).then((response) => {
             if (response.status !== 200) {
-                changeUrl('/chat');
+                changeUrl('/chat', true);
 
                 return;
             }
@@ -52,7 +52,7 @@ export default class EditChatPage extends BasePage {
             .editGroup(chatId, groupName, groupDescription)
             .then((data) => {
                 if (data.status === 200) {
-                    changeUrl('/chat?id=' + chatId);
+                    changeUrl('/chat?id=' + chatId, true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -68,7 +68,7 @@ export default class EditChatPage extends BasePage {
             header: 'Изменение чата',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                changeUrl('/chat');
+                changeUrl('/chat', true);
             },
             inputs: [
                 {

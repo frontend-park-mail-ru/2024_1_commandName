@@ -14,17 +14,17 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                changeUrl('/chat');
+                changeUrl('/chat', true);
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                changeUrl('/edit');
+                changeUrl('/edit', true);
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                changeUrl('/password');
+                changeUrl('/password', true);
             });
     }
 }

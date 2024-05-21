@@ -25,28 +25,28 @@ export default class ChatList extends BaseComponent {
                 this.getParent().querySelector(`#create_group_btn`);
             createGroupBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/create_group');
+                changeUrl('/create_group', true);
             });
 
             const pageChannelsBtn =
                 this.getParent().querySelector(`#page_channel_btn`);
             pageChannelsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/channel');
+                changeUrl('/channel', true);
             });
         } else {
             const createChannelBtn =
                 this.getParent().querySelector(`#create_channel_btn`);
             createChannelBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/create_channel');
+                changeUrl('/create_channel', true);
             });
 
             const pageChatsBtn =
                 this.getParent().querySelector(`#page_chats_btn`);
             pageChatsBtn.addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/chat');
+                changeUrl('/chat', true);
             });
         }
 
@@ -54,14 +54,14 @@ export default class ChatList extends BaseComponent {
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/contacts');
+                changeUrl('/contacts', true);
             });
 
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                changeUrl('/profile');
+                changeUrl('/profile', true);
             });
 
         this.getParent()
@@ -75,7 +75,7 @@ export default class ChatList extends BaseComponent {
                         if (data.status === 200) {
                             // Обработка успешной авторизации
                             console.log('Successfully logged out');
-                            changeUrl('/login');
+                            changeUrl('/login', true);
                         } else {
                             console.log('Error logged out');
                         }

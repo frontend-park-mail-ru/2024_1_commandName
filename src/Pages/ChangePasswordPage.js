@@ -44,7 +44,7 @@ export default class ChangePasswordPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    changeUrl('/chat');
+                    changeUrl('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -60,7 +60,7 @@ export default class ChangePasswordPage extends BasePage {
             header: 'Изменение пароля',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                changeUrl('/profile');
+                changeUrl('/profile', true);
             },
             inputs: [
                 {

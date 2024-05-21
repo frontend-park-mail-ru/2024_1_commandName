@@ -40,7 +40,7 @@ export default class LoginPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    changeUrl('/chat');
+                    changeUrl('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -56,7 +56,7 @@ export default class LoginPage extends BasePage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                changeUrl('/register');
+                changeUrl('/register', true);
             },
             inputs: [
                 {

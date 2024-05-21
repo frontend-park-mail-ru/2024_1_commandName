@@ -50,7 +50,7 @@ export default class RegisterPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    changeUrl('/chat');
+                    changeUrl('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,7 +66,7 @@ export default class RegisterPage extends BasePage {
             header: 'Регистрация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                changeUrl('/login');
+                changeUrl('/login', true);
             },
             inputs: [
                 {
