@@ -27,7 +27,6 @@ export async function makeBaseRequest(
 
     const response = await fetch(url, options);
     const json = await response.json();
-    console.log(json);
     // Проверяем, разрешено ли перенаправление, и статус ответа
     if (json.status === 401 && window.location.pathname !== '/register') {
         changeUrl('/login');
