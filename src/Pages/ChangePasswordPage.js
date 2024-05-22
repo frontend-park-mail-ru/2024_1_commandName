@@ -1,8 +1,8 @@
 import Form from '../Components/Form/Form.js';
 import { validatePassword } from '../utils/valid.js';
 import { ProfileAPI } from '../utils/API/ProfileAPI.js';
-import { goToPage } from '../utils/router.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу изменения пароля
@@ -44,7 +44,7 @@ export default class ChangePasswordPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    goToPage('/chat');
+                    changeUrl('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -60,7 +60,7 @@ export default class ChangePasswordPage extends BasePage {
             header: 'Изменение пароля',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/profile', true);
+                changeUrl('/profile', true);
             },
             inputs: [
                 {

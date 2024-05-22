@@ -1,5 +1,5 @@
 import { BaseComponent } from '../BaseComponent.js';
-import { goToPage } from '../../utils/router.js';
+import { changeUrl } from '../../utils/navigation.js';
 /**
  * Рендерит профиль
  * @class Класс компонента профиля
@@ -14,17 +14,17 @@ export default class Profile extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 // TODO: Возврат назад
-                goToPage('/chat', true);
+                changeUrl('/chat', true);
             });
         this.getParent()
             .querySelector('#editButton')
             .addEventListener('click', () => {
-                goToPage('/edit', true);
+                changeUrl('/edit', true);
             });
         this.getParent()
             .querySelector('#changePasswordButton')
             .addEventListener('click', () => {
-                goToPage('/password', true);
+                changeUrl('/password', true);
             });
     }
 }

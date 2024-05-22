@@ -1,7 +1,7 @@
-import { goToPage } from '../../utils/router.js';
 import { BaseComponent } from '../BaseComponent.js';
 import ContactItem from '../ContactItem/ContactItem.js';
 import Search from '../Search/Search.js';
+import { changeUrl } from '../../utils/navigation.js';
 
 /**
  * Рендерит список контактов
@@ -18,7 +18,7 @@ export default class Contacts extends BaseComponent {
             .querySelector('#backButton')
             .addEventListener('click', () => {
                 this.getSearcher().getSocket().close();
-                goToPage('/chat', true);
+                changeUrl('/chat', true);
             });
 
         const searchContainer =

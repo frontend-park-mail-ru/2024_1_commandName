@@ -9,6 +9,12 @@ export function handleRouting() {
     new page(ROOT, urlParams);
 }
 
+// Обработка изменения URL
+window.addEventListener('popstate', handleRouting);
+
+// Вызываем функцию handleRouting при загрузке страницы
+window.addEventListener('load', handleRouting);
+
 export function goToPage(path, needReload = true) {
     if (needReload) {
         window.history.pushState({}, '', path);

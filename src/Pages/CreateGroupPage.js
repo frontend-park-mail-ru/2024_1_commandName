@@ -1,8 +1,8 @@
 import Form from '../Components/Form/Form.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
 import { ContactsAPI } from '../utils/API/ContactsAPI.js';
-import { goToPage } from '../utils/router.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу создания группы
@@ -88,7 +88,7 @@ export default class CreateGroupPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        goToPage('/chat?id=' + data.body.chat_id, true);
+                        changeUrl('/chat?id=' + data.body.chat_id, true);
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -113,7 +113,7 @@ export default class CreateGroupPage extends BasePage {
                 .then((data) => {
                     if (data.status === 200) {
                         // Обработка успешной авторизации
-                        goToPage('/channel?id=' + data.body.chat_id, true);
+                        changeUrl('/channel?id=' + data.body.chat_id, true);
                     } else {
                         error.textContent = data.body.error;
                     }
@@ -158,7 +158,7 @@ export default class CreateGroupPage extends BasePage {
             header: header,
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage(page, true);
+                changeUrl(page, true);
             },
             inputs: inputs,
             submitButtonText: 'Создать',

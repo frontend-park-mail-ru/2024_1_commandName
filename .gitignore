@@ -5,3 +5,5 @@ src/Components/**/*.precompiled.js
 dist
 .cache
 uploads
+.parcel-cache
+.DS_Store

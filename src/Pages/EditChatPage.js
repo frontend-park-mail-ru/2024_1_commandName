@@ -1,7 +1,7 @@
 import Form from '../Components/Form/Form.js';
 import { ChatAPI } from '../utils/API/ChatAPI.js';
-import { goToPage } from '../utils/router.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation';
 
 /**
  * Рендерит страницу изменения чата
@@ -16,13 +16,15 @@ export default class EditChatPage extends BasePage {
         this.#parent = parent;
         this.#currentChatId = parseInt(urlParams.get('id'));
         if (!this.#currentChatId) {
-            goToPage('/chat', true);
+            changeUrl('/chat', true);
+
             return;
         }
         const chatAPI = new ChatAPI();
         chatAPI.chatById(this.#currentChatId).then((response) => {
             if (response.status !== 200) {
-                goToPage('/chat', true);
+                changeUrl('/chat', true);
+
                 return;
             }
             this.render();
@@ -50,7 +52,7 @@ export default class EditChatPage extends BasePage {
             .editGroup(chatId, groupName, groupDescription)
             .then((data) => {
                 if (data.status === 200) {
-                    goToPage('/chat?id=' + chatId, true);
+                    changeUrl('/chat?id=' + chatId, true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -66,7 +68,7 @@ export default class EditChatPage extends BasePage {
             header: 'Изменение чата',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/chat', true);
+                changeUrl('/chat', true);
             },
             inputs: [
                 {

@@ -1,7 +1,7 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { WebSocketManager } from '../../utils/WebSocket.js';
 import { ChatAPI } from '../../utils/API/ChatAPI.js';
-import { goToPage } from '../../utils/router.js';
+import { changeUrl } from '../../utils/navigation';
 
 /**
  * Рендерит поиск
@@ -48,7 +48,7 @@ export default class ChatInput extends BaseComponent {
                         chatAPI
                             .deleteChatById(this.getConfig().chatId)
                             .then(() => {
-                                goToPage(this.getConfig().path, true);
+                                changeUrl(this.getConfig().path, true);
                             });
                     });
             } else {
@@ -59,7 +59,7 @@ export default class ChatInput extends BaseComponent {
                         chatAPI
                             .joinChannel(this.getConfig().chatId)
                             .then(() => {
-                                goToPage(
+                                changeUrl(
                                     this.getConfig().path +
                                         '?id=' +
                                         this.getConfig().chatId,

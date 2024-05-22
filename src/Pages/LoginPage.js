@@ -1,8 +1,7 @@
 import { AuthAPI } from '../utils/API/AuthAPI.js';
-import { goToPage } from '../utils/router.js';
 import Form from '../Components/Form/Form.js';
-import { enableRedirect } from '../utils/API/common.js';
 import { BasePage } from './BasePage.js';
+import { changeUrl } from '../utils/navigation.js';
 
 /**
  * Рендерит страницу авторизации
@@ -41,8 +40,7 @@ export default class LoginPage extends BasePage {
             .then((data) => {
                 if (data.status === 200) {
                     // Обработка успешной авторизации
-                    enableRedirect(true);
-                    goToPage('/chat', true);
+                    changeUrl('/chat', true);
                 } else {
                     error.textContent = data.body.error;
                 }
@@ -58,7 +56,7 @@ export default class LoginPage extends BasePage {
             header: 'Авторизация',
             onSubmit: this.formCallback,
             onAdditionButtonClick: () => {
-                goToPage('/register', true);
+                changeUrl('/register', true);
             },
             inputs: [
                 {

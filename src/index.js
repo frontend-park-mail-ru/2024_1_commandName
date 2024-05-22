@@ -1,5 +1,4 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
-import { handleRouting } from './utils/router.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -8,7 +7,7 @@ function registerServiceWorker() {
             .then(function (registrations) {
                 if (registrations.length === 0) {
                     return navigator.serviceWorker.register(
-                        '/serviceWorker.js',
+                        new URL('./serviceWorker.js', import.meta.url),
                     );
                 } else {
                     const serviceWorker = registrations[0];
@@ -42,12 +41,6 @@ api.checkAuth()
     .catch((error) => {
         console.error('Failed:', error);
     });
-
-// Обработка изменения URL
-window.addEventListener('popstate', handleRouting);
-
-// Вызываем функцию handleRouting при загрузке страницы
-window.addEventListener('load', handleRouting);
 
 // eslint-disable-next-line no-undef
 Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
