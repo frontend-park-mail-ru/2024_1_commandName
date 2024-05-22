@@ -1,18 +1,29 @@
-<div class="message {{message_owner}}" id="message_id_{{message_id}}">
-    <div class="author">
+<div class='message {{message_owner}}' id='message_id_{{message_id}}'>
+    <div class='author'>
         <strong>{{username}}</strong>
     </div>
-    <div class="message_data">
-        <div class="message_text_wrapper">
-            <span class="message_text">{{message_text}}</span>
-            <input type="text" class="edit_message_input" style="display: none;">
-        </div>
-        <text class="time">{{sent_at}}</text>
-        {{#if edited}}
-            <text class="time">изменено</text>
-        {{/if}}
+
+    <div class='message_data'>
+        {{#ifEquals this.type 'file'}}
+        <a href="{{this.url}}" download>Скачать файл</a>
+        {{/ifEquals}}
+        {{#ifEquals this.type 'text'}}
+            <div class='message_text_wrapper'>
+                <span class='message_text'>{{message_text}}</span>
+                <input
+                    type='text'
+                    class='edit_message_input'
+                    style='display: none;'
+                />
+            </div>
+        {{/ifEquals}}
     </div>
-    <div id="ContextMenu" style="display: none;">
+
+    <text class='time'>{{sent_at}}</text>
+    {{#if edited}}
+        <text class='time'>изменено</text>
+    {{/if}}
+    <div id='ContextMenu' style='display: none;'>
         <button class='delete-button' id='delete-message-button_{{message_id}}'>
             Удалить
         </button>
@@ -20,5 +31,5 @@
             Изменить
         </button>
     </div>
-    <div class="overlay" style="display: none;"></div>
+    <div class='overlay' style='display: none;'></div>
 </div>
