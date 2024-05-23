@@ -1,12 +1,12 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
-import { NotificationsManager } from './utils/notifications.js';
+// import { NotificationsManager } from './utils/notifications.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                if (registrations.length === 0) {
+                if (registrations.length === 1) {
                     return navigator.serviceWorker.register(
                         new URL('./serviceWorker.js', import.meta.url),
                     );
@@ -52,5 +52,5 @@ Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
 
-const notificationsManager = new NotificationsManager();
-notificationsManager.permissionCheck().then((result) => console.log(result));
+// const notificationsManager = new NotificationsManager();
+// notificationsManager.permissionCheck().then((result) => console.log(result));
