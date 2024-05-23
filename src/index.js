@@ -1,4 +1,5 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
+import { NotificationsManager } from './utils/notifications.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -50,3 +51,6 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
+
+const notificationsManager = new NotificationsManager();
+notificationsManager.permissionCheck().then((result) => console.log(result));

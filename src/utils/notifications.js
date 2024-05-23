@@ -1,9 +1,7 @@
-if ('Notification' in window) {
-    const permission = await Notification.requestPermission();
-    if (permission === 'denied') {
-        console.error('no notifications');
-    }
-    if (permission === 'granted') {
-        console.info('accepted');
+export class NotificationsManager {
+    async permissionCheck() {
+        if ('Notification' in window) {
+            return await Notification.requestPermission();
+        }
     }
 }
