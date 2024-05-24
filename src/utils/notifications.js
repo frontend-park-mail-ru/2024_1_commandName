@@ -74,6 +74,6 @@ function setTokenSentToServer(currentToken) {
 if ('Notification' in window) {
     onMessage(messaging, function (payload) {
         console.log('Message received. ', payload);
-        // new Notification(payload.notification.title, payload.notification);
+        new Notification(payload.notification.title, payload.notification);
     });
 }
