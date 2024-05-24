@@ -6,7 +6,8 @@ function registerServiceWorker() {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                if (registrations.length === 1) {
+                console.log(registrations);
+                if (registrations.length === 0) {
                     return navigator.serviceWorker.register(
                         new URL('./serviceWorker.js', import.meta.url),
                     );
@@ -24,6 +25,17 @@ function registerServiceWorker() {
                 );
             });
     }
+    // navigator.serviceWorker
+    //     .register(new URL('./firebase-messaging-sw.js', import.meta.url))
+    //     .then(function (registration) {
+    //         console.log(
+    //             'Registration successful, scope is:',
+    //             registration.scope,
+    //         );
+    //     })
+    //     .catch(function (err) {
+    //         console.log('Service worker registration failed, error:', err);
+    //     });
 }
 
 window.addEventListener('load', function () {

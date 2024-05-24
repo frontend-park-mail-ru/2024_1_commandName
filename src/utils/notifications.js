@@ -26,10 +26,12 @@ if ('Notification' in window) {
 
 function subscribe() {
     getToken(messaging, {
-        vapidKey: 'ePkwdEhjqU8ljzUCsK7mrx6q34RGbGM3J4JYaJLuq7A',
+        vapidKey:
+            'BAjW0yRMyBXErSXFcv8N4eBm5ZWDfqV0RrP-jXMl0fNWZPstuPt3QtjmpiB1GAz5j1olmZPEdCBwpUbDWAh_Q8I',
     })
         .then((currentToken) => {
             if (currentToken) {
+                console.log(currentToken);
                 sendTokenToServer(currentToken);
             } else {
                 console.warn('Не удалось получить токен.');
@@ -72,6 +74,6 @@ function setTokenSentToServer(currentToken) {
 if ('Notification' in window) {
     onMessage(messaging, function (payload) {
         console.log('Message received. ', payload);
-        new Notification(payload.notification.title, payload.notification);
+        // new Notification(payload.notification.title, payload.notification);
     });
 }
