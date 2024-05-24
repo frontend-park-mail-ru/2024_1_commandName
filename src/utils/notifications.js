@@ -31,7 +31,6 @@ function subscribe() {
     })
         .then((currentToken) => {
             if (currentToken) {
-                console.log(currentToken);
                 sendTokenToServer(currentToken);
             } else {
                 console.warn('Не удалось получить токен.');
@@ -73,7 +72,6 @@ function setTokenSentToServer(currentToken) {
 
 if ('Notification' in window) {
     onMessage(messaging, function (payload) {
-        console.log('Message received. ', payload);
         new Notification(payload.notification.title, payload.notification);
     });
 }
