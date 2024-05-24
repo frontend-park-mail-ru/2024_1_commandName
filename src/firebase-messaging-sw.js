@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging } from 'firebase/messaging/sw';
+import { onBackgroundMessage } from 'firebase/messaging/sw';
 
 // Initialize the Firebase app in the service worker by passing in
 // your app's Firebase config object.
@@ -17,7 +18,7 @@ const app = initializeApp({
 // messages.
 const messaging = getMessaging(app);
 
-messaging.onBackgroundMessage((payload) => {
+onBackgroundMessage(messaging, (payload) => {
     console.log(
         '[firebase-messaging-sw.js] Received background message ',
         payload,
@@ -29,7 +30,5 @@ messaging.onBackgroundMessage((payload) => {
         icon: './img/logo.png',
     };
 
-    self.registration
-        .showNotification(notificationTitle, notificationOptions)
-        .then();
+    self.registration.showNotification(notificationTitle, notificationOptions);
 });
