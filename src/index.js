@@ -1,5 +1,16 @@
 import { AuthAPI } from './utils/API/AuthAPI.js';
-// import { NotificationsManager } from './utils/notifications.js';
+import './Components/Form/Form.precompiled.js';
+import './Components/Chat/Chat.precompiled.js';
+import './Components/Contacts/Contacts.precompiled.js';
+import './Components/ChatList/ChatList.precompiled.js';
+import './Components/ContactItem/ContactItem.precompiled.js';
+import './Components/ChatListItem/ChatListItem.precompiled.js';
+import './Components/Message/Message.precompiled.js';
+import './Components/Profile/Profile.precompiled.js';
+import './Components/Search/Search.precompiled.js';
+import './Components/ChatInput/ChatInput.precompiled.js';
+import './utils/router.js';
+import './utils/notifications.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -25,17 +36,6 @@ function registerServiceWorker() {
                 );
             });
     }
-    // navigator.serviceWorker
-    //     .register(new URL('./firebase-messaging-sw.js', import.meta.url))
-    //     .then(function (registration) {
-    //         console.log(
-    //             'Registration successful, scope is:',
-    //             registration.scope,
-    //         );
-    //     })
-    //     .catch(function (err) {
-    //         console.log('Service worker registration failed, error:', err);
-    //     });
 }
 
 window.addEventListener('load', function () {
@@ -63,6 +63,3 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
-
-// const notificationsManager = new NotificationsManager();
-// notificationsManager.permissionCheck().then((result) => console.log(result));

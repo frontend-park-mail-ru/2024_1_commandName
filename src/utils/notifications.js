@@ -48,7 +48,7 @@ function sendTokenToServer(currentToken) {
         console.log('Отправка токена на сервер...');
 
         const firebaseApi = new FirebaseAPI();
-        firebaseApi.setToken(currentToken).then();
+        firebaseApi.setToken(currentToken);
 
         setTokenSentToServer(currentToken);
     } else {
