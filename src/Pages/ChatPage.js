@@ -25,6 +25,7 @@ export default class ChatPage extends BasePage {
     #profile;
     #chats = [];
     #chatsCache = {};
+    #stickers;
 
     constructor(parent, urlParams) {
         super(parent);
@@ -67,6 +68,13 @@ export default class ChatPage extends BasePage {
                 throw new Error('Пришел не 200 статус');
             }
             this.#profile = profileResponse.body.user;
+
+            const stickersResponse = await chatAPI.getStickers();
+            if (stickersResponse.status !== 200) {
+                throw new Error('Пришел не 200 статус');
+            }
+            this.#stickers = stickersResponse.body;
+            console.log(this.#stickers);
 
             return {
                 chats: this.#chats,
@@ -260,6 +268,7 @@ export default class ChatPage extends BasePage {
             is_member: chat.is_member,
             is_owner: chat.creator === this.#profile.id,
             chatId: chat.id,
+            stickers: this.#stickers,
         });
         this.#inputBlock.render();
 
