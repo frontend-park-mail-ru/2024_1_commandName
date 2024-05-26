@@ -70,24 +70,31 @@ export default class ChatInput extends BaseComponent {
             }
         }
 
-        const fileInput = this.getParent().querySelector('#file_input_message');
-        fileInput.onchange = () => {
-            const [file] = fileInput.files;
-            const previewBlock = this.getParent().querySelector(
-                '.input_attach_preview',
+        if (
+            !this.getConfig().isChannel ||
+            (this.getConfig().isChannel && this.getConfig().is_owner)
+        ) {
+            const fileInput = this.getParent().querySelector(
+                '#file_input_message',
             );
-            const previewTitle = this.getParent().querySelector(
-                '.input_attach_preview_title',
-            );
+            fileInput.onchange = () => {
+                const [file] = fileInput.files;
+                const previewBlock = this.getParent().querySelector(
+                    '.input_attach_preview',
+                );
+                const previewTitle = this.getParent().querySelector(
+                    '.input_attach_preview_title',
+                );
 
-            if (file) {
-                previewBlock.style.display = 'flex';
-                previewTitle.innerHTML = file.name;
-            } else {
-                previewBlock.style.display = 'none';
-                previewTitle.innerHTML = '';
-            }
-        };
+                if (file) {
+                    previewBlock.style.display = 'flex';
+                    previewTitle.innerHTML = file.name;
+                } else {
+                    previewBlock.style.display = 'none';
+                    previewTitle.innerHTML = '';
+                }
+            };
+        }
     }
 
     getMessageSocket() {
