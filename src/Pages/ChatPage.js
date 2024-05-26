@@ -198,6 +198,7 @@ export default class ChatPage extends BasePage {
                 message_id: message.id,
                 message_text: message.message_text,
                 file: message.file,
+                sticker_path: message.sticker_path,
             });
             messageElement.render();
             this.#chatsCache[message.chat_id].messages =
@@ -323,6 +324,7 @@ export default class ChatPage extends BasePage {
                 sent_at: timeString,
                 edited: message.edited,
                 file: message.file,
+                sticker_path: message.sticker_path,
             });
             messageElement.render();
         });
