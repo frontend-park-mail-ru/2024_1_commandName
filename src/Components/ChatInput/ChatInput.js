@@ -76,13 +76,16 @@ export default class ChatInput extends BaseComponent {
             const previewBlock = this.getParent().querySelector(
                 '.input_attach_preview',
             );
+            const previewTitle = this.getParent().querySelector(
+                '.input_attach_preview_title',
+            );
 
             if (file) {
-                previewBlock.style.padding = '0 0 10px 0';
-                previewBlock.innerHTML = file.name;
+                previewBlock.style.display = 'flex';
+                previewTitle.innerHTML = file.name;
             } else {
-                previewBlock.style.padding = '0 0';
-                previewBlock.innerHTML = '';
+                previewBlock.style.display = 'none';
+                previewTitle.innerHTML = '';
             }
         };
     }
