@@ -124,14 +124,12 @@
     &_body {
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
+        overflow: hidden;
+        contain: paint;
     }
 
     &.is_opened {
         display: block;
     }
-}
-
-.sticker_wrapper {
-    flex: 1;
-    max-width: 33%;
 }

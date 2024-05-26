@@ -1,7 +1,8 @@
-import { BaseComponent } from '../BaseComponent.js';
-import { WebSocketManager } from '../../utils/WebSocket.js';
 import { ChatAPI } from '../../utils/API/ChatAPI.js';
+import { WebSocketManager } from '../../utils/WebSocket.js';
 import { changeUrl } from '../../utils/navigation';
+import { BaseComponent } from '../BaseComponent.js';
+import Sticker from '../Sticker/Sticker.js';
 
 /**
  * Рендерит поиск
@@ -9,6 +10,17 @@ import { changeUrl } from '../../utils/navigation';
  */
 export default class ChatInput extends BaseComponent {
     templateName = 'ChatInput';
+    fillStickers() {
+        const stickersBlock = this.getParent().querySelector(
+            '.popup_stickers_body',
+        );
+        this.getConfig().stickers.forEach((sticker) => {
+            sticker.handler = this.getConfig().stickerSendHandler;
+            const stickerBlock = new Sticker(stickersBlock, sticker);
+            stickerBlock.render();
+        });
+    }
+
     render() {
         this.ws_sendMesasge = new WebSocketManager(
             'sendMessage',
@@ -117,6 +129,7 @@ export default class ChatInput extends BaseComponent {
                 stickersBlock.classList.remove('is_opened');
             }
         });
+        this.fillStickers();
     }
 
     getMessageSocket() {

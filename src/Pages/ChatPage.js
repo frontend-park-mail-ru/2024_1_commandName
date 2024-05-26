@@ -74,7 +74,6 @@ export default class ChatPage extends BasePage {
                 throw new Error('Пришел не 200 статус');
             }
             this.#stickers = stickersResponse.body;
-            console.log(this.#stickers);
 
             return {
                 chats: this.#chats,
@@ -110,6 +109,15 @@ export default class ChatPage extends BasePage {
         this.displayChats(this.#chats);
     }
 
+    stickerSendHandler(stickerId) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = parseInt(urlParams.get('id'));
+        if (chatId) {
+            const chatAPI = new ChatAPI();
+            chatAPI.sendSticker(chatId, stickerId);
+        }
+    }
+
     messageDraftHandler = (event) => {
         this.#messageDrafts[this.#currentChatId] = event.target.value;
     };
@@ -137,10 +145,6 @@ export default class ChatPage extends BasePage {
             const sanitizedInputMessage = sanitizer(inputMessage);
             const chatAPI = new ChatAPI();
             chatAPI.sendMessage(chatId, sanitizedInputMessage, filesMessage[0]);
-
-            // .then(() => {
-            //     changeUrl(this.getConfig().path, true);
-            // });
             document.querySelector('#input_message').value = '';
         } else if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
@@ -269,6 +273,7 @@ export default class ChatPage extends BasePage {
             is_owner: chat.creator === this.#profile.id,
             chatId: chat.id,
             stickers: this.#stickers,
+            stickerSendHandler: this.stickerSendHandler,
         });
         this.#inputBlock.render();
 
