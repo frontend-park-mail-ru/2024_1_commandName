@@ -50,3 +50,9 @@ Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
 Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
     return arg1 !== arg2 ? options.fn(this) : options.inverse(this);
 });
+// eslint-disable-next-line no-undef
+Handlebars.registerHelper({
+    and: (v1, v2) => v1 && v2,
+    or: (v1, v2) => v1 || v2,
+    not: (v) => !v,
+});
