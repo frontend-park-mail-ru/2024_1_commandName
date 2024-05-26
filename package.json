@@ -3,14 +3,19 @@
     "version": "1.0.0",
     "description": "Фронтенд-репозиторий проекта Messenger команды commandName",
     "scripts": {
-        "start": "parcel src/index.html --port 3000 --no-cache",
-        "build": "parcel build src/index.html",
+        "start": "npm run init && parcel src/index.html --port 3000 --no-cache",
+        "build": "npm run init && parcel build src/index.html",
         "prestart": "npm run compile:templates",
         "style:all": "npm run style:lint && npm run style:prettier",
         "style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
         "style:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
         "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
-        "compile:templates": "bash ./scripts/handlebars.sh"
+        "compile:templates": "bash ./scripts/handlebars.sh",
+        "clean-dist": "rm -rf dist && mkdir ./dist && mkdir ./dist/uploads",
+        "copy-img": "cp -vR ./src/img ./dist",
+        "copy-uploads": "cp -r uploads/* ./dist/uploads",
+        "copy-files": "npm run copy-img & npm run copy-uploads",
+        "init": "npm run clean-dist && npm run copy-files"
     },
     "repository": {
         "type": "git",
