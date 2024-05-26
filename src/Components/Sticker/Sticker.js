@@ -8,6 +8,8 @@ export default class Sticker extends BaseComponent {
 
         this.getParent()
             .querySelector(`#sticker_img_${this.getConfig().sticker_id}`)
-            .addEventListener('click', this.getConfig().handler);
+            .addEventListener('click', () => {
+                this.getConfig().handler(this.getConfig().sticker_id);
+            });
     }
 }

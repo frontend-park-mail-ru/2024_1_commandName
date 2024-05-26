@@ -104,14 +104,13 @@
     bottom: 100%;
     left: 50%;
     width: 300px;
-    max-height: 400px;
     transform: translate(-50%, 0);
     background-color: $blue-light;
     border: 1px solid #000;
     z-index: 10;
     border-radius: $border-radius;
     display: none;
-
+    overflow: hidden;
     &_title {
         border-bottom: 1px #fff;
         margin: 10px 0 10px 0;
@@ -125,8 +124,8 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        overflow: hidden;
-        contain: paint;
+        overflow-y: auto;
+        max-height: 350px;
     }
 
     &.is_opened {
