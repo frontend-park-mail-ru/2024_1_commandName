@@ -6,26 +6,18 @@
     margin-bottom: 7px;
 }
 
-.chat-input-button {
-    width: 100%;
-}
-
 .input_attach,
 .input_send {
     box-sizing: border-box;
     height: 40px;
     width: 100%;
     flex: 0 0 10%;
-    // padding: auto;
-}
-
-.input_attach_airplan,
-.input_attach_clip {
-    width: 20px;
+    padding: auto; // ????
 }
 
 .input_attach:hover,
-.input_send:hover {
+.input_send:hover,
+.input_text_block_stickers:hover {
     background-color: $chat-input-color-hover;
     transition: $transition;
 }
@@ -37,11 +29,22 @@
     padding: auto;
     padding-left: 15px;
     border-radius: $border-radius;
-    margin-right: 10px;
-    margin-left: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
-input[type='file'] {
+.chat-input-button {
+    width: 100%;
+}
+
+.input_attach_airplan,
+.input_attach_clip,
+.input_text_stickers_ico {
+    width: 20px;
+    height: 20px;
+}
+
+#file_input_message {
     display: none;
 }
 
@@ -69,5 +72,23 @@ input[type='file'] {
         margin-left: 10px;
         text-overflow: ellipsis;
         overflow: hidden;
+    }
+}
+
+.input_text_block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;
+
+    &_stickers {
+        border-right: 1px solid #ddd;
+        background-color: $chat-input-color;
+        height: 40px;
+
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
     }
 }
