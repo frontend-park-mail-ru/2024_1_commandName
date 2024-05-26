@@ -215,4 +215,31 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async sendMessage(chatId, messageText, file) {
+        try {
+            const formData = new FormData();
+            formData.append('files', file);
+            formData.append(
+                'json',
+                JSON.stringify({
+                    message_text: messageText,
+                    chat_id: chatId,
+                    type: 'file',
+                }),
+            );
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/uploadFiles`,
+                'POST',
+                formData,
+                null,
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

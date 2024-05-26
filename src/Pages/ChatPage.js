@@ -119,9 +119,22 @@ export default class ChatPage extends BasePage {
         const inputMessage = this.#parent
             .querySelector('#input_message')
             .value.trim();
+        const filesMessage = this.#parent.querySelector(
+            '#file_input_message',
+        ).files;
+
         const urlParams = new URLSearchParams(window.location.search);
         const chatId = parseInt(urlParams.get('id'));
-        if (inputMessage && chatId) {
+        if (filesMessage.length > 0 && chatId) {
+            const sanitizedInputMessage = sanitizer(inputMessage);
+            const chatAPI = new ChatAPI();
+            chatAPI.sendMessage(chatId, sanitizedInputMessage, filesMessage[0]);
+
+            // .then(() => {
+            //     changeUrl(this.getConfig().path, true);
+            // });
+            document.querySelector('#input_message').value = '';
+        } else if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
             const sanitizedInputMessage = sanitizer(inputMessage);
             const message = {
@@ -131,7 +144,7 @@ export default class ChatPage extends BasePage {
             this.#inputBlock.getMessageSocket().sendRequest(message);
             document.querySelector('#input_message').value = '';
         } else {
-            console.error('Нет текста сообщения или ID чата.');
+            console.error('Нет текста сообщения, файла или ID чата.');
         }
     };
 

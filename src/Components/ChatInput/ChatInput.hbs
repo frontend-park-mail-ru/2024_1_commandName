@@ -2,7 +2,7 @@
 
     {{#if (or (and isChannel is_owner) (not isChannel))}}
         <div class='input_block'>
-            <label for='file-upload' class='input_attach_label'>
+            <label for='file_input_message' class='input_attach_label'>
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -19,7 +19,7 @@
                 </svg>
             </label>
             <input
-                id='file-upload'
+                id='file_input_message'
                 class='input_attach chat-input'
                 type='file'
             />
@@ -32,7 +32,7 @@
                 autocomplete='off'
                 value='{{inputMessageValue}}'
             />
-            <button class='input_send chat-input'><svg
+            <button class='input_send chat-input' type='button'><svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
                     viewBox='0 0 24 24'
