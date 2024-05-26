@@ -1,1 +1,2 @@
 src/Components/*/*.precompiled.js
+src/firebase-messaging-sw.js
