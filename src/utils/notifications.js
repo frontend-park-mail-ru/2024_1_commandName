@@ -20,6 +20,12 @@ if ('Notification' in window) {
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
             subscribe();
+            onMessage(messaging, function (payload) {
+                new Notification(
+                    payload.notification.title,
+                    payload.notification,
+                );
+            });
         }
     });
 }
@@ -68,10 +74,4 @@ function setTokenSentToServer(currentToken) {
         'sentFirebaseMessagingToken',
         currentToken ? currentToken : '',
     );
-}
-
-if ('Notification' in window) {
-    onMessage(messaging, function (payload) {
-        new Notification(payload.notification.title, payload.notification);
-    });
 }
