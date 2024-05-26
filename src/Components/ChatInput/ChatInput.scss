@@ -17,7 +17,7 @@
 
 .input_attach:hover,
 .input_send:hover,
-.input_text_block_stickers:hover {
+.input_text_block_stickers_btn:hover {
     background-color: $chat-input-color-hover;
     transition: $transition;
 }
@@ -84,6 +84,10 @@
     margin-left: 10px;
 
     &_stickers {
+        position: relative;
+    }
+
+    &_stickers_btn {
         border-right: 1px solid #ddd;
         background-color: $chat-input-color;
         height: 40px;
@@ -91,4 +95,33 @@
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
+}
+
+.popup_stickers {
+    box-sizing: border-box;
+    padding: 10px;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 300px;
+    height: 400px;
+    transform: translate(-50%, 0);
+    background-color: $blue-light;
+    border: 1px solid #000;
+    z-index: 10;
+    border-radius: $border-radius;
+    // display: none;
+
+    &_title {
+        border-bottom: 1px #fff;
+        margin: 10px 0 10px 0;
+
+        & h3 {
+            margin: 0;
+        }
+    }
+
+    // &_body {
+
+    // }
 }
