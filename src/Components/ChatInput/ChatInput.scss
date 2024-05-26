@@ -104,13 +104,13 @@
     bottom: 100%;
     left: 50%;
     width: 300px;
-    height: 400px;
+    max-height: 400px;
     transform: translate(-50%, 0);
     background-color: $blue-light;
     border: 1px solid #000;
     z-index: 10;
     border-radius: $border-radius;
-    // display: none;
+    display: none;
 
     &_title {
         border-bottom: 1px #fff;
@@ -121,7 +121,17 @@
         }
     }
 
-    // &_body {
+    &_body {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-    // }
+    &.is_opened {
+        display: block;
+    }
+}
+
+.sticker_wrapper {
+    flex: 1;
+    max-width: 33%;
 }
