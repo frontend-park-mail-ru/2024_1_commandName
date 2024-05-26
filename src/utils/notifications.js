@@ -20,14 +20,13 @@ if ('Notification' in window) {
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
             subscribe();
-            onMessage(messaging, function (payload) {
-                new Notification(
-                    payload.notification.title,
-                    payload.notification,
-                );
-            });
         }
     });
+    if (window.Notification.permission === 'granted') {
+        onMessage(messaging, function (payload) {
+            new Notification(payload.notification.title, payload.notification);
+        });
+    }
 }
 
 function subscribe() {
