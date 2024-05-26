@@ -16,7 +16,12 @@
     height: 40px;
     width: 100%;
     flex: 0 0 10%;
-    padding: auto;
+    // padding: auto;
+}
+
+.input_attach_airplan,
+.input_attach_clip {
+    width: 20px;
 }
 
 .input_attach:hover,
@@ -34,4 +39,22 @@
     border-radius: $border-radius;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+.input_attach_label {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.input_attach_preview {
+    // padding: 10px 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

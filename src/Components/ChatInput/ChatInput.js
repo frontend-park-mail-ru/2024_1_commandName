@@ -69,6 +69,22 @@ export default class ChatInput extends BaseComponent {
                     });
             }
         }
+
+        const fileInput = this.getParent().querySelector('#file-upload');
+        fileInput.onchange = () => {
+            const [file] = fileInput.files;
+            const previewBlock = this.getParent().querySelector(
+                '.input_attach_preview',
+            );
+
+            if (file) {
+                previewBlock.style.padding = '0 0 10px 0';
+                previewBlock.innerHTML = file.name;
+            } else {
+                previewBlock.style.padding = '0 0';
+                previewBlock.innerHTML = '';
+            }
+        };
     }
 
     getMessageSocket() {

@@ -4,19 +4,20 @@
     </div>
 
     <div class='message_data'>
-        {{#ifEquals this.type 'file'}}
-        <a href="{{this.url}}" download>Скачать файл</a>
-        {{/ifEquals}}
-        {{#ifEquals this.type 'text'}}
-            <div class='message_text_wrapper'>
-                <span class='message_text'>{{message_text}}</span>
-                <input
-                    type='text'
-                    class='edit_message_input'
-                    style='display: none;'
-                />
-            </div>
-        {{/ifEquals}}
+        {{#if this.file}}
+            <a href='{{this.url}}' download>Скачать файл</a>
+        {{/if}}
+
+        {{!-- {{#ifEquals this.type 'text'}} --}}
+        <div class='message_text_wrapper'>
+            <span class='message_text'>{{message_text}}</span>
+            <input
+                type='text'
+                class='edit_message_input'
+                style='display: none;'
+            />
+        </div>
+        {{!-- {{/ifEquals}} --}}
     </div>
 
     <text class='time'>{{sent_at}}</text>
