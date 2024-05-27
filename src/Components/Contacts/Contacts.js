@@ -28,7 +28,6 @@ export default class Contacts extends BaseComponent {
             type: 'contact',
             inputSearch: this.getConfig().inputSearchContacts,
             sendSearch: this.getConfig().sendSearchContacts,
-            getSearch: this.getConfig().getSearchContacts,
         });
         this.#searchContacts.render();
     }

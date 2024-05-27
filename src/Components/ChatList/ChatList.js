@@ -24,28 +24,24 @@ export default class ChatList extends BaseComponent {
             const createGroupBtn =
                 this.getParent().querySelector(`#create_group_btn`);
             createGroupBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/create_group', true);
             });
 
             const pageChannelsBtn =
                 this.getParent().querySelector(`#page_channel_btn`);
             pageChannelsBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/channel', true);
             });
         } else {
             const createChannelBtn =
                 this.getParent().querySelector(`#create_channel_btn`);
             createChannelBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/create_channel', true);
             });
 
             const pageChatsBtn =
                 this.getParent().querySelector(`#page_chats_btn`);
             pageChatsBtn.addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/chat', true);
             });
         }
@@ -53,21 +49,18 @@ export default class ChatList extends BaseComponent {
         this.getParent()
             .querySelector('#contacts_btn')
             .addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/contacts', true);
             });
 
         this.getParent()
             .querySelector('#profile_btn')
             .addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/profile', true);
             });
 
         this.getParent()
             .querySelector('#logout_btn')
             .addEventListener('click', () => {
-                this.#searchChats.getSocket().close();
                 // Отправка данных на сервер
                 const api = new AuthAPI();
                 api.logout()
@@ -92,7 +85,6 @@ export default class ChatList extends BaseComponent {
             type: this.getConfig().type.slice(1),
             inputSearch: this.getConfig().inputSearchChats,
             sendSearch: this.getConfig().sendSearchChats,
-            getSearch: this.getConfig().getSearchChats,
         });
         this.#searchChats.render();
     }
