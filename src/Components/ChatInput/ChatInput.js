@@ -106,30 +106,30 @@ export default class ChatInput extends BaseComponent {
                     previewTitle.innerHTML = '';
                 }
             };
+
+            const stickersBlock = this.getParent().querySelector(
+                '#popup_stickers_block',
+            );
+            const stickersBlockBtn = this.getParent().querySelector(
+                '.input_text_block_stickers_btn',
+            );
+
+            stickersBlockBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                stickersBlock.classList.add('is_opened');
+            });
+
+            document.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (
+                    !e.target.closest('#popup_stickers_block') &&
+                    !e.target.closest('.input_text_block_stickers_btn')
+                ) {
+                    stickersBlock.classList.remove('is_opened');
+                }
+            });
+            this.fillStickers();
         }
-
-        const stickersBlock = this.getParent().querySelector(
-            '#popup_stickers_block',
-        );
-        const stickersBlockBtn = this.getParent().querySelector(
-            '.input_text_block_stickers_btn',
-        );
-
-        stickersBlockBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            stickersBlock.classList.add('is_opened');
-        });
-
-        document.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (
-                !e.target.closest('#popup_stickers_block') &&
-                !e.target.closest('.input_text_block_stickers_btn')
-            ) {
-                stickersBlock.classList.remove('is_opened');
-            }
-        });
-        this.fillStickers();
     }
 
     getMessageSocket() {
