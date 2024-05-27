@@ -328,6 +328,10 @@ export default class ChatPage extends BasePage {
             });
             messageElement.render();
         });
+
+        setTimeout(() => {
+            activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
+        }, 300);
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
     }
 }
