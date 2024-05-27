@@ -22,11 +22,6 @@ if ('Notification' in window) {
             subscribe();
         }
     });
-    if (window.Notification.permission === 'granted') {
-        onMessage(messaging, function (payload) {
-            new Notification(payload.notification.title, payload.notification);
-        });
-    }
 }
 
 function subscribe() {
