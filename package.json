@@ -11,11 +11,10 @@
         "style:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
         "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
         "compile:templates": "bash ./scripts/handlebars.sh",
-        "clean-dist": "rm -rf dist && mkdir ./dist && mkdir ./dist/uploads",
         "copy-img": "cp -vR ./src/img ./dist",
         "copy-uploads": "cp -r uploads/* ./dist/uploads",
         "copy-files": "npm run copy-img & npm run copy-uploads",
-        "init": "npm run clean-dist && npm run copy-files"
+        "init": "npm run compile:templates && npm run copy-files"
     },
     "repository": {
         "type": "git",
