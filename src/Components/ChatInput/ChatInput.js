@@ -15,9 +15,14 @@ export default class ChatInput extends BaseComponent {
             '.popup_stickers_body',
         );
         this.getConfig().stickers.forEach((sticker) => {
-            sticker.handler = this.getConfig().stickerSendHandler;
             const stickerBlock = new Sticker(stickersBlock, sticker);
             stickerBlock.render();
+        });
+        stickersBlock.addEventListener('click', (event) => {
+            const target = event.target;
+
+            const stickerId = parseInt(target.id.match(/\d+$/)[0]);
+            this.getConfig().stickerSendHandler(stickerId);
         });
     }
 
