@@ -9,7 +9,12 @@
         {{/if}}
 
         {{#if sticker_path}}
-            <video class='message_sticker' src='{{sticker_path}}' autoplay />
+            <video
+                class='message_sticker'
+                src='{{sticker_path}}'
+                onmouseover='this.play()'
+                onmouseout='this.pause();this.currentTime=0;'
+            />
         {{/if}}
 
         <div class='message_text_wrapper'>

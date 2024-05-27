@@ -1,9 +1,8 @@
 <div class='sticker_wrapper'>
-    <video
-        id='sticker_img_{{sticker_id}}'
-        class='sticker_img'
-        src='{{sticker_path}}'
-        alt='{{sticker_desc}}'
-        autoplay
-    />
+    <video id='sticker_img_{{sticker_id}}' class='sticker_img' onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+        <source 
+            src='{{sticker_path}}'
+            alt='{{sticker_desc}}'>
+        </source>
+    </video>
 </div>
