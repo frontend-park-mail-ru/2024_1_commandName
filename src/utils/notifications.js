@@ -22,6 +22,11 @@ if ('Notification' in window) {
             subscribe();
         }
     });
+    if (window.Notification.permission === 'granted') {
+        onMessage(messaging, function (payload) {
+            new Notification(payload.notification.title, payload.notification);
+        });
+    }
 }
 
 function subscribe() {
@@ -31,7 +36,6 @@ function subscribe() {
     })
         .then((currentToken) => {
             if (currentToken) {
-                console.log(currentToken);
                 sendTokenToServer(currentToken);
             } else {
                 console.warn('Не удалось получить токен.');
@@ -49,7 +53,7 @@ function sendTokenToServer(currentToken) {
         console.log('Отправка токена на сервер...');
 
         const firebaseApi = new FirebaseAPI();
-        firebaseApi.setToken(currentToken).then();
+        firebaseApi.setToken(currentToken);
 
         setTokenSentToServer(currentToken);
     } else {
@@ -69,11 +73,4 @@ function setTokenSentToServer(currentToken) {
         'sentFirebaseMessagingToken',
         currentToken ? currentToken : '',
     );
-}
-
-if ('Notification' in window) {
-    onMessage(messaging, function (payload) {
-        console.log('Message received. ', payload);
-        new Notification(payload.notification.title, payload.notification);
-    });
 }
