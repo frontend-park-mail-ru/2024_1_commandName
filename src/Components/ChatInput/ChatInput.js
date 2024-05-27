@@ -113,18 +113,23 @@ export default class ChatInput extends BaseComponent {
             const stickersBlockBtn = this.getParent().querySelector(
                 '.input_text_block_stickers_btn',
             );
+            const stickersBgc = this.getParent().querySelector(
+                '.popup_stickers_bgc',
+            );
 
             stickersBlockBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                stickersBgc.classList.add('is_opened');
                 stickersBlock.classList.add('is_opened');
             });
 
-            document.addEventListener('click', (e) => {
+            stickersBgc.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (
                     !e.target.closest('#popup_stickers_block') &&
                     !e.target.closest('.input_text_block_stickers_btn')
                 ) {
+                    stickersBgc.classList.remove('is_opened');
                     stickersBlock.classList.remove('is_opened');
                 }
             });
