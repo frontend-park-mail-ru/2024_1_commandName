@@ -65,13 +65,13 @@ export default class ChatPage extends BasePage {
             }
 
             if (profileResponse.status !== 200) {
-                throw new Error('Пришел не 200 статус');
+                console.error('Пришел не 200 статус');
             }
             this.#profile = profileResponse.body.user;
 
             const stickersResponse = await chatAPI.getStickers();
             if (stickersResponse.status !== 200) {
-                throw new Error('Пришел не 200 статус');
+                console.error('Пришел не 200 статус');
             }
             this.#stickers = stickersResponse.body;
 

@@ -1,16 +1,17 @@
-import { AuthAPI } from './utils/API/AuthAPI.js';
-import './Components/Form/Form.precompiled.js';
 import './Components/Chat/Chat.precompiled.js';
-import './Components/Contacts/Contacts.precompiled.js';
+import './Components/ChatInput/ChatInput.precompiled.js';
 import './Components/ChatList/ChatList.precompiled.js';
-import './Components/ContactItem/ContactItem.precompiled.js';
 import './Components/ChatListItem/ChatListItem.precompiled.js';
+import './Components/ContactItem/ContactItem.precompiled.js';
+import './Components/Contacts/Contacts.precompiled.js';
+import './Components/Form/Form.precompiled.js';
 import './Components/Message/Message.precompiled.js';
 import './Components/Profile/Profile.precompiled.js';
 import './Components/Search/Search.precompiled.js';
-import './Components/ChatInput/ChatInput.precompiled.js';
-import './utils/router.js';
+import './Components/Sticker/Sticker.precompiled.js';
+import { AuthAPI } from './utils/API/AuthAPI.js';
 import './utils/notifications.js';
+import './utils/router.js';
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
