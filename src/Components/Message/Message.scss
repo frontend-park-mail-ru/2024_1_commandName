@@ -24,14 +24,8 @@ $my-message-color: $blue-light;
     margin-right: 0;
 }
 
-.message_data {
-    display: flex;
-    flex-direction: column;
-    overflow-wrap: break-word;
-}
-
 .time {
     font-size: 12px;
     color: #999;
-    align-self: flex-end;
+    float: right;
 }
