@@ -18,7 +18,6 @@ function registerServiceWorker() {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                console.log(registrations);
                 if (registrations.length === 0) {
                     return navigator.serviceWorker.register(
                         new URL('./serviceWorker.js', import.meta.url),
