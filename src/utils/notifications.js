@@ -45,10 +45,11 @@ function subscribe() {
 
 function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer(currentToken)) {
+        console.log(currentToken);
         console.log('Отправка токена на сервер...');
 
         const firebaseApi = new FirebaseAPI();
-        firebaseApi.setToken(currentToken);
+        firebaseApi.setToken(currentToken).then();
 
         setTokenSentToServer(currentToken);
     } else {
