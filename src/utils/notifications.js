@@ -31,6 +31,7 @@ function subscribe() {
     })
         .then((currentToken) => {
             if (currentToken) {
+                console.log(currentToken);
                 sendTokenToServer(currentToken);
             } else {
                 console.warn('Не удалось получить токен.');
@@ -45,7 +46,6 @@ function subscribe() {
 
 function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer(currentToken)) {
-        console.log(currentToken);
         console.log('Отправка токена на сервер...');
 
         const firebaseApi = new FirebaseAPI();
@@ -73,6 +73,7 @@ function setTokenSentToServer(currentToken) {
 
 if ('Notification' in window) {
     onMessage(messaging, function (payload) {
+        console.log('Message received. ', payload);
         new Notification(payload.notification.title, payload.notification);
     });
 }
