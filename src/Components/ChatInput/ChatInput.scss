@@ -6,26 +6,18 @@
     margin-bottom: 7px;
 }
 
-.chat-input-button {
-    width: 100%;
-}
-
 .input_attach,
 .input_send {
     box-sizing: border-box;
     height: 40px;
     width: 100%;
     flex: 0 0 10%;
-    // padding: auto;
-}
-
-.input_attach_airplan,
-.input_attach_clip {
-    width: 20px;
+    padding: auto; // ????
 }
 
 .input_attach:hover,
-.input_send:hover {
+.input_send:hover,
+.input_text_block_stickers_btn:hover {
     background-color: $chat-input-color-hover;
     transition: $transition;
 }
@@ -37,11 +29,22 @@
     padding: auto;
     padding-left: 15px;
     border-radius: $border-radius;
-    margin-right: 10px;
-    margin-left: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
-input[type='file'] {
+.chat-input-button {
+    width: 100%;
+}
+
+.input_attach_airplan,
+.input_attach_clip,
+.input_text_stickers_ico {
+    width: 20px;
+    height: 20px;
+}
+
+#file_input_message {
     display: none;
 }
 
@@ -69,5 +72,78 @@ input[type='file'] {
         margin-left: 10px;
         text-overflow: ellipsis;
         overflow: hidden;
+    }
+}
+
+.input_text_block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;
+
+    &_stickers {
+        position: relative;
+    }
+
+    &_stickers_btn {
+        border-right: 1px solid #ddd;
+        background-color: $chat-input-color;
+        height: 40px;
+
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}
+
+.popup_stickers {
+    box-sizing: border-box;
+    padding: 10px;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 300px;
+    transform: translate(-50%, 0);
+    background-color: $blue-light;
+    border: 1px solid #000;
+    z-index: 10;
+    border-radius: $border-radius;
+    display: none;
+    overflow: hidden;
+    &_title {
+        border-bottom: 1px #fff;
+        margin: 10px 0 10px 0;
+
+        & h3 {
+            margin: 0;
+        }
+    }
+
+    &_body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow-y: auto;
+        max-height: 350px;
+    }
+
+    &.is_opened {
+        display: block;
+    }
+
+    &_bgc {
+        background-color: #000;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        display: none;
+
+        &.is_opened {
+            display: block;
+        }
     }
 }

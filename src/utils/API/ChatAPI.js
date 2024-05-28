@@ -242,4 +242,38 @@ export class ChatAPI {
             throw error;
         }
     }
+
+    async getStickers() {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/getAllStickers`,
+                'GET',
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
+
+    async sendSticker(chatId, stickerId) {
+        try {
+            return makeBaseRequest(
+                `${protocol}://${baseUrl}/sendSticker`,
+                'POST',
+                {
+                    chat_id: chatId,
+                    file_id: stickerId,
+                },
+            );
+        } catch (error) {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+            throw error;
+        }
+    }
 }

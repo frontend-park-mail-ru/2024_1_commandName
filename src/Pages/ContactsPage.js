@@ -3,7 +3,8 @@ import { ChatAPI } from '../utils/API/ChatAPI.js';
 import Contacts from '../Components/Contacts/Contacts.js';
 import { BasePage } from './BasePage.js';
 import { sanitizer } from '../utils/valid.js';
-import { changeUrl } from '../utils/navigation';
+import { changeUrl } from '../utils/navigation.js';
+import { SearchAPI } from '../utils/API/SearchAPI.js';
 
 /**
  * Рендерит страницу чатов
@@ -45,20 +46,16 @@ export default class ContactsPage extends BasePage {
         this.#contactsList = new Contacts(this.#parent, {
             inputSearchContacts: this.searchDraftHandler,
             sendSearchContacts: this.searchSendHandler,
-            getSearchContacts: this.getWebSocketSearch,
         });
         this.#contactsList.render();
         this.displayContacts(this.#contacts);
     }
-    getWebSocketSearch = (response) => {
-        this.displayContacts(response.body.contacts || []);
-    };
-
     searchDraftHandler = (event) => {
         this.#searchDraft = event.target.value;
     };
 
     searchSendHandler = (type) => {
+        const searchAPI = new SearchAPI();
         // Контейнер активного чата
         const inputSearch = this.#parent
             .querySelector(`#input_search_${type}`)
@@ -69,7 +66,13 @@ export default class ContactsPage extends BasePage {
                 word: sanitizedInputSearch,
                 search_type: 'contact',
             };
-            this.#contactsList.getSearcher().getSocket().sendRequest(search);
+            searchAPI.search(search).then((response) => {
+                if (response.status === 200) {
+                    this.displayContacts(response.body.contacts || []);
+                } else {
+                    console.error('Ошибка поиска');
+                }
+            });
         } else {
             this.displayContacts(this.#contacts);
         }

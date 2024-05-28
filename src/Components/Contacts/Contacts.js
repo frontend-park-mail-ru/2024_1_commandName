@@ -17,7 +17,6 @@ export default class Contacts extends BaseComponent {
         this.getParent()
             .querySelector('#backButton')
             .addEventListener('click', () => {
-                this.getSearcher().getSocket().close();
                 changeUrl('/chat', true);
             });
 
@@ -28,7 +27,6 @@ export default class Contacts extends BaseComponent {
             type: 'contact',
             inputSearch: this.getConfig().inputSearchContacts,
             sendSearch: this.getConfig().sendSearchContacts,
-            getSearch: this.getConfig().getSearchContacts,
         });
         this.#searchContacts.render();
     }

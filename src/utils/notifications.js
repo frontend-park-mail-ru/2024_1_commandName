@@ -24,7 +24,12 @@ if ('Notification' in window) {
     });
     if (window.Notification.permission === 'granted') {
         onMessage(messaging, function (payload) {
-            new Notification(payload.notification.title, payload.notification);
+            const notificationTitle = payload.notification.title;
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: './img/logo.png',
+            };
+            new Notification(notificationTitle, notificationOptions);
         });
     }
 }

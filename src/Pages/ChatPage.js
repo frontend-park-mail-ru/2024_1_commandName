@@ -7,6 +7,7 @@ import { sanitizer } from '../utils/valid.js';
 import { BasePage } from './BasePage.js';
 import ChatInput from '../Components/ChatInput/ChatInput.js';
 import { changeUrl } from '../utils/navigation.js';
+import { SearchAPI } from '../utils/API/SearchAPI.js';
 
 /*
  * Рендерит страницу чатов
@@ -25,6 +26,7 @@ export default class ChatPage extends BasePage {
     #profile;
     #chats = [];
     #chatsCache = {};
+    #stickers;
 
     constructor(parent, urlParams) {
         super(parent);
@@ -64,9 +66,15 @@ export default class ChatPage extends BasePage {
             }
 
             if (profileResponse.status !== 200) {
-                throw new Error('Пришел не 200 статус');
+                console.error('Пришел не 200 статус');
             }
             this.#profile = profileResponse.body.user;
+
+            const stickersResponse = await chatAPI.getStickers();
+            if (stickersResponse.status !== 200) {
+                console.error('Пришел не 200 статус');
+            }
+            this.#stickers = stickersResponse.body;
 
             return {
                 chats: this.#chats,
@@ -85,7 +93,6 @@ export default class ChatPage extends BasePage {
             type: this.#type,
             inputSearchChats: this.searchChatsDraftHandler,
             sendSearchChats: this.searchSendHandler,
-            getSearchChats: this.getWebSocketSearch,
             userId: this.#profile.id,
         });
         this.#chatList.render();
@@ -95,11 +102,19 @@ export default class ChatPage extends BasePage {
             type: this.#type,
             inputSearchMessages: this.searchMessagesDraftsHandler,
             sendSearchMessages: this.searchSendHandler,
-            getSearchMessages: this.getWebSocketSearch,
         });
         this.#chat.render();
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
+    }
+
+    stickerSendHandler(stickerId) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatId = parseInt(urlParams.get('id'));
+        if (chatId) {
+            const chatAPI = new ChatAPI();
+            chatAPI.sendSticker(chatId, stickerId);
+        }
     }
 
     messageDraftHandler = (event) => {
@@ -129,10 +144,6 @@ export default class ChatPage extends BasePage {
             const sanitizedInputMessage = sanitizer(inputMessage);
             const chatAPI = new ChatAPI();
             chatAPI.sendMessage(chatId, sanitizedInputMessage, filesMessage[0]);
-
-            // .then(() => {
-            //     changeUrl(this.getConfig().path, true);
-            // });
             document.querySelector('#input_message').value = '';
         } else if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
@@ -149,6 +160,7 @@ export default class ChatPage extends BasePage {
     };
 
     searchSendHandler = (type) => {
+        const searchAPI = new SearchAPI();
         // Контейнер активного чата
         const inputSearch = this.#parent
             .querySelector(`#input_search_${type}`)
@@ -162,7 +174,17 @@ export default class ChatPage extends BasePage {
             if (type === 'message') {
                 search.chat_id = this.#currentChatId || '';
             }
-            this.#chatList.getSearcher().getSocket().sendRequest(search);
+            searchAPI.search(search).then((response) => {
+                if (response.status === 200) {
+                    if ('chats' in response.body) {
+                        this.displayChats(response.body.chats || []);
+                    } else {
+                        this.displayMessages(response.body.messages || []);
+                    }
+                } else {
+                    console.error('Ошибка поиска');
+                }
+            });
         } else {
             this.displayChats(this.#chats);
         }
@@ -186,20 +208,13 @@ export default class ChatPage extends BasePage {
                 message_id: message.id,
                 message_text: message.message_text,
                 file: message.file,
+                sticker_path: message.sticker_path,
             });
             messageElement.render();
             this.#chatsCache[message.chat_id].messages =
                 this.#chatsCache[message.chat_id].messages || [];
             this.#chatsCache[message.chat_id].messages.push(message); // Добавляем сообщение в кеш
             this.displayChats(this.#chats); // Обновляем отображение чатов
-        }
-    };
-
-    getWebSocketSearch = (response) => {
-        if ('chats' in response.body) {
-            this.displayChats(response.body.chats || []);
-        } else {
-            this.displayMessages(response.body.messages || []);
         }
     };
 
@@ -260,6 +275,8 @@ export default class ChatPage extends BasePage {
             is_member: chat.is_member,
             is_owner: chat.creator === this.#profile.id,
             chatId: chat.id,
+            stickers: this.#stickers,
+            stickerSendHandler: this.stickerSendHandler,
         });
         this.#inputBlock.render();
 
@@ -309,9 +326,14 @@ export default class ChatPage extends BasePage {
                 sent_at: timeString,
                 edited: message.edited,
                 file: message.file,
+                sticker_path: message.sticker_path,
             });
             messageElement.render();
         });
+
+        setTimeout(() => {
+            activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
+        }, 300);
         activeChatContainer.scrollTop = activeChatContainer.scrollHeight;
     }
 }

@@ -7,21 +7,41 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         // Проверяем наличие интернета
         fetch(event.request)
-            .then(function (response) {
-                // Если есть ответ от сети, кладем его в кэш
+            .then((response) => {
+                // Проверяем, что ответ корректен (полный) и статус 200
+                if (
+                    !response ||
+                    response.status !== 200 ||
+                    response.type !== 'basic'
+                ) {
+                    return response;
+                }
+
                 const responseToCache = response.clone();
-                caches.open(CACHE_NAME).then(function (cache) {
+                caches.open(CACHE_NAME).then((cache) => {
                     cache.put(event.request, responseToCache);
                 });
                 return response;
             })
-            .catch(function () {
+            .catch(() => {
                 // Если нет ответа от сети, ищем в кэше
                 return caches.match(event.request);
             }),
     );
 });
 
-self.addEventListener('activate', () => {
-    //console.log('Активирован');
+self.addEventListener('activate', (event) => {
+    const cacheWhitelist = [CACHE_NAME];
+
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                }),
+            );
+        }),
+    );
 });

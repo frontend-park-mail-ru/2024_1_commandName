@@ -8,6 +8,15 @@
             <a href='{{file.path}}' download>{{file.original_name}}</a>
         {{/if}}
 
+        {{#if sticker_path}}
+            <video
+                class='message_sticker'
+                src='{{sticker_path}}'
+                onmouseover='this.play()'
+                onmouseout='this.pause();this.currentTime=0;'
+            />
+        {{/if}}
+
         <div class='message_text_wrapper'>
             <span class='message_text'>{{message_text}}</span>
             <input
