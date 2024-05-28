@@ -27,10 +27,14 @@ export default class ChatInput extends BaseComponent {
     }
 
     render() {
-        this.ws_sendMesasge = new WebSocketManager(
-            'sendMessage',
-            this.getConfig().getMessage,
-        );
+        if (this.getConfig().ws_sendMessage === '') {
+            this.ws_sendMessage = new WebSocketManager(
+                'sendMessage',
+                this.getConfig().getMessage,
+            );
+        } else {
+            this.ws_sendMessage = this.getConfig().ws_sendMessage;
+        }
         this.getConfig().isChannel = true; //является ли каналом
         if (this.getConfig().type !== '3') {
             this.getConfig().isChannel = false;
@@ -143,6 +147,6 @@ export default class ChatInput extends BaseComponent {
     }
 
     getMessageSocket() {
-        return this.ws_sendMesasge;
+        return this.ws_sendMessage;
     }
 }

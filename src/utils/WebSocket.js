@@ -2,6 +2,7 @@ import { baseUrl } from './API/config.js';
 
 export class WebSocketManager {
     constructor(method, responsehandler) {
+        this.method = method;
         this.ws_way = '';
         if (baseUrl === 'chatme.site/api/v1') {
             this.protocol = 'wss';
@@ -10,7 +11,7 @@ export class WebSocketManager {
             this.protocol = 'ws';
         }
         this.socket = new WebSocket(
-            `${this.protocol}://${baseUrl}${this.ws_way}/${method}`,
+            `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
         );
         this.responseHandler = responsehandler;
         this.connect();
@@ -33,8 +34,14 @@ export class WebSocketManager {
     sendRequest(data) {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(data));
+        } else if (WebSocket.CLOSED) {
+            this.socket = new WebSocket(
+                `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
+            );
+            this.connect();
+            this.socket.send(JSON.stringify(data));
         } else {
-            console.error('WebSocket is not open.');
+            console.error('WebSocket error.');
         }
     }
     close() {
@@ -43,7 +50,3 @@ export class WebSocketManager {
         }
     }
 }
-
-// const websocketManager = new WebSocketManager();
-//
-// export { websocketManager };
