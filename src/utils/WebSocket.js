@@ -39,7 +39,7 @@ export class WebSocketManager {
                 );
                 setTimeout(() => {
                     this.createWebSocket();
-                }, 1000); // Запуск через 1 секунду (1000 миллисекунд)
+                }, 3500);
             } else {
                 console.log('WebSocket connection closed cleanly.');
             }
