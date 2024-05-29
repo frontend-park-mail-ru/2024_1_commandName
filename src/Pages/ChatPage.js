@@ -266,6 +266,10 @@ export default class ChatPage extends BasePage {
                 );
             }
         }
+        let ws = '';
+        if (this.#inputBlock) {
+            ws = this.#inputBlock.getMessageSocket();
+        }
 
         this.#inputBlock = new ChatInput(chatInputBlock, {
             inputMessage: this.messageDraftHandler,
@@ -277,6 +281,7 @@ export default class ChatPage extends BasePage {
             chatId: chat.id,
             stickers: this.#stickers,
             stickerSendHandler: this.stickerSendHandler,
+            ws_sendMessage: ws,
         });
         this.#inputBlock.render();
 
