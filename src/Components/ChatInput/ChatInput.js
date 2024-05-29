@@ -29,7 +29,6 @@ export default class ChatInput extends BaseComponent {
     render() {
         if (this.getConfig().ws_sendMessage === '') {
             this.ws_sendMessage = new WebSocketManager(
-                'sendMessage',
                 this.getConfig().getMessage,
             );
         } else {

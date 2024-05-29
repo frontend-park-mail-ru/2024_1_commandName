@@ -1,18 +1,12 @@
 import { baseUrl } from './API/config.js';
 
 export class WebSocketManager {
-    constructor(method, responsehandler) {
-        this.method = method;
-        this.ws_way = '';
+    constructor(responsehandler) {
         if (baseUrl === 'chatme.site/api/v1') {
-            this.protocol = 'wss';
-            this.ws_way = '/ws';
+            this.socket = new WebSocket(`wss://${baseUrl}/ws/sendMessage`);
         } else {
-            this.protocol = 'ws';
+            this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
         }
-        this.socket = new WebSocket(
-            `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
-        );
         this.responseHandler = responsehandler;
         this.connect();
     }
@@ -31,9 +25,13 @@ export class WebSocketManager {
         };
         this.socket.onclose = function (event) {
             if (!event.wasClean) {
-                this.socket = new WebSocket(
-                    `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
-                );
+                if (baseUrl === 'chatme.site/api/v1') {
+                    this.socket = new WebSocket(
+                        `wss://${baseUrl}/ws/sendMessage`,
+                    );
+                } else {
+                    this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
+                }
             }
         };
     }
