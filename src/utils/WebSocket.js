@@ -54,7 +54,7 @@ export class WebSocketManager {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(data));
         } else {
-            console.error('WebSocket is not open. Please, wait...');
+            console.warn('WebSocket is not open. Please, wait...');
             setTimeout(() => {
                 this.socket.send(JSON.stringify(data));
             }, 5000);
