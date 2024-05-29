@@ -29,16 +29,17 @@ export class WebSocketManager {
                 this.responseHandler(data);
             }
         };
+        this.socket.onclose = function (event) {
+            if (!event.wasClean) {
+                this.socket = new WebSocket(
+                    `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
+                );
+            }
+        };
     }
 
     sendRequest(data) {
         if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify(data));
-        } else if (WebSocket.CLOSED) {
-            this.socket = new WebSocket(
-                `${this.protocol}://${baseUrl}${this.ws_way}/${this.method}`,
-            );
-            this.connect();
             this.socket.send(JSON.stringify(data));
         } else {
             console.error('WebSocket error.');
