@@ -3,9 +3,6 @@ import { baseUrl } from './API/config.js';
 export class WebSocketManager {
     constructor(responseHandler) {
         this.responseHandler = responseHandler;
-        this.reconnectAttempts = 0;
-        this.maxReconnectAttempts = 5; // Максимальное количество попыток переподключения
-        this.reconnectDelay = 1000; // Задержка перед переподключением в миллисекундах
         this.createWebSocket();
     }
 
@@ -21,7 +18,6 @@ export class WebSocketManager {
     connect() {
         this.socket.onopen = () => {
             console.log('WebSocket connection opened.');
-            this.reconnectAttempts = 0; // Сбросить количество попыток переподключения
         };
 
         this.socket.onerror = (error) => {
@@ -41,22 +37,13 @@ export class WebSocketManager {
                 console.warn(
                     'WebSocket connection closed unexpectedly, reconnecting...',
                 );
-                this.reconnect();
+                setTimeout(() => {
+                    this.createWebSocket();
+                }, 1000); // Запуск через 1 секунду (1000 миллисекунд)
             } else {
                 console.log('WebSocket connection closed cleanly.');
             }
         };
-    }
-
-    reconnect() {
-        if (this.reconnectAttempts < this.maxReconnectAttempts) {
-            setTimeout(() => {
-                this.reconnectAttempts++;
-                this.createWebSocket();
-            }, this.reconnectDelay);
-        } else {
-            console.error('Max reconnect attempts reached. Giving up.');
-        }
     }
 
     sendRequest(data) {
