@@ -8,11 +8,7 @@ export class WebSocketManager {
 
     createWebSocket() {
         if (baseUrl === 'chatme.site/api/v1') {
-            try {
-                this.socket = new WebSocket(`wss://${baseUrl}/ws/sendMessage`);
-            } catch (err) {
-                console.error(err);
-            }
+            this.socket = new WebSocket(`wss://${baseUrl}/ws/sendMessage`);
         } else {
             this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
         }
@@ -55,9 +51,10 @@ export class WebSocketManager {
             this.socket.send(JSON.stringify(data));
         } else {
             console.warn('WebSocket is not open. Please, wait...');
-            setTimeout(() => {
-                this.socket.send(JSON.stringify(data));
-            }, 5000);
+            while (this.socket.readyState !== WebSocket.OPEN) {
+                /* empty */
+            }
+            this.socket.send(JSON.stringify(data));
         }
     }
 
