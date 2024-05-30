@@ -28,6 +28,9 @@ main {
     flex: 1;
     overflow: auto;
     justify-content: flex-end;
+    @media (max-width: 768px) {
+        margin-bottom: 150px;
+    }
 }
 
 .chat_header {
@@ -66,7 +69,6 @@ main {
 
     @media (max-width: 768px) {
         width: 90%;
-        margin-bottom: 170px;
     }
 }
 
