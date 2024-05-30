@@ -34,7 +34,7 @@ body {
     display: flex;
     overflow: hidden;
     @media (max-width: 768px) {
-        overflow: scroll;
+        height: 100%;
     }
 }
 
