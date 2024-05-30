@@ -33,9 +33,6 @@ body {
     width: 100vw;
     display: flex;
     overflow: hidden;
-    @media (max-width: 768px) {
-        height: 85%;
-    }
 }
 
 button {
