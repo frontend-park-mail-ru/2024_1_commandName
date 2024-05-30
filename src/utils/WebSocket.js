@@ -39,7 +39,7 @@ export class WebSocketManager {
                 );
                 setTimeout(() => {
                     this.createWebSocket();
-                }, 5000);
+                }, 3000);
             } else {
                 console.log('WebSocket connection closed cleanly.');
             }
