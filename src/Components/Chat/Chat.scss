@@ -11,6 +11,15 @@ main {
     flex-direction: column;
     justify-content: space-between;
     background: $background-url no-repeat center center;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        display: none;
+    }
+
+    .mobile-chat & {
+        display: flex;
+    }
 }
 
 .chat {
@@ -26,7 +35,6 @@ main {
     margin-left: auto;
     margin-right: auto;
     border-radius: 0 0 $border-radius $border-radius;
-
     background-color: $aside-color;
     display: flex;
     flex: 0 0 10%;
@@ -34,15 +42,31 @@ main {
     padding-left: 25px;
     padding-right: 25px;
     justify-content: space-between;
+
+    @media (max-width: 768px) {
+        width: 90%;
+    }
+}
+
+.chat_header_back {
+    display: none;
+
+    @media (max-width: 768px) {
+        display: block;
+        cursor: pointer;
+    }
 }
 
 .chat_width {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-
     padding-left: 10px;
     padding-right: 10px;
+
+    @media (max-width: 768px) {
+        width: 90%;
+    }
 }
 
 .chat-container {

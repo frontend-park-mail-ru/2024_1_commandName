@@ -8,6 +8,16 @@ aside.chat {
     height: 100%;
     flex: 0 0 25%;
     padding: 5px;
+
+    @media (max-width: 768px) {
+        flex: 0 0 97%;
+        height: 100vh;
+        display: none;
+    }
+
+    .mobile-chat-list & {
+        display: flex;
+    }
 }
 
 .chat_list_header {

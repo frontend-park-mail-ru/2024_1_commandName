@@ -35,7 +35,11 @@ export default class ChatListItem extends BaseComponent {
             });
         this.getParent()
             .querySelector(`#chat_list_item_${id}`)
-            .addEventListener('click', this.getConfig().handler);
+            .addEventListener('click', (event) => {
+                event.preventDefault();
+                this.getConfig().handler(event);
+                this.switchToMobileChat();
+            });
         this.getParent()
             .querySelector(`#delete-button_${id}`)
             .addEventListener('click', () => {
@@ -43,7 +47,7 @@ export default class ChatListItem extends BaseComponent {
                     .deleteChatById(id)
                     .then((data) => {
                         if (data.status === 200) {
-                            // Обработка успешной авторизации
+                            // Обработка успешного удаления
                             changeUrl(this.type, true);
                         } else {
                             throw new Error('Пришел не 200 статус');
@@ -72,9 +76,21 @@ export default class ChatListItem extends BaseComponent {
                         })
                         .catch((error) => {
                             alert('Что-то пошло не так');
-                            console.error('delete chat failed:', error);
+                            console.error('edit chat failed:', error);
                         });
                 });
+        }
+    }
+
+    switchToMobileChat() {
+        if (
+            window.innerWidth <= 768 ||
+            /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+                navigator.userAgent,
+            )
+        ) {
+            document.body.classList.remove('mobile-chat-list');
+            document.body.classList.add('mobile-chat');
         }
     }
 }

@@ -106,6 +106,49 @@ export default class ChatPage extends BasePage {
         this.#chat.render();
         this.#parent.appendChild(wrapper);
         this.displayChats(this.#chats);
+
+        // Добавим классы для мобильных устройств
+        this.handleMobileView();
+    }
+
+    handleMobileView() {
+        function isMobile() {
+            return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+                navigator.userAgent,
+            );
+        }
+
+        function handleResize() {
+            if (window.innerWidth <= 768 || isMobile()) {
+                document.body.classList.add('mobile');
+            } else {
+                document.body.classList.remove('mobile');
+            }
+        }
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        if (window.location.search.includes('id')) {
+            document.body.classList.add('mobile-chat');
+        } else {
+            document.body.classList.add('mobile-chat-list');
+        }
+
+        document
+            .querySelector('.chat_header_back')
+            .addEventListener('click', function () {
+                changeUrl('/chat', false);
+                document.body.classList.remove('mobile-chat');
+                document.body.classList.add('mobile-chat-list');
+            });
+
+        document.querySelectorAll('.chat-list-item').forEach((item) => {
+            item.addEventListener('click', function () {
+                document.body.classList.remove('mobile-chat-list');
+                document.body.classList.add('mobile-chat');
+            });
+        });
     }
 
     stickerSendHandler(stickerId) {
@@ -323,7 +366,6 @@ export default class ChatPage extends BasePage {
             // Определяем класс сообщения в зависимости от отправителя
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : 'message';
-            console.log(message);
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_id: message.id,
