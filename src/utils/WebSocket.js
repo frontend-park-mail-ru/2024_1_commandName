@@ -50,8 +50,7 @@ export class WebSocketManager {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(data));
         } else {
-            console.warn('WebSocket is not open. Please, wait...');
-            this.socket.send(JSON.stringify(data));
+            console.error('WebSocket is not open.');
         }
     }
 
