@@ -51,9 +51,6 @@ aside.chat {
     justify-content: flex-end;
     border-radius: $border-radius;
     margin: 0px 30px 35px 30px;
-    @media (max-width: 768px) {
-        margin: 0px 30px 170px 30px;
-    }
 }
 
 .search_input {
