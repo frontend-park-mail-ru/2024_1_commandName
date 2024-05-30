@@ -23,16 +23,21 @@ export default class ChatListItem extends BaseComponent {
         const chatAPI = new ChatAPI();
         const id = this.getConfig().id;
         const modal = this.getParent().querySelector(`#modal_${id}`);
+
+        // Обработчик для троеточия
         this.getParent()
             .querySelector(`#three_dots_${id}`)
             .addEventListener('click', (event) => {
                 event.preventDefault();
+                event.stopPropagation(); // Останавливаем всплытие события
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
                 } else {
                     modal.classList.add('hidden');
                 }
             });
+
+        // Обработчик для клика на элемент чата
         this.getParent()
             .querySelector(`#chat_list_item_${id}`)
             .addEventListener('click', (event) => {
@@ -40,6 +45,8 @@ export default class ChatListItem extends BaseComponent {
                 this.getConfig().handler(event);
                 this.switchToMobileChat();
             });
+
+        // Обработчик для кнопки удаления
         this.getParent()
             .querySelector(`#delete-button_${id}`)
             .addEventListener('click', () => {
@@ -58,6 +65,8 @@ export default class ChatListItem extends BaseComponent {
                         console.error('delete chat failed:', error);
                     });
             });
+
+        // Обработчик для кнопки редактирования
         if (this.getConfig().editEnable) {
             this.getParent()
                 .querySelector(`#edit-button_${id}`)
