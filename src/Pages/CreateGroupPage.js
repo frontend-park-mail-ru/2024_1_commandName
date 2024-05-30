@@ -49,7 +49,7 @@ export default class CreateGroupPage extends BasePage {
         }
     };
 
-    formCallback(event) {
+    formCallback = (event) => {
         event.preventDefault();
         const error = event.target.querySelector('#error-message');
         const type = window.location.pathname;
@@ -64,7 +64,7 @@ export default class CreateGroupPage extends BasePage {
                 })
                 .map((item) => {
                     return Number(item.value.replace('user_list_', ''));
-                }, this);
+                });
             const group = {
                 description: event.target
                     .querySelector('#description')
@@ -87,7 +87,8 @@ export default class CreateGroupPage extends BasePage {
                 .createGroup(group)
                 .then((data) => {
                     if (data.status === 200) {
-                        // Обработка успешной авторизации
+                        // Обработка успешного создания группы
+                        this.switchToMobileChat();
                         changeUrl('/chat?id=' + data.body.chat_id, true);
                     } else {
                         error.textContent = data.body.error;
@@ -112,7 +113,8 @@ export default class CreateGroupPage extends BasePage {
                 .createChannel(name, description)
                 .then((data) => {
                     if (data.status === 200) {
-                        // Обработка успешной авторизации
+                        // Обработка успешного создания канала
+                        this.switchToMobileChat();
                         changeUrl('/channel?id=' + data.body.chat_id, true);
                     } else {
                         error.textContent = data.body.error;
@@ -120,10 +122,10 @@ export default class CreateGroupPage extends BasePage {
                 })
                 .catch((error) => {
                     alert('Что-то пошло не так');
-                    console.error('createGroup failed:', error);
+                    console.error('createChannel failed:', error);
                 });
         }
-    }
+    };
 
     render() {
         const type = window.location.pathname;
@@ -165,5 +167,17 @@ export default class CreateGroupPage extends BasePage {
             additionButtonText: 'Назад',
         });
         form.render();
+    }
+
+    switchToMobileChat() {
+        if (
+            window.innerWidth <= 768 ||
+            /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+                navigator.userAgent,
+            )
+        ) {
+            document.body.classList.remove('mobile-chat-list');
+            document.body.classList.add('mobile-chat');
+        }
     }
 }
