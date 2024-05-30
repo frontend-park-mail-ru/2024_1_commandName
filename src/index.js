@@ -24,10 +24,11 @@ function registerServiceWorker() {
                         new URL('./serviceWorker.js', import.meta.url),
                     );
                 } else {
-                    const serviceWorker = registrations[1];
-                    if (!serviceWorker.active) {
-                        return serviceWorker.activate();
-                    }
+                    registrations.forEach((sw) => {
+                        if (!sw.active) {
+                            return sw.activate();
+                        }
+                    });
                 }
             })
             .catch(function (err) {
