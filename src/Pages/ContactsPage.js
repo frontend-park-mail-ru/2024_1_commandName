@@ -7,8 +7,8 @@ import { changeUrl } from '../utils/navigation.js';
 import { SearchAPI } from '../utils/API/SearchAPI.js';
 
 /**
- * Рендерит страницу чатов
- * @class Класс страницы чатов
+ * Рендерит страницу контактов
+ * @class Класс страницы контактов
  */
 export default class ContactsPage extends BasePage {
     #parent;
@@ -50,6 +50,7 @@ export default class ContactsPage extends BasePage {
         this.#contactsList.render();
         this.displayContacts(this.#contacts);
     }
+
     searchDraftHandler = (event) => {
         this.#searchDraft = event.target.value;
     };
@@ -86,10 +87,23 @@ export default class ContactsPage extends BasePage {
             this.#contactsList.addContact(contactConfig, () => {
                 chatAPI.chatByUserId(contactConfig.id).then((response) => {
                     if (response.status === 200) {
+                        this.switchToMobileChat();
                         changeUrl('/chat?id=' + response.body.chat_id, true);
                     }
                 });
             });
         });
+    }
+
+    switchToMobileChat() {
+        if (
+            window.innerWidth <= 768 ||
+            /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+                navigator.userAgent,
+            )
+        ) {
+            document.body.classList.remove('mobile-chat-list');
+            document.body.classList.add('mobile-chat');
+        }
     }
 }
