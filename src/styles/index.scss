@@ -23,7 +23,9 @@ body {
     width: 100vw;
     overflow: hidden;
     margin: 0;
-    background-color: $white;
+    background: $background-url no-repeat center center;
+    background-size: cover;
+    color: $text-color;
 }
 
 .full-screen {
@@ -39,16 +41,16 @@ button {
     margin-top: 10px;
     padding: 10px;
     border-radius: $border-radius;
-    border: 1px solid #ddd;
-    background-color: $btn-color;
-    color: black;
+    border: 1px solid $blue;
+    color: $text-color;
     cursor: pointer;
+    background-color: $blue-dark;
 }
 
 button:hover {
     transition: $transition;
-    border: 1px solid $blue-hover;
-    background-color: $blue-hover;
+    border: 1px solid $blue;
+    background-color: $blue;
 }
 
 button.inline_button {
@@ -71,9 +73,9 @@ input {
     margin-top: 10px;
     padding: 10px;
     border-radius: $border-radius;
-    border: 1px solid #ddd;
+    border: 1px solid $blue;
     background-color: $input-color;
-    color: black;
+    color: $text-color;
     cursor: pointer;
 }
 

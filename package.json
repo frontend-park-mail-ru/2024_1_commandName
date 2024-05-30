@@ -13,7 +13,7 @@
         "compile:templates": "bash ./scripts/handlebars.sh",
         "copy-img": "cp -vR ./src/img ./dist",
         "copy-uploads": "cp -r uploads/* ./dist/uploads",
-        "copy-files": "npm run copy-img && npm run copy-uploads"
+        "copy-files": "npm run copy-img"
     },
     "repository": {
         "type": "git",

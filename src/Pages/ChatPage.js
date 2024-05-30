@@ -323,6 +323,7 @@ export default class ChatPage extends BasePage {
             // Определяем класс сообщения в зависимости от отправителя
             const owner =
                 message.user_id === this.#profile.id ? 'my_message' : 'message';
+            console.log(message);
             const messageElement = new Message(activeChatContainer, {
                 message_owner: owner,
                 message_id: message.id,

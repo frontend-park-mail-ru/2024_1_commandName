@@ -10,7 +10,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: $chat-bg-color;
+    background: $background-url no-repeat center center;
 }
 
 .chat {
@@ -27,7 +27,7 @@ main {
     margin-right: auto;
     border-radius: 0 0 $border-radius $border-radius;
 
-    background-color: $blue-light;
+    background-color: $aside-color;
     display: flex;
     flex: 0 0 10%;
     align-items: center;

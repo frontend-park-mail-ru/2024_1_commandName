@@ -1,6 +1,6 @@
 @import '../../styles/constants.scss';
 
-$chat-list-item-color-hover: $blue-light-hover;
+$chat-list-item-color-hover: $blue;
 
 .chat_list_item {
     cursor: pointer;
@@ -9,6 +9,7 @@ $chat-list-item-color-hover: $blue-light-hover;
     margin: 4px 0px;
     display: flex;
     justify-content: space-between;
+    color: $text-color;
 }
 
 .chat_list_item:hover {
@@ -17,12 +18,12 @@ $chat-list-item-color-hover: $blue-light-hover;
 }
 
 .chat_list_item__active {
-    background-color: $white;
+    background-color: $chat-list-item-color-hover;
 }
 
 .chat_list_item__active:hover {
     transition: $transition;
-    background-color: $white;
+    background-color: $chat-list-item-color-hover;
 }
 
 .chat_name {

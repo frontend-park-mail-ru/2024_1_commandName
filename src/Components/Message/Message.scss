@@ -1,7 +1,6 @@
 @import '../../styles/constants.scss';
 
-$message-color: $white;
-$my-message-color: $blue-light;
+$message-color: $blue;
 
 .message {
     border-radius: $border-radius $border-radius $border-radius 1px;
@@ -24,13 +23,12 @@ $my-message-color: $blue-light;
 
 .my_message {
     border-radius: $border-radius $border-radius 1px $border-radius;
-    background-color: $my-message-color;
     margin-left: auto;
     margin-right: 0;
 }
 
 .time {
     font-size: 12px;
-    color: #999;
+    color: $text-color;
     float: right;
 }
