@@ -19,12 +19,12 @@ function registerServiceWorker() {
             .getRegistrations()
             .then(function (registrations) {
                 console.log(registrations);
-                if (registrations.length === 0) {
+                if (registrations.length === 1) {
                     return navigator.serviceWorker.register(
                         new URL('./serviceWorker.js', import.meta.url),
                     );
                 } else {
-                    const serviceWorker = registrations[0];
+                    const serviceWorker = registrations[1];
                     if (!serviceWorker.active) {
                         return serviceWorker.activate();
                     }
