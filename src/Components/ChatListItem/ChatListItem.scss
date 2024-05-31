@@ -35,12 +35,18 @@ $chat-list-item-color-hover: $blue;
 }
 
 .modal {
-    position: relative;
+    position: absolute;
+    right: 0;
     background-color: $aside-color;
     border-radius: $border-radius;
     z-index: 1;
+    padding: 5px;
 }
 
 .hidden {
     display: none;
+}
+
+.modal_chat_item_wrapper {
+    position: relative;
 }
