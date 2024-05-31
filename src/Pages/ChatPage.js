@@ -243,11 +243,9 @@ export default class ChatPage extends BasePage {
             const activeChatContainer = document.getElementById(
                 'active-chat-container',
             );
-            const owner =
-                message.user_id === this.#profile.id ? 'my_message' : '';
             const messageElement = new Message(activeChatContainer, {
                 edited: message.edited,
-                message_owner: owner,
+                is_my_message: message.user_id === this.#profile.id,
                 message_id: message.id,
                 message_text: message.message_text,
                 file: message.file,
@@ -363,11 +361,9 @@ export default class ChatPage extends BasePage {
                 sentAt.getHours().toString().padStart(2, '0') +
                 ':' +
                 sentAt.getMinutes().toString().padStart(2, '0');
-            // Определяем класс сообщения в зависимости от отправителя
-            const owner =
-                message.user_id === this.#profile.id ? 'my_message' : 'message';
+
             const messageElement = new Message(activeChatContainer, {
-                message_owner: owner,
+                is_my_message: message.user_id === this.#profile.id,
                 message_id: message.id,
                 message_text: message.message_text,
                 username: message.username,

@@ -1,5 +1,6 @@
 import { BaseComponent } from '../BaseComponent.js';
 import { ChatAPI } from '../../utils/API/ChatAPI.js';
+import { TextAPI } from '../../utils/API/TextAPI.js';
 import { sanitizer } from '../../utils/valid.js';
 
 export default class Message extends BaseComponent {
@@ -8,6 +9,8 @@ export default class Message extends BaseComponent {
     #ContextMenu;
     #editMessageInput;
     #editingMode = false;
+    #messageTextField;
+    #viewOriginalBtn;
 
     render() {
         super.render();
@@ -15,15 +18,10 @@ export default class Message extends BaseComponent {
         this.#messageElement = this.getParent().querySelector(
             `#message_id_${this.getConfig().message_id}`,
         );
-
-        if (!this.#messageElement.classList.contains('my_message')) {
-            return;
-        }
+        this.#messageTextField =
+            this.#messageElement.querySelector('.message_text');
 
         this.#ContextMenu = this.#messageElement.querySelector(`.messageModal`);
-        this.#editMessageInput = this.#messageElement.querySelector(
-            '.edit_message_input',
-        );
 
         this.#messageElement.addEventListener('contextmenu', (event) => {
             event.preventDefault();
@@ -53,6 +51,57 @@ export default class Message extends BaseComponent {
                 this.#ContextMenu.classList.add('hidden');
             }
         });
+
+        if (this.#messageElement.classList.contains('my_message')) {
+            this.configMyMessage();
+        } else {
+            this.configMessage();
+        }
+    }
+
+    configMessage() {
+        this.#viewOriginalBtn =
+            this.#messageElement.querySelector('.origin-button');
+        this.#ContextMenu
+            .querySelector('.translate-button')
+            .addEventListener('click', () => {
+                const textAPI = new TextAPI();
+                textAPI
+                    .translate(this.#messageTextField.innerHTML)
+                    .then((res) => {
+                        this.#messageTextField.innerHTML =
+                            res.body.translations[0].text;
+                        this.closeModal();
+                        this.#viewOriginalBtn.classList.remove('hidden');
+                    });
+            });
+
+        this.#ContextMenu
+            .querySelector('.shortly-button')
+            .addEventListener('click', () => {
+                const textAPI = new TextAPI();
+                textAPI
+                    .short(
+                        this.#messageTextField.innerHTML,
+                        this.getConfig().username,
+                    )
+                    .then((res) => {
+                        this.#messageTextField.innerHTML =
+                            res.body.translations[0].text;
+                        this.closeModal();
+                        this.#viewOriginalBtn.classList.remove('hidden');
+                    });
+            });
+
+        this.#viewOriginalBtn.addEventListener('click', () => {
+            this.viewOriginalMessage();
+        });
+    }
+
+    configMyMessage() {
+        this.#editMessageInput = this.#messageElement.querySelector(
+            '.edit_message_input',
+        );
 
         this.#ContextMenu
             .querySelector('.delete-button')
@@ -114,6 +163,11 @@ export default class Message extends BaseComponent {
                         .appendChild(editButton);
                 }
             });
+    }
+
+    viewOriginalMessage() {
+        this.#messageTextField.innerHTML = this.getConfig().message_text;
+        this.#viewOriginalBtn.classList.add('hidden');
     }
 
     closeModal() {
