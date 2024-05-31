@@ -1,21 +1,29 @@
 import { baseUrl } from './API/config.js';
 
 export class WebSocketManager {
-    constructor(responsehandler) {
+    constructor(responseHandler) {
+        this.responseHandler = responseHandler;
+        this.createWebSocket();
+    }
+
+    createWebSocket() {
         if (baseUrl === 'chatme.site/api/v1') {
             this.socket = new WebSocket(`wss://${baseUrl}/ws/sendMessage`);
         } else {
             this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
         }
-        this.responseHandler = responsehandler;
         this.connect();
     }
 
     connect() {
-        this.socket.onopen;
+        this.socket.onopen = () => {
+            console.log('WebSocket connection opened.');
+        };
+
         this.socket.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
+
         // Добавляем прослушивание входящих сообщений
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -23,15 +31,17 @@ export class WebSocketManager {
                 this.responseHandler(data);
             }
         };
-        this.socket.onclose = function (event) {
+
+        this.socket.onclose = (event) => {
             if (!event.wasClean) {
-                if (baseUrl === 'chatme.site/api/v1') {
-                    this.socket = new WebSocket(
-                        `wss://${baseUrl}/ws/sendMessage`,
-                    );
-                } else {
-                    this.socket = new WebSocket(`ws://${baseUrl}/sendMessage`);
-                }
+                console.warn(
+                    'WebSocket connection closed unexpectedly, reconnecting...',
+                );
+                setTimeout(() => {
+                    this.createWebSocket();
+                }, 3000);
+            } else {
+                console.log('WebSocket connection closed cleanly.');
             }
         };
     }
@@ -40,9 +50,10 @@ export class WebSocketManager {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(data));
         } else {
-            console.error('WebSocket error.');
+            console.error('WebSocket is not open.');
         }
     }
+
     close() {
         if (this.socket) {
             this.socket.close();

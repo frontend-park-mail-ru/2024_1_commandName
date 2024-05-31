@@ -18,15 +18,16 @@ function registerServiceWorker() {
         navigator.serviceWorker
             .getRegistrations()
             .then(function (registrations) {
-                if (registrations.length === 0) {
+                if (registrations.length < 2) {
                     return navigator.serviceWorker.register(
                         new URL('./serviceWorker.js', import.meta.url),
                     );
                 } else {
-                    const serviceWorker = registrations[0];
-                    if (!serviceWorker.active) {
-                        return serviceWorker.activate();
-                    }
+                    registrations.forEach((sw) => {
+                        if (!sw.active) {
+                            return sw.activate();
+                        }
+                    });
                 }
             })
             .catch(function (err) {
