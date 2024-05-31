@@ -8,6 +8,11 @@ import { BasePage } from './BasePage.js';
 import ChatInput from '../Components/ChatInput/ChatInput.js';
 import { changeUrl } from '../utils/navigation.js';
 import { SearchAPI } from '../utils/API/SearchAPI.js';
+import {
+    generateKey,
+    encryptMessage,
+    decryptMessage,
+} from '../utils/cryption.js';
 
 /*
  * Рендерит страницу чатов
@@ -27,6 +32,7 @@ export default class ChatPage extends BasePage {
     #chats = [];
     #chatsCache = {};
     #stickers;
+    #secretKey;
 
     constructor(parent, urlParams) {
         super(parent);
@@ -34,6 +40,7 @@ export default class ChatPage extends BasePage {
         this.#currentChatId = parseInt(urlParams.get('id'));
         this.#type = window.location.pathname;
         this.getData().then(() => this.render());
+        this.#secretKey = generateKey();
     }
 
     getData = async () => {
@@ -183,6 +190,7 @@ export default class ChatPage extends BasePage {
 
         const urlParams = new URLSearchParams(window.location.search);
         const chatId = parseInt(urlParams.get('id'));
+
         if (filesMessage.length > 0 && chatId) {
             const sanitizedInputMessage = sanitizer(inputMessage);
             const chatAPI = new ChatAPI();
@@ -190,13 +198,17 @@ export default class ChatPage extends BasePage {
             document.querySelector('#input_message').value = '';
         } else if (inputMessage && chatId) {
             // Проверяем, что есть сообщение и ID чата
-            const sanitizedInputMessage = sanitizer(inputMessage);
-            const message = {
-                chat_id: chatId,
-                message_text: sanitizedInputMessage,
-            };
-            this.#inputBlock.getMessageSocket().sendRequest(message);
-            document.querySelector('#input_message').value = '';
+            const sanitizedMessage = sanitizer(inputMessage);
+            encryptMessage(sanitizedMessage, this.#secretKey).then((res) => {
+                const message = {
+                    chat_id: chatId,
+                    message_text: res,
+                };
+                document.cookie = `secret-key: ${this.#secretKey}`;
+                console.log(message);
+                this.#inputBlock.getMessageSocket().sendRequest(message);
+                document.querySelector('#input_message').value = '';
+            });
         } else {
             console.error('Нет текста сообщения, файла или ID чата.');
         }
@@ -238,24 +250,26 @@ export default class ChatPage extends BasePage {
             (chat) => chat.id === message.chat_id,
         );
         if (chatIndex !== -1) {
-            const chat = this.#chats.splice(chatIndex, 1)[0];
-            this.#chats.unshift(chat);
-            const activeChatContainer = document.getElementById(
-                'active-chat-container',
-            );
-            const messageElement = new Message(activeChatContainer, {
-                edited: message.edited,
-                is_my_message: message.user_id === this.#profile.id,
-                message_id: message.id,
-                message_text: message.message_text,
-                file: message.file,
-                sticker_path: message.sticker_path,
+            decryptMessage(message, this.#secretKey).then((message) => {
+                const chat = this.#chats.splice(chatIndex, 1)[0];
+                this.#chats.unshift(chat);
+                const activeChatContainer = document.getElementById(
+                    'active-chat-container',
+                );
+                const messageElement = new Message(activeChatContainer, {
+                    edited: message.edited,
+                    is_my_message: message.user_id === this.#profile.id,
+                    message_id: message.id,
+                    message_text: message.message_text,
+                    file: message.file,
+                    sticker_path: message.sticker_path,
+                });
+                messageElement.render();
+                this.#chatsCache[message.chat_id].messages =
+                    this.#chatsCache[message.chat_id].messages || [];
+                this.#chatsCache[message.chat_id].messages.push(message); // Добавляем сообщение в кеш
+                this.displayChats(this.#chats); // Обновляем отображение чатов
             });
-            messageElement.render();
-            this.#chatsCache[message.chat_id].messages =
-                this.#chatsCache[message.chat_id].messages || [];
-            this.#chatsCache[message.chat_id].messages.push(message); // Добавляем сообщение в кеш
-            this.displayChats(this.#chats); // Обновляем отображение чатов
         }
     };
 
