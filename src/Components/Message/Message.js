@@ -20,33 +20,38 @@ export default class Message extends BaseComponent {
             return;
         }
 
-        this.#ContextMenu = this.#messageElement.querySelector(`#ContextMenu`);
+        this.#ContextMenu = this.#messageElement.querySelector(`.messageModal`);
         this.#editMessageInput = this.#messageElement.querySelector(
             '.edit_message_input',
         );
 
         this.#messageElement.addEventListener('contextmenu', (event) => {
             event.preventDefault();
+
+            this.getParent() // Close all modals
+                .querySelectorAll('.messageModal')
+                .forEach((element) => {
+                    if (!element.classList.contains('hidden')) {
+                        element.classList.add('hidden');
+                    }
+                });
+
             if (!this.#editingMode) {
-                this.#ContextMenu.style.display = 'block';
-                this.#messageElement.querySelector('.overlay').style.display =
-                    'block';
+                if (this.#ContextMenu.classList.contains('hidden')) {
+                    this.openModal();
+                } else {
+                    this.closeModal();
+                }
             }
         });
 
-        this.#messageElement
-            .querySelector('.overlay')
-            .addEventListener('click', () => {
-                if (!this.#editingMode) {
-                    this.#ContextMenu.style.display = 'none';
-                    this.#messageElement.querySelector(
-                        '.overlay',
-                    ).style.display = 'none';
-                }
-            });
-
-        this.#ContextMenu.addEventListener('click', (event) => {
-            event.stopPropagation();
+        document.addEventListener('click', (event) => {
+            if (
+                !event.target.closest('.messageModal') &&
+                !this.#ContextMenu.classList.contains('hidden')
+            ) {
+                this.#ContextMenu.classList.add('hidden');
+            }
         });
 
         this.#ContextMenu
@@ -54,7 +59,7 @@ export default class Message extends BaseComponent {
             .addEventListener('click', () => {
                 const chatAPI = new ChatAPI();
                 chatAPI.deleteMessage(this.getConfig().message_id).then(() => {
-                    this.#messageElement.style.display = 'none';
+                    this.closeModle();
                 });
             });
 
@@ -109,11 +114,12 @@ export default class Message extends BaseComponent {
                         .appendChild(editButton);
                 }
             });
+    }
 
-        document.addEventListener('click', () => {
-            this.#ContextMenu.style.display = 'none';
-            this.#messageElement.querySelector('.overlay').style.display =
-                'none';
-        });
+    closeModal() {
+        this.#ContextMenu.classList.add('hidden');
+    }
+    openModal() {
+        this.#ContextMenu.classList.remove('hidden');
     }
 }
