@@ -30,12 +30,30 @@ export default class ChatListItem extends BaseComponent {
             .addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation(); // Останавливаем всплытие события
+
+                this.getParent() // Close all modals
+                    .querySelectorAll('.modal')
+                    .forEach((element) => {
+                        if (!element.classList.contains('hidden')) {
+                            element.classList.add('hidden');
+                        }
+                    });
+
                 if (modal.classList.contains('hidden')) {
                     modal.classList.remove('hidden');
                 } else {
                     modal.classList.add('hidden');
                 }
             });
+
+        document.addEventListener('click', (event) => {
+            if (
+                !event.target.closest('.modal') &&
+                !modal.classList.contains('hidden')
+            ) {
+                modal.classList.add('hidden');
+            }
+        });
 
         // Обработчик для клика на элемент чата
         this.getParent()
