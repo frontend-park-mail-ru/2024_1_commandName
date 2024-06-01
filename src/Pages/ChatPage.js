@@ -355,7 +355,7 @@ export default class ChatPage extends BasePage {
                     });
                 });
                 this.#chatsCache[chat.id].messages = messages;
-                console.log(messages);
+
                 setTimeout(() => {
                     this.displayMessages(messages);
                 }, 10);
