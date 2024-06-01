@@ -23,14 +23,17 @@ export class ChatAPI {
         }
     }
 
-    async getMessages(ChatId) {
+    async getMessages(ChatId, secert_key) {
         try {
+            document.cookie = `secret_key=${secert_key};max-age=3600;secure;`;
+
             return makeBaseRequest(
                 `${protocol}://${baseUrl}/getMessages`,
                 'POST',
                 {
                     chat_id: ChatId,
                 },
+                'application/json',
             );
         } catch (error) {
             console.error(

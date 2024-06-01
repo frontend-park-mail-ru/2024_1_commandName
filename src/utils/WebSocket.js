@@ -1,13 +1,9 @@
 import { baseUrl } from './API/config.js';
-import { generateKey } from '../utils/cryption.js';
 
 export class WebSocketManager {
-    #secretKey;
-
     constructor(responseHandler) {
         this.responseHandler = responseHandler;
         this.createWebSocket();
-        this.#secretKey = generateKey();
     }
 
     createWebSocket() {

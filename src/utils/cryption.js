@@ -61,7 +61,10 @@ export async function encryptMessage(message, key) {
 }
 
 export function generateKey() {
-    const key = new Uint8Array(32);
-    window.crypto.getRandomValues(key);
-    return key;
+    const abc = 'abcdefghijklmnopqrstuvwxyz';
+    let rs = '';
+    while (rs.length < 32) {
+        rs += abc[Math.floor(Math.random() * abc.length)];
+    }
+    return rs;
 }

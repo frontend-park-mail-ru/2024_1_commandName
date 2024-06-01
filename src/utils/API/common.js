@@ -10,18 +10,30 @@ export async function makeBaseRequest(
     method,
     body,
     contentType = 'application/json',
+    cookie = '',
 ) {
     const options = {
         method: method,
         credentials: 'include',
+        headers: {
+            // cookie: cookie,
+        },
     };
     if (body && method.toLowerCase() !== 'GET') {
         options.body = body;
     }
     if (contentType) {
-        options.headers = new Headers({
-            'Content-Type': contentType,
-        });
+        if (cookie) {
+            console.log(url, cookie);
+            options.headers = new Headers({
+                'Content-Type': contentType,
+                Cookie: cookie,
+            });
+        } else {
+            options.headers = new Headers({
+                'Content-Type': contentType,
+            });
+        }
         options.body = JSON.stringify(options.body);
     }
 
