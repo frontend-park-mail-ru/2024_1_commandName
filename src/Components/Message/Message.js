@@ -108,7 +108,7 @@ export default class Message extends BaseComponent {
             .addEventListener('click', () => {
                 const chatAPI = new ChatAPI();
                 chatAPI.deleteMessage(this.getConfig().message_id).then(() => {
-                    this.closeModle();
+                    this.closeModal();
                 });
             });
 
